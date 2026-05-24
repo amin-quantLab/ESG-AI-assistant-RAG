@@ -21,6 +21,7 @@ from app.utils import OUTPUT_DIR, ensure_directories, normalize_whitespace
 
 DEFAULT_BASE_URL = "https://albert.api.etalab.gouv.fr/v1"
 DEFAULT_INDEX_DIR = OUTPUT_DIR / "rag_index"
+DEFAULT_CHUNK_EXPORT_DIR = OUTPUT_DIR / "rag_dataset_chunks"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SAMPLE_DIR = REPO_ROOT / "sample_data"
 DEFAULT_SAMPLE_PDF = DEFAULT_SAMPLE_DIR / "totalenergies_sustainability-climate-2024-progress-report_2024_en_pdf.pdf"
@@ -33,6 +34,7 @@ DEFAULT_DATABASE_PDF_DIRS = (
 TOKEN_PATTERN = re.compile(r"\S+")
 SEARCH_TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
 VALID_RETRIEVAL_ARCHITECTURES = ("semantic", "hybrid", "semantic_rerank", "dense", "lexical")
+VALID_PROMPT_STYLES = ("balanced", "extractive", "audit")
 SOURCE_FILENAME_STOPWORDS = {
     "accessibleversion",
     "annual",
@@ -98,6 +100,16 @@ def _normalize_retrieval_mode(mode: str) -> str:
         return "semantic_rerank"
     supported = ", ".join(VALID_RETRIEVAL_ARCHITECTURES)
     raise RuntimeError(f"Unknown retrieval architecture '{mode}'. Choose from: {supported}.")
+
+
+def _normalize_prompt_style(style: str | None) -> str:
+    if not style:
+        return "balanced"
+    normalized = style.strip().lower().replace("-", "_")
+    if normalized in VALID_PROMPT_STYLES:
+        return normalized
+    supported = ", ".join(VALID_PROMPT_STYLES)
+    raise RuntimeError(f"Unknown prompt style '{style}'. Choose from: {supported}.")
 
 try:  # pragma: no cover - availability depends on the local environment.
     import faiss  # type: ignore[import-not-found]
@@ -322,6 +334,14 @@ def _detect_section_title(chunk_text: str) -> str:
             stripped.isupper() or re.match(r"^[\dIVXivx]+[\.\)\s]", stripped)
         ):
             return stripped
+        heading_match = re.match(
+            r"^((?:[\dIVXivx]+[\.\)]\s+)?(?:[A-Z][A-Z/&-]*(?:\s+[A-Z][A-Z/&-]*){0,11}))\b",
+            stripped,
+        )
+        if heading_match:
+            candidate = heading_match.group(1).strip()
+            if candidate and len(candidate) < 100 and len(candidate.split()) >= 2:
+                return candidate
     return ""
 
 
@@ -442,6 +462,96 @@ def _format_citation_label(chunk: dict[str, Any]) -> str:
     if page_label:
         return f"{title}, {page_label} ({chunk_id})"
     return f"{title} ({chunk_id})"
+
+
+def _build_answer_system_prompt(prompt_style: str) -> str:
+    style = _normalize_prompt_style(prompt_style)
+
+    shared_prefix = (
+        "You are an ESG analyst producing reliable, reproducible answers from a document database. "
+        "Use only the supplied context; never use outside knowledge or infer missing figures.\n"
+        "\n"
+    )
+
+    if style == "extractive":
+        return (
+            shared_prefix
+            + "Required output format. Use four blocks in this exact order and keep them concise. "
+            "Do not add headings for the first three blocks.\n"
+            "\n"
+            "Block 1 (key takeaway): Answer in 1-2 short sentences using the document's wording as closely as possible. "
+            "Prefer exact disclosed numbers, dates, targets, and policy labels. If the answer is not evidenced, write: "
+            "'The provided context does not contain sufficient evidence to answer this question.'\n"
+            "\n"
+            "Block 2 (detailed answer): Expand only with facts that are explicitly present in the context. "
+            "Keep paraphrasing minimal and do not add synthesis beyond the source text.\n"
+            "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
+            "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
+            "- When metrics or targets are present, preserve the exact value, baseline, scope, and timeframe.\n"
+            "\n"
+            "Block 3 (Evidence excerpts): Include 2-5 verbatim snippets copied from the context. "
+            "Each excerpt must be under 35 words and followed by its citation label in brackets.\n"
+            "\n"
+            "Block 4 heading must be exactly: **Limitations**\n"
+            "- State what is unknown, partial, conflicting, low-scoring, or absent. Make Uncertainty explicit. "
+            "Do not guess.\n"
+            "\n"
+            "Keep the tone precise and audit-friendly. Prefer extraction over abstraction."
+        )
+
+    if style == "audit":
+        return (
+            shared_prefix
+            + "Required output format. Use four blocks in this exact order and keep them concise. "
+            "Do not add headings for the first three blocks.\n"
+            "\n"
+            "Block 1 (key takeaway): Give the direct answer in 1-3 short sentences. "
+            "If the answer is not evidenced, write: "
+            "'The provided context does not contain sufficient evidence to answer this question.'\n"
+            "\n"
+            "Block 2 (detailed answer): Explain the answer with enough detail for an ESG analyst to audit it.\n"
+            "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
+            "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
+            "- Use compact bullets when several metrics or targets must be compared.\n"
+            "- Distinguish clearly between disclosed facts and cautious interpretation.\n"
+            "\n"
+            "Block 3 (Evidence excerpts): Include 2-5 verbatim snippets copied from the context. "
+            "Each excerpt must be under 35 words and followed by its citation label in brackets.\n"
+            "\n"
+            "Block 4 heading must be exactly: **Limitations**\n"
+            "- State what is unknown, partial, conflicting, low-scoring, or absent. Make Uncertainty explicit. "
+            "Do not guess.\n"
+            "\n"
+            "Keep the tone professional and concise. Avoid unsupported interpretation. If interpretation is "
+            "necessary, label it with 'Based on the disclosed information'."
+        )
+
+    return (
+        shared_prefix
+        + "Required output format. Use four blocks in this exact order and keep them concise. "
+        "Do not add headings for the first three blocks.\n"
+        "\n"
+        "Block 1 (key takeaway): Give the direct answer in 1-3 short sentences. "
+        "If the answer is not evidenced, write: "
+        "'The provided context does not contain sufficient evidence to answer this question.'\n"
+        "\n"
+        "Block 2 (detailed answer): Explain the answer with enough detail for an ESG analyst to audit it.\n"
+        "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
+        "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
+        "- Do not cite raw filenames; use the humanized document title and page range.\n"
+        "- When extracting ESG targets or metrics, include metric, value, year, baseline, scope, coverage, "
+        "and methodology only when those fields are explicitly present.\n"
+        "\n"
+        "Block 3 (Evidence excerpts): Include 2-5 verbatim snippets copied from the context. "
+        "Each excerpt must be under 35 words and followed by its citation label in brackets.\n"
+        "\n"
+        "Block 4 heading must be exactly: **Limitations**\n"
+        "- State what is unknown, partial, conflicting, low-scoring, or absent. Make Uncertainty explicit. "
+        "Do not guess.\n"
+        "\n"
+        "Keep the tone professional and concise. Avoid unsupported interpretation. If interpretation is "
+        "necessary, label it with 'Based on the disclosed information'."
+    )
 
 
 def _generate_contextual_summary(chunk_text: str) -> str:
@@ -1050,6 +1160,153 @@ def build_index(
     return manifest
 
 
+def _extract_pdf_metadata(pdf_path: Path) -> dict[str, Any]:
+    stat = pdf_path.stat()
+    with fitz.open(pdf_path) as document:
+        raw_metadata = document.metadata or {}
+        metadata = {
+            key: value
+            for key, value in raw_metadata.items()
+            if isinstance(value, str) and value.strip()
+        }
+        extracted_title = metadata.get("title", "").strip()
+        page_count = document.page_count
+
+    return {
+        "source_file": pdf_path.name,
+        "source_path": str(pdf_path),
+        "display_title": _format_source_title(pdf_path.name, str(pdf_path)),
+        "extracted_title": extracted_title or None,
+        "page_count": page_count,
+        "report_year": _extract_report_year(pdf_path.name) or None,
+        "file_size_bytes": stat.st_size,
+        "modified_at": datetime.fromtimestamp(stat.st_mtime, UTC).isoformat(),
+        "pdf_metadata": metadata,
+    }
+
+
+def export_chunk_dataset(
+    *,
+    pdf_paths: list[Path],
+    output_dir: Path,
+    target_tokens: int,
+    min_tokens: int,
+    max_tokens: int,
+    overlap_tokens: int = 0,
+    section_aware: bool = False,
+    contextual_chunking: bool = False,
+) -> dict[str, Any]:
+    ensure_directories()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    skipped_pdfs: list[dict[str, str]] = []
+    chunk_records = build_chunk_records(
+        pdf_paths,
+        target_tokens=target_tokens,
+        min_tokens=min_tokens,
+        max_tokens=max_tokens,
+        overlap_tokens=overlap_tokens,
+        section_aware=section_aware,
+        contextual_chunking=contextual_chunking,
+        skipped_pdfs=skipped_pdfs,
+    )
+
+    chunk_records_by_path: dict[str, list[ChunkRecord]] = {}
+    for chunk in chunk_records:
+        chunk_records_by_path.setdefault(chunk.source_path, []).append(chunk)
+
+    documents: list[dict[str, Any]] = []
+    jsonl_rows: list[dict[str, Any]] = []
+    for pdf_path in pdf_paths:
+        source_path = str(pdf_path)
+        doc_chunks = chunk_records_by_path.get(source_path, [])
+        metadata = _extract_pdf_metadata(pdf_path)
+        document_entry = {
+            **metadata,
+            "chunk_count": len(doc_chunks),
+            "chunking": {
+                "target_tokens": target_tokens,
+                "min_tokens": min_tokens,
+                "max_tokens": max_tokens,
+                "overlap_tokens": overlap_tokens,
+                "section_aware": section_aware,
+                "contextual_chunking": contextual_chunking,
+            },
+            "chunks": [],
+        }
+
+        for ordinal, chunk in enumerate(doc_chunks, start=1):
+            chunk_entry = {
+                "chunk_id": chunk.chunk_id,
+                "chunk_index": ordinal,
+                "page_start": chunk.page_start,
+                "page_end": chunk.page_end,
+                "token_count": chunk.token_count,
+                "section_title": chunk.section_title or None,
+                "contextual_summary": chunk.contextual_summary or None,
+                "esg_pillar": chunk.esg_pillar or None,
+                "report_year": chunk.report_year or None,
+                "contains_table": chunk.contains_table,
+                "contains_targets": chunk.contains_targets,
+                "text": chunk.text,
+            }
+            document_entry["chunks"].append(chunk_entry)
+            jsonl_rows.append(
+                {
+                    **metadata,
+                    "chunk_count": len(doc_chunks),
+                    **chunk_entry,
+                }
+            )
+
+        documents.append(document_entry)
+
+    payload = {
+        "built_at": datetime.now(UTC).isoformat(),
+        "pdf_count": len(pdf_paths),
+        "chunk_count": len(chunk_records),
+        "skipped_pdfs": skipped_pdfs,
+        "chunking": {
+            "target_tokens": target_tokens,
+            "min_tokens": min_tokens,
+            "max_tokens": max_tokens,
+            "overlap_tokens": overlap_tokens,
+            "section_aware": section_aware,
+            "contextual_chunking": contextual_chunking,
+        },
+        "documents": documents,
+    }
+
+    documents_path = output_dir / "documents.json"
+    jsonl_path = output_dir / "chunks.jsonl"
+    manifest_path = output_dir / "manifest.json"
+
+    documents_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    jsonl_lines = [json.dumps(row, ensure_ascii=False) for row in jsonl_rows]
+    jsonl_path.write_text("\n".join(jsonl_lines) + ("\n" if jsonl_lines else ""), encoding="utf-8")
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "built_at": payload["built_at"],
+                "pdf_count": payload["pdf_count"],
+                "chunk_count": payload["chunk_count"],
+                "documents_path": str(documents_path),
+                "jsonl_path": str(jsonl_path),
+                "skipped_pdfs": skipped_pdfs,
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    return {
+        "documents_path": documents_path,
+        "jsonl_path": jsonl_path,
+        "manifest_path": manifest_path,
+        "payload": payload,
+    }
+
+
 def _filter_chunks(
     chunks: list[dict[str, Any]],
     *,
@@ -1309,6 +1566,7 @@ def answer_question(
     retrieved_chunks: list[dict[str, Any]],
     text_model: str | None = None,
     temperature: float | None = None,
+    prompt_style: str = "extractive",
     base_url: str = DEFAULT_BASE_URL,
 ) -> tuple[str, str]:
     if not retrieved_chunks:
@@ -1340,33 +1598,7 @@ def answer_question(
             "contain sufficient evidence. If you cannot find a clear answer, say so explicitly.\n"
         )
 
-    system_prompt = (
-        "You are an ESG analyst producing reliable, reproducible answers from a document database. "
-        "Use only the supplied context; never use outside knowledge or infer missing figures.\n"
-        "\n"
-        "Required output format. Use four blocks in this exact order and keep them concise. "
-        "Do not add headings for the first three blocks.\n"
-        "\n"
-        "Block 1 (key takeaway): Give the direct answer in 1-3 short sentences. "
-        "If the answer is not evidenced, write: "
-        "'The provided context does not contain sufficient evidence to answer this question.'\n"
-        "\n"
-        "Block 2 (detailed answer): Explain the answer with enough detail for an ESG analyst to audit it.\n"
-        "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
-        "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
-        "- Do not cite raw filenames; use the humanized document title and page range.\n"
-        "- When extracting ESG targets or metrics, include metric, value, year, baseline, scope, coverage, "
-        "and methodology only when those fields are explicitly present.\n"
-        "\n"
-        "Block 3 (evidence excerpts): Include 2-5 verbatim snippets copied from the context. "
-        "Each excerpt must be under 35 words and followed by its citation label in brackets.\n"
-        "\n"
-        "Block 4 heading must be exactly: **Limitations**\n"
-        "- State what is unknown, partial, conflicting, low-scoring, or absent. Do not guess.\n"
-        "\n"
-        "Keep the tone professional and concise. Avoid unsupported interpretation. If interpretation is "
-        "necessary, label it with 'Based on the disclosed information'."
-    )
+    system_prompt = _build_answer_system_prompt(prompt_style)
 
     messages = [
         {"role": "system", "content": system_prompt},
@@ -1401,6 +1633,31 @@ def run_rag_build(args: Any) -> int:
     print(f"Indexed {manifest['chunk_count']} chunks from {len(pdf_paths)} PDF(s) into {args.index_dir} ({mode}).")
     if not args.dry_run:
         print(f"Embedding model: {manifest['embedding_model']}")
+    return 0
+
+
+def run_rag_export_chunks(args: Any) -> int:
+    pdf_paths = gather_pdf_paths(args.pdf)
+    if not pdf_paths:
+        raise RuntimeError("No PDF files were found. Pass --pdf or add a PDF under sample_data/.")
+
+    result = export_chunk_dataset(
+        pdf_paths=pdf_paths,
+        output_dir=args.output_dir,
+        target_tokens=args.chunk_target_tokens,
+        min_tokens=args.chunk_min_tokens,
+        max_tokens=args.chunk_max_tokens,
+        overlap_tokens=args.chunk_overlap_tokens,
+        section_aware=getattr(args, "section_aware", False),
+        contextual_chunking=getattr(args, "contextual_chunking", False),
+    )
+    payload = result["payload"]
+    print(
+        f"Exported {payload['chunk_count']} chunks from {payload['pdf_count']} PDF(s) "
+        f"to {result['documents_path']} and {result['jsonl_path']}."
+    )
+    if payload["skipped_pdfs"]:
+        print(f"Skipped {len(payload['skipped_pdfs'])} PDF(s); see {result['manifest_path']}.")
     return 0
 
 
@@ -1484,6 +1741,7 @@ def run_rag_ask(args: Any) -> int:
         retrieved_chunks=retrieved,
         text_model=args.text_model,
         temperature=args.temperature,
+        prompt_style=getattr(args, "prompt_style", "balanced"),
         base_url=args.base_url,
     )
     print(f"\nAnswer ({text_model}):\n{answer}")

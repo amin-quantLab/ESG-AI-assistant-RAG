@@ -46,6 +46,58 @@ def _parse_expected_contexts(row: dict[str, str]) -> list[str]:
     return [context] if context else []
 
 
+def get_ground_truth_answer(row: dict[str, str]) -> str:
+    return (row.get("ground_truth_answer") or row.get("ground_truth") or "").strip()
+
+
+def get_topic_label(row: dict[str, str]) -> str:
+    topic = (row.get("topic") or "").strip()
+    if topic:
+        return topic
+
+    topic_tags = (row.get("topic_tags") or "").strip()
+    if not topic_tags:
+        return ""
+    try:
+        parsed = json.loads(topic_tags)
+        if isinstance(parsed, list):
+            return ", ".join(str(item) for item in parsed[:3])
+    except json.JSONDecodeError:
+        pass
+    return topic_tags
+
+
+def _answer_variants_for_scoring(answer: str) -> list[str]:
+    normalized = (answer or "").strip()
+    if not normalized:
+        return []
+
+    variants: list[str] = [normalized]
+
+    no_citations = re.sub(r"\[[^\]]+\]", "", normalized)
+    no_citations = re.sub(r"\s+", " ", no_citations).strip()
+    if no_citations:
+        variants.append(no_citations)
+
+    before_limitations = re.split(r"\*\*Limitations\*\*|Limitations", normalized, maxsplit=1)[0].strip()
+    if before_limitations:
+        variants.append(before_limitations)
+
+    paragraphs = [part.strip() for part in re.split(r"\n\s*\n", before_limitations or normalized) if part.strip()]
+    if paragraphs:
+        variants.append(paragraphs[0])
+    if len(paragraphs) >= 2:
+        variants.append("\n\n".join(paragraphs[:2]))
+
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for variant in variants:
+        if variant and variant not in seen:
+            deduped.append(variant)
+            seen.add(variant)
+    return deduped
+
+
 def _infer_company(index_dir: Path, rows: list[dict[str, str]]) -> str | None:
     manifest = json.loads((index_dir / "manifest.json").read_text(encoding="utf-8"))
     pdf_blob = " ".join(manifest.get("pdfs", [])).lower()
@@ -109,27 +161,31 @@ def classify_match_score(score: float) -> str:
 
 
 def score_answer_text(answer: str, ground_truth: str, expected_contexts: list[str]) -> dict[str, Any]:
-    normalized_answer = (answer or "").strip()
-    if not normalized_answer:
+    variants = _answer_variants_for_scoring(answer)
+    if not variants:
         return {"status": "miss", "score": 0.0}
 
     targets = [ground_truth.strip(), *[context.strip() for context in expected_contexts if context.strip()]]
     best_score = 0.0
     best_target = None
+    best_variant = None
 
-    for target in targets:
-        score = max(
-            float(fuzz.partial_ratio(normalized_answer.lower(), target.lower())),
-            float(fuzz.token_set_ratio(normalized_answer.lower(), target.lower())),
-        )
-        if score > best_score:
-            best_score = score
-            best_target = target
+    for variant in variants:
+        for target in targets:
+            score = max(
+                float(fuzz.partial_ratio(variant.lower(), target.lower())),
+                float(fuzz.token_set_ratio(variant.lower(), target.lower())),
+            )
+            if score > best_score:
+                best_score = score
+                best_target = target
+                best_variant = variant
 
     return {
         "status": classify_match_score(best_score),
         "score": round(best_score, 2),
         "matched_target": best_target,
+        "matched_answer_variant": best_variant,
     }
 
 
@@ -199,8 +255,8 @@ def evaluate_retrieval(
             {
                 "company": selected_company,
                 "question": question,
-                "topic": row.get("topic", ""),
-                "ground_truth": row.get("ground_truth", ""),
+                "topic": get_topic_label(row),
+                "ground_truth": get_ground_truth_answer(row),
                 "status": scoring["status"],
                 "best_match_score": scoring["best_match_score"],
                 "best_chunk_id": scoring["best_chunk_id"],

@@ -12,10 +12,11 @@ from rapidfuzz import fuzz
 
 from app.rag import (
     DEFAULT_BASE_URL,
-    DEFAULT_SAMPLE_DIR,
     AlbertClient,
+    VALID_PROMPT_STYLES,
     answer_question,
     build_index,
+    gather_pdf_paths,
     require_api_key,
     retrieve_chunks,
 )
@@ -24,6 +25,8 @@ from app.rag_eval import (
     _load_rows,
     _parse_expected_contexts,
     _score_retrieval,
+    get_ground_truth_answer,
+    get_topic_label,
     score_answer_text,
 )
 from app.utils import OUTPUT_DIR
@@ -51,6 +54,38 @@ def _pick_pdf_for_company(company: str, pdf_paths: list[Path]) -> Path:
     if best_path is None:
         raise RuntimeError(f"Could not match a sample PDF to company '{company}'.")
     return best_path
+
+
+def _discover_pdf_paths(sample_dir: Path) -> list[Path]:
+    discovered = {path.resolve() for path in sample_dir.rglob("*.pdf")}
+    discovered.update(gather_pdf_paths(None))
+    return sorted(discovered)
+
+
+def _resolve_pdf_catalog(rows: list[dict[str, str]], pdf_paths: list[Path]) -> dict[str, Path]:
+    by_name: dict[str, list[Path]] = {}
+    for pdf_path in pdf_paths:
+        by_name.setdefault(pdf_path.name, []).append(pdf_path)
+
+    resolved: dict[str, Path] = {}
+    source_files = sorted({row.get("source_file", "").strip() for row in rows if row.get("source_file", "").strip()})
+    missing: list[str] = []
+    for source_file in source_files:
+        matches = by_name.get(source_file, [])
+        if len(matches) == 1:
+            resolved[source_file] = matches[0]
+        elif matches:
+            # Prefer paths that look like curated/raw database content.
+            resolved[source_file] = sorted(matches, key=lambda path: ("/sample_data/" not in str(path), len(str(path))))[0]
+        else:
+            missing.append(source_file)
+
+    if missing:
+        missing_preview = ", ".join(missing[:5])
+        raise RuntimeError(
+            f"Could not resolve {len(missing)} dataset source files to local PDFs. First missing: {missing_preview}"
+        )
+    return resolved
 
 
 def _derive_chunk_bounds(target_tokens: int) -> tuple[int, int]:
@@ -108,9 +143,13 @@ def _build_or_reuse_index(
     batch_size: int,
     base_url: str,
 ) -> Path:
-    cache_key = (company, chunk_config["target_tokens"], chunk_config["overlap_tokens"])
+    cache_key = (
+        f"{company}:{embedding_model}:{index_root}",
+        chunk_config["target_tokens"],
+        chunk_config["overlap_tokens"],
+    )
     index_dir = index_root / _slugify(company) / (
-        f"t{chunk_config['target_tokens']}_ov{chunk_config['overlap_tokens']}"
+        f"{_slugify(embedding_model)}_t{chunk_config['target_tokens']}_ov{chunk_config['overlap_tokens']}"
     )
     if cache_key not in built_cache:
         build_index(
@@ -131,8 +170,8 @@ def _build_or_reuse_index(
 
 def evaluate_configuration(
     *,
-    company_rows: dict[str, list[dict[str, str]]],
-    company_pdfs: dict[str, Path],
+    source_rows: dict[str, list[dict[str, str]]],
+    source_pdfs: dict[str, Path],
     chunk_config: dict[str, int],
     top_k: int,
     embedding_model: str,
@@ -140,6 +179,7 @@ def evaluate_configuration(
     search_breadth: int,
     text_model: str,
     temperature: float,
+    prompt_style: str,
     index_root: Path,
     built_cache: set[tuple[str, int, int]],
     batch_size: int,
@@ -148,10 +188,11 @@ def evaluate_configuration(
 ) -> dict[str, Any]:
     results: list[dict[str, Any]] = []
 
-    for company, rows in company_rows.items():
-        pdf_path = company_pdfs[company]
+    for source_file, rows in source_rows.items():
+        company = rows[0].get("company", "Unknown")
+        pdf_path = source_pdfs[source_file]
         index_dir = _build_or_reuse_index(
-            company=company,
+            company=source_file,
             pdf_path=pdf_path,
             chunk_config=chunk_config,
             index_root=index_root,
@@ -183,16 +224,18 @@ def evaluate_configuration(
                     retrieved_chunks=retrieved_chunks,
                     text_model=text_model,
                     temperature=temperature,
+                    prompt_style=prompt_style,
                     base_url=base_url,
                 )
-                answer_scoring = score_answer_text(answer, row.get("ground_truth", ""), expected_contexts)
+                answer_scoring = score_answer_text(answer, get_ground_truth_answer(row), expected_contexts)
 
             results.append(
                 {
                     "company": company,
+                    "source_file": source_file,
                     "question": row["question"],
-                    "topic": row.get("topic", ""),
-                    "ground_truth": row.get("ground_truth", ""),
+                    "topic": get_topic_label(row),
+                    "ground_truth": get_ground_truth_answer(row),
                     "retrieval_status": retrieval_scoring["status"],
                     "retrieval_score": retrieval_scoring["best_match_score"],
                     "retrieved_chunk_ids": [chunk["chunk_id"] for chunk in retrieved_chunks],
@@ -203,6 +246,7 @@ def evaluate_configuration(
                     "answer": answer,
                     "embedding_model": resolved_embedding_model,
                     "text_model": resolved_text_model,
+                    "prompt_style": prompt_style,
                 }
             )
 
@@ -224,7 +268,8 @@ def evaluate_configuration(
         composite_score = (0.45 * avg_retrieval_score) + (0.55 * avg_answer_score)
 
     by_company: dict[str, dict[str, float]] = {}
-    for company in company_rows:
+    companies = sorted({rows[0].get("company", "Unknown") for rows in source_rows.values() if rows})
+    for company in companies:
         company_result_rows = [row for row in results if row["company"] == company]
         company_answer_scores = [float(row["answer_score"]) for row in company_result_rows if row["answer_score"] is not None]
         by_company[company] = {
@@ -242,6 +287,7 @@ def evaluate_configuration(
         "retrieval_architecture": retrieval_architecture,
         "search_breadth": search_breadth,
         "temperature": temperature,
+        "prompt_style": prompt_style,
         "summary": {
             "question_count": len(results),
             "avg_retrieval_score": round(avg_retrieval_score, 2),
@@ -270,18 +316,24 @@ def run_rag_tune(args: Any) -> int:
     rows = _load_rows(args.dataset)
     companies = sorted({row["company"] for row in rows if row.get("company")})
     if args.company:
+        rows = [row for row in rows if row.get("company") == args.company]
         companies = [company for company in companies if company == args.company]
-        if not companies:
+        if not rows:
             raise RuntimeError(f"No rows found for company '{args.company}'.")
 
-    company_rows = {company: [row for row in rows if row.get("company") == company] for company in companies}
-    pdf_paths = sorted(args.sample_dir.glob("*.pdf"))
+    source_rows = {
+        source_file: [row for row in rows if row.get("source_file") == source_file]
+        for source_file in sorted({row.get("source_file", "").strip() for row in rows if row.get("source_file", "").strip()})
+    }
+    pdf_paths = _discover_pdf_paths(args.sample_dir)
     if not pdf_paths:
         raise RuntimeError(f"No PDFs were found under {args.sample_dir}.")
-    company_pdfs = {company: _pick_pdf_for_company(company, pdf_paths) for company in companies}
+    source_pdfs = _resolve_pdf_catalog(rows, pdf_paths)
 
     client = AlbertClient(api_key=require_api_key(), base_url=args.base_url)
-    embedding_model = args.embedding_model or client.get_embedding_model(preferred="bge-m3")
+    embedding_models = args.embedding_models or ([args.embedding_model] if args.embedding_model else None)
+    if not embedding_models:
+        embedding_models = [client.get_embedding_model(preferred="bge-m3")]
     text_model = args.text_model or client.get_text_generation_model()
     index_root = args.index_root
     index_root.mkdir(parents=True, exist_ok=True)
@@ -295,17 +347,45 @@ def run_rag_tune(args: Any) -> int:
         or ["dense", "hybrid", "lexical"]
     )
     search_breadths = args.search_breadths or [5, 8, 12]
-    temperatures = args.temperatures or [0.0, 0.2, 0.5]
+    temperatures = args.temperatures or [0.0, 0.1, 0.2]
+    prompt_styles = args.prompt_styles or ["balanced", "extractive", "audit"]
+    prompt_styles = [style for style in prompt_styles if style in VALID_PROMPT_STYLES]
+
+    embedding_results: list[dict[str, Any]] = []
+    print(f"Stage 0/5: embedding models across {len(embedding_models)} configurations")
+    for index, embedding_model in enumerate(embedding_models, start=1):
+        result = evaluate_configuration(
+            source_rows=source_rows,
+            source_pdfs=source_pdfs,
+            chunk_config=_build_chunk_config(chunk_targets[0], chunk_overlaps[0]),
+            top_k=args.top_k,
+            embedding_model=embedding_model,
+            retrieval_architecture="semantic",
+            search_breadth=max(args.top_k, search_breadths[0]),
+            text_model=text_model,
+            temperature=temperatures[0],
+            prompt_style=prompt_styles[0],
+            index_root=index_root / _slugify(embedding_model),
+            built_cache=built_cache,
+            batch_size=args.batch_size,
+            base_url=args.base_url,
+            generate_answers=False,
+        )
+        embedding_results.append(result)
+        print(f"  [{index}/{len(embedding_models)}] {embedding_model} -> {_summarize_stage_result(result)}")
+    best_embedding_result = _pick_best(embedding_results)
+    embedding_model = best_embedding_result["results"][0]["embedding_model"] if best_embedding_result["results"] else embedding_models[0]
 
     stages: list[dict[str, Any]] = []
+    stages.append({"name": "embedding_model", "candidates": embedding_results, "best": best_embedding_result})
 
     coarse_chunk_candidates = _stage_candidates_from_chunk_grid(chunk_targets, chunk_overlaps)
     coarse_results: list[dict[str, Any]] = []
-    print(f"Stage 1/4: coarse chunking across {len(coarse_chunk_candidates)} configurations")
+    print(f"Stage 1/5: coarse chunking across {len(coarse_chunk_candidates)} configurations")
     for index, chunk_config in enumerate(coarse_chunk_candidates, start=1):
         result = evaluate_configuration(
-            company_rows=company_rows,
-            company_pdfs=company_pdfs,
+            source_rows=source_rows,
+            source_pdfs=source_pdfs,
             chunk_config=chunk_config,
             top_k=args.top_k,
             embedding_model=embedding_model,
@@ -313,6 +393,7 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=max(args.top_k, search_breadths[0]),
             text_model=text_model,
             temperature=temperatures[0],
+            prompt_style=prompt_styles[0],
             index_root=index_root,
             built_cache=built_cache,
             batch_size=args.batch_size,
@@ -331,11 +412,11 @@ def run_rag_tune(args: Any) -> int:
         for breadth in search_breadths
         if breadth >= args.top_k
     ]
-    print(f"Stage 2/4: retrieval architecture and breadth across {len(retrieval_candidates)} configurations")
+    print(f"Stage 2/5: retrieval architecture and breadth across {len(retrieval_candidates)} configurations")
     for index, (architecture, breadth) in enumerate(retrieval_candidates, start=1):
         result = evaluate_configuration(
-            company_rows=company_rows,
-            company_pdfs=company_pdfs,
+            source_rows=source_rows,
+            source_pdfs=source_pdfs,
             chunk_config=best_chunk_result["chunk_config"],
             top_k=args.top_k,
             embedding_model=embedding_model,
@@ -343,6 +424,7 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=breadth,
             text_model=text_model,
             temperature=temperatures[0],
+            prompt_style=prompt_styles[0],
             index_root=index_root,
             built_cache=built_cache,
             batch_size=args.batch_size,
@@ -354,12 +436,13 @@ def run_rag_tune(args: Any) -> int:
     best_retrieval_result = _pick_best(retrieval_results)
     stages.append({"name": "retrieval_architecture", "candidates": retrieval_results, "best": best_retrieval_result})
 
-    temperature_results: list[dict[str, Any]] = []
-    print(f"Stage 3/4: answer temperature across {len(temperatures)} configurations")
-    for index, temperature in enumerate(temperatures, start=1):
+    prompt_results: list[dict[str, Any]] = []
+    prompt_candidates = [(prompt_style, temperature) for prompt_style in prompt_styles for temperature in temperatures]
+    print(f"Stage 3/5: answer prompt style and temperature across {len(prompt_candidates)} configurations")
+    for index, (prompt_style, temperature) in enumerate(prompt_candidates, start=1):
         result = evaluate_configuration(
-            company_rows=company_rows,
-            company_pdfs=company_pdfs,
+            source_rows=source_rows,
+            source_pdfs=source_pdfs,
             chunk_config=best_chunk_result["chunk_config"],
             top_k=args.top_k,
             embedding_model=embedding_model,
@@ -367,33 +450,38 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=best_retrieval_result["search_breadth"],
             text_model=text_model,
             temperature=temperature,
+            prompt_style=prompt_style,
             index_root=index_root,
             built_cache=built_cache,
             batch_size=args.batch_size,
             base_url=args.base_url,
             generate_answers=True,
         )
-        temperature_results.append(result)
-        print(f"  [{index}/{len(temperatures)}] temperature={temperature:.2f} -> {_summarize_stage_result(result)}")
-    best_temperature_result = _pick_best(temperature_results)
-    stages.append({"name": "temperature", "candidates": temperature_results, "best": best_temperature_result})
+        prompt_results.append(result)
+        print(
+            f"  [{index}/{len(prompt_candidates)}] prompt={prompt_style}, temperature={temperature:.2f} "
+            f"-> {_summarize_stage_result(result)}"
+        )
+    best_prompt_result = _pick_best(prompt_results)
+    stages.append({"name": "prompt_style_temperature", "candidates": prompt_results, "best": best_prompt_result})
 
     refined_targets = _refine_grid(best_chunk_result["chunk_config"]["target_tokens"], step=60, minimum=180)
     refined_overlaps = _refine_grid(best_chunk_result["chunk_config"]["overlap_tokens"], step=30, minimum=0)
     refined_chunk_candidates = _stage_candidates_from_chunk_grid(refined_targets, refined_overlaps)
     refined_results: list[dict[str, Any]] = []
-    print(f"Stage 4/4: refined chunking across {len(refined_chunk_candidates)} configurations")
+    print(f"Stage 4/5: refined chunking across {len(refined_chunk_candidates)} configurations")
     for index, chunk_config in enumerate(refined_chunk_candidates, start=1):
         result = evaluate_configuration(
-            company_rows=company_rows,
-            company_pdfs=company_pdfs,
+            source_rows=source_rows,
+            source_pdfs=source_pdfs,
             chunk_config=chunk_config,
             top_k=args.top_k,
             embedding_model=embedding_model,
             retrieval_architecture=best_retrieval_result["retrieval_architecture"],
             search_breadth=best_retrieval_result["search_breadth"],
             text_model=text_model,
-            temperature=best_temperature_result["temperature"],
+            temperature=best_prompt_result["temperature"],
+            prompt_style=best_prompt_result["prompt_style"],
             index_root=index_root,
             built_cache=built_cache,
             batch_size=args.batch_size,
@@ -405,7 +493,38 @@ def run_rag_tune(args: Any) -> int:
     best_refined_result = _pick_best(refined_results)
     stages.append({"name": "refined_chunking", "candidates": refined_results, "best": best_refined_result})
 
-    all_ranked_results = [best_temperature_result, best_refined_result]
+    final_retrieval_candidates = [
+        (best_retrieval_result["retrieval_architecture"], best_retrieval_result["search_breadth"]),
+        ("hybrid", max(best_retrieval_result["search_breadth"], args.top_k)),
+        ("semantic_rerank", max(best_retrieval_result["search_breadth"], args.top_k)),
+    ]
+    final_retrieval_candidates = list(dict.fromkeys(final_retrieval_candidates))
+    final_retrieval_results: list[dict[str, Any]] = []
+    print(f"Stage 5/5: final retrieval confirmation across {len(final_retrieval_candidates)} configurations")
+    for index, (architecture, breadth) in enumerate(final_retrieval_candidates, start=1):
+        result = evaluate_configuration(
+            source_rows=source_rows,
+            source_pdfs=source_pdfs,
+            chunk_config=best_refined_result["chunk_config"],
+            top_k=args.top_k,
+            embedding_model=embedding_model,
+            retrieval_architecture=architecture,
+            search_breadth=breadth,
+            text_model=text_model,
+            temperature=best_prompt_result["temperature"],
+            prompt_style=best_prompt_result["prompt_style"],
+            index_root=index_root,
+            built_cache=built_cache,
+            batch_size=args.batch_size,
+            base_url=args.base_url,
+            generate_answers=True,
+        )
+        final_retrieval_results.append(result)
+        print(f"  [{index}/{len(final_retrieval_candidates)}] {architecture}, breadth={breadth} -> {_summarize_stage_result(result)}")
+    best_final_retrieval = _pick_best(final_retrieval_results)
+    stages.append({"name": "final_retrieval_confirmation", "candidates": final_retrieval_results, "best": best_final_retrieval})
+
+    all_ranked_results = [best_prompt_result, best_refined_result, best_final_retrieval]
     overall_best = _pick_best(all_ranked_results)
 
     payload = {
@@ -413,6 +532,7 @@ def run_rag_tune(args: Any) -> int:
         "sample_dir": str(args.sample_dir),
         "companies": companies,
         "embedding_model": embedding_model,
+        "embedding_models_tested": embedding_models,
         "text_model": text_model,
         "top_k": args.top_k,
         "stages": stages,
@@ -427,6 +547,7 @@ def run_rag_tune(args: Any) -> int:
         f"  retrieval: {overall_best['retrieval_architecture']} "
         f"(breadth={overall_best['search_breadth']})"
     )
+    print(f"  prompt_style: {overall_best['prompt_style']}")
     print(f"  temperature: {overall_best['temperature']:.2f}")
     print(f"  metrics: {_summarize_stage_result(overall_best)}")
     print(f"Saved tuning results to {args.output}")

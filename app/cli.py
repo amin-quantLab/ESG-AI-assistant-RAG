@@ -11,7 +11,14 @@ from pathlib import Path
 from app.models import CompanySeed
 from app.ingest_target_reports import run_ingest_target_reports
 from app.pipeline import AcquisitionPipeline
-from app.rag import DEFAULT_BASE_URL, DEFAULT_INDEX_DIR, run_rag_ask, run_rag_build
+from app.rag import (
+    DEFAULT_BASE_URL,
+    DEFAULT_CHUNK_EXPORT_DIR,
+    DEFAULT_INDEX_DIR,
+    run_rag_ask,
+    run_rag_build,
+    run_rag_export_chunks,
+)
 from app.rag_eval import DEFAULT_EVAL_DATASET, DEFAULT_EVAL_OUTPUT, run_rag_eval, run_rag_eval_grid
 from app.rag_tune import DEFAULT_TUNE_OUTPUT, run_rag_tune
 from app.ragas_eval import DEFAULT_RAGAS_OUTPUT, run_ragas_eval
@@ -82,7 +89,7 @@ def build_parser() -> argparse.ArgumentParser:
     rag_build.add_argument(
         "--chunk-overlap-tokens",
         type=int,
-        default=30,
+        default=60,
         help="How many approximate tokens to overlap between consecutive chunks.",
     )
     rag_build.add_argument(
@@ -110,6 +117,59 @@ def build_parser() -> argparse.ArgumentParser:
         help="Only extract and chunk the PDFs without calling the Albert API.",
     )
 
+    rag_export = subparsers.add_parser(
+        "rag-export-chunks",
+        help="Export chunked PDF text with page numbers, section titles, and document metadata.",
+    )
+    rag_export.add_argument(
+        "--pdf",
+        action="append",
+        help=(
+            "Path to a PDF to export. Repeat the flag to include multiple files. "
+            "If omitted, the local database PDF directories are scanned recursively."
+        ),
+    )
+    rag_export.add_argument(
+        "--output-dir",
+        type=Path,
+        default=DEFAULT_CHUNK_EXPORT_DIR,
+        help="Directory where the exported chunk dataset should be written.",
+    )
+    rag_export.add_argument(
+        "--chunk-target-tokens",
+        type=int,
+        default=380,
+        help="Preferred chunk size in approximate tokens.",
+    )
+    rag_export.add_argument(
+        "--chunk-min-tokens",
+        type=int,
+        default=274,
+        help="Minimum chunk size in approximate tokens.",
+    )
+    rag_export.add_argument(
+        "--chunk-max-tokens",
+        type=int,
+        default=464,
+        help="Maximum chunk size in approximate tokens.",
+    )
+    rag_export.add_argument(
+        "--chunk-overlap-tokens",
+        type=int,
+        default=60,
+        help="How many approximate tokens to overlap between consecutive chunks.",
+    )
+    rag_export.add_argument(
+        "--section-aware",
+        action="store_true",
+        help="Enable section/header-aware chunking to align chunks with document structure.",
+    )
+    rag_export.add_argument(
+        "--contextual-chunking",
+        action="store_true",
+        help="Generate contextual summaries for each chunk for downstream dataset authoring.",
+    )
+
     rag_ask = subparsers.add_parser("rag-ask", help="Ask grounded questions against a local ESG RAG index")
     rag_ask.add_argument(
         "question",
@@ -134,9 +194,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     rag_ask.add_argument(
         "--retrieval-mode",
-        default="hybrid",
-        choices=["dense", "lexical", "hybrid"],
-        help="Retrieval mode: dense (semantic embeddings), lexical (BM25-style), or hybrid (RRF fusion).",
+        default="semantic_rerank",
+        choices=["dense", "lexical", "hybrid", "semantic_rerank"],
+        help="Retrieval mode: dense (semantic embeddings), lexical (BM25-style), hybrid (RRF fusion), or semantic_rerank.",
     )
     rag_ask.add_argument(
         "--retrieval-architecture",
@@ -165,6 +225,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=float,
         default=0.0,
         help="Temperature for the answer-generation model.",
+    )
+    rag_ask.add_argument(
+        "--prompt-style",
+        choices=["balanced", "extractive", "audit"],
+        default="extractive",
+        help="Prompt style for answer generation.",
     )
     rag_ask.add_argument(
         "--base-url",
@@ -251,9 +317,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     rag_eval.add_argument(
         "--retrieval-mode",
-        default="hybrid",
-        choices=["dense", "lexical", "hybrid"],
-        help="Retrieval mode: dense (semantic embeddings), lexical (BM25-style), or hybrid (RRF fusion).",
+        default="semantic_rerank",
+        choices=["dense", "lexical", "hybrid", "semantic_rerank"],
+        help="Retrieval mode: dense (semantic embeddings), lexical (BM25-style), hybrid (RRF fusion), or semantic_rerank.",
     )
     rag_eval.add_argument(
         "--retrieval-architecture",
@@ -349,8 +415,19 @@ def build_parser() -> argparse.ArgumentParser:
         help="Albert embedding model id to use throughout tuning.",
     )
     rag_tune.add_argument(
+        "--embedding-models",
+        nargs="+",
+        help="Embedding model ids to compare during tuning.",
+    )
+    rag_tune.add_argument(
         "--text-model",
         help="Albert text-generation model id to use throughout tuning.",
+    )
+    rag_tune.add_argument(
+        "--prompt-styles",
+        nargs="+",
+        choices=["balanced", "extractive", "audit"],
+        help="Prompt styles to compare during answer tuning.",
     )
     rag_tune.add_argument(
         "--batch-size",
@@ -435,8 +512,8 @@ def build_parser() -> argparse.ArgumentParser:
     rag_eval_grid.add_argument(
         "--retrieval-modes",
         nargs="+",
-        default=["dense", "hybrid"],
-        choices=["dense", "lexical", "hybrid"],
+        default=["dense", "hybrid", "semantic_rerank"],
+        choices=["dense", "lexical", "hybrid", "semantic_rerank"],
         help="Retrieval modes to evaluate.",
     )
     rag_eval_grid.add_argument(
@@ -497,9 +574,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     ragas_eval.add_argument(
         "--retrieval-mode",
-        default="hybrid",
-        choices=["dense", "lexical", "hybrid"],
+        default="semantic_rerank",
+        choices=["dense", "lexical", "hybrid", "semantic_rerank"],
         help="Retrieval mode.",
+    )
+    ragas_eval.add_argument(
+        "--prompt-style",
+        choices=["balanced", "extractive", "audit"],
+        default="extractive",
+        help="Prompt style for answer generation during evaluation.",
     )
     ragas_eval.add_argument(
         "--candidate-k",
@@ -611,6 +694,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "rag-build":
         return run_rag_build(args)
+
+    if args.command == "rag-export-chunks":
+        return run_rag_export_chunks(args)
 
     if args.command == "rag-ask":
         return run_rag_ask(args)

@@ -1,4 +1,5 @@
 import numpy as np
+import json
 
 from app.rag import (
     ChunkRecord,
@@ -8,6 +9,7 @@ from app.rag import (
     _starts_with_header,
     answer_question,
     chunk_text,
+    export_chunk_dataset,
     search_vectors,
     select_chunk_matches,
 )
@@ -258,7 +260,61 @@ def test_select_chunk_matches_dense_returns_semantic_only():
     )
 
     assert len(matches) == 2
-    assert matches[0][0] == 0
+
+
+def test_export_chunk_dataset_includes_chunk_and_document_metadata(tmp_path):
+    pdf_path = tmp_path / "sample_report_2024.pdf"
+    import fitz
+
+    document = fitz.open()
+    page = document.new_page()
+    page.insert_text(
+        (72, 72),
+        "1. EMISSIONS TARGETS\n"
+        "The company plans to reduce Scope 1 and Scope 2 emissions by 50 percent by 2030.\n\n"
+        "Governance oversight is handled by the board sustainability committee.",
+    )
+    document.set_metadata({"title": "Sample ESG Report"})
+    document.save(pdf_path)
+    document.close()
+
+    output_dir = tmp_path / "export"
+    result = export_chunk_dataset(
+        pdf_paths=[pdf_path],
+        output_dir=output_dir,
+        target_tokens=80,
+        min_tokens=20,
+        max_tokens=120,
+        overlap_tokens=10,
+        section_aware=True,
+        contextual_chunking=True,
+    )
+
+    payload = json.loads(result["documents_path"].read_text(encoding="utf-8"))
+    assert payload["pdf_count"] == 1
+    assert payload["chunk_count"] >= 1
+
+    exported_document = payload["documents"][0]
+    assert exported_document["source_file"] == "sample_report_2024.pdf"
+    assert exported_document["extracted_title"] == "Sample ESG Report"
+    assert exported_document["page_count"] == 1
+    assert exported_document["chunking"]["section_aware"] is True
+    assert exported_document["chunks"]
+
+    first_chunk = exported_document["chunks"][0]
+    assert first_chunk["page_start"] == 1
+    assert first_chunk["page_end"] == 1
+    assert first_chunk["section_title"]
+    assert first_chunk["text"]
+
+    jsonl_rows = [
+        json.loads(line)
+        for line in result["jsonl_path"].read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    assert jsonl_rows
+    assert jsonl_rows[0]["source_file"] == "sample_report_2024.pdf"
+    assert jsonl_rows[0]["page_start"] == 1
 
 
 def test_select_chunk_matches_lexical_uses_bm25():

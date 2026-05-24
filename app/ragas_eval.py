@@ -28,6 +28,8 @@ from app.rag_eval import (
     _parse_expected_contexts,
     _score_retrieval,
     compute_eval_summary,
+    get_ground_truth_answer,
+    get_topic_label,
 )
 from app.utils import OUTPUT_DIR
 
@@ -332,6 +334,7 @@ def run_full_ragas_eval(
     candidate_k: int = 15,
     eval_mode: str = "all",
     query_transform: str | None = None,
+    prompt_style: str = "extractive",
     base_url: str = DEFAULT_BASE_URL,
 ) -> dict[str, Any]:
     client = AlbertClient(api_key=require_api_key(), base_url=base_url)
@@ -350,7 +353,7 @@ def run_full_ragas_eval(
     retrieval_results: list[dict[str, Any]] = []
     for row in company_rows:
         question = row["question"]
-        ground_truth = row.get("ground_truth", "")
+        ground_truth = get_ground_truth_answer(row)
         expected_contexts = _parse_expected_contexts(row)
 
         diagnostics: list[dict[str, Any]] = []
@@ -390,13 +393,14 @@ def run_full_ragas_eval(
                 retrieved_chunks=retrieved_chunks,
                 text_model=text_model,
                 temperature=0.0,
+                prompt_style=prompt_style,
                 base_url=base_url,
             )
 
         result_entry: dict[str, Any] = {
             "company": selected_company,
             "question": question,
-            "topic": row.get("topic", ""),
+            "topic": get_topic_label(row),
             "ground_truth": ground_truth,
             "answer": answer,
             "retrieved_count": len(retrieved_chunks),
@@ -450,6 +454,7 @@ def run_full_ragas_eval(
         "candidate_k": candidate_k,
         "top_k": top_k,
         "query_transform": query_transform or "none",
+        "prompt_style": prompt_style,
     }
 
     if eval_mode in ("retrieval", "ragas", "all"):
@@ -480,6 +485,7 @@ def run_ragas_eval(args: Any) -> int:
         candidate_k=getattr(args, "candidate_k", 15),
         eval_mode=args.eval_mode,
         query_transform=getattr(args, "query_transform", None),
+        prompt_style=getattr(args, "prompt_style", "extractive"),
         base_url=args.base_url,
     )
 
