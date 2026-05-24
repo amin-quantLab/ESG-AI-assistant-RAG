@@ -335,6 +335,7 @@ def run_full_ragas_eval(
     eval_mode: str = "all",
     query_transform: str | None = None,
     prompt_style: str = "extractive",
+    answer_mode: str = "benchmark",
     base_url: str = DEFAULT_BASE_URL,
 ) -> dict[str, Any]:
     client = AlbertClient(api_key=require_api_key(), base_url=base_url)
@@ -393,6 +394,7 @@ def run_full_ragas_eval(
                 retrieved_chunks=retrieved_chunks,
                 text_model=text_model,
                 temperature=0.0,
+                answer_mode=answer_mode,
                 prompt_style=prompt_style,
                 base_url=base_url,
             )
@@ -454,6 +456,7 @@ def run_full_ragas_eval(
         "candidate_k": candidate_k,
         "top_k": top_k,
         "query_transform": query_transform or "none",
+        "answer_mode": answer_mode,
         "prompt_style": prompt_style,
     }
 
@@ -486,6 +489,7 @@ def run_ragas_eval(args: Any) -> int:
         eval_mode=args.eval_mode,
         query_transform=getattr(args, "query_transform", None),
         prompt_style=getattr(args, "prompt_style", "extractive"),
+        answer_mode=getattr(args, "answer_mode", "benchmark"),
         base_url=args.base_url,
     )
 

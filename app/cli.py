@@ -227,10 +227,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Temperature for the answer-generation model.",
     )
     rag_ask.add_argument(
+        "--answer-mode",
+        choices=["assistant", "benchmark"],
+        default="assistant",
+        help="Answer mode: richer analyst output for real use, or terse benchmark output for evaluation-style QA.",
+    )
+    rag_ask.add_argument(
         "--prompt-style",
         choices=["balanced", "extractive", "audit"],
-        default="extractive",
-        help="Prompt style for answer generation.",
+        default="balanced",
+        help="Prompt style for assistant-mode answer generation.",
     )
     rag_ask.add_argument(
         "--base-url",
@@ -577,6 +583,12 @@ def build_parser() -> argparse.ArgumentParser:
         default="semantic_rerank",
         choices=["dense", "lexical", "hybrid", "semantic_rerank"],
         help="Retrieval mode.",
+    )
+    ragas_eval.add_argument(
+        "--answer-mode",
+        choices=["assistant", "benchmark"],
+        default="benchmark",
+        help="Answer mode to use while generating evaluation responses.",
     )
     ragas_eval.add_argument(
         "--prompt-style",

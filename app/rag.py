@@ -34,6 +34,7 @@ DEFAULT_DATABASE_PDF_DIRS = (
 TOKEN_PATTERN = re.compile(r"\S+")
 SEARCH_TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
 VALID_RETRIEVAL_ARCHITECTURES = ("semantic", "hybrid", "semantic_rerank", "dense", "lexical")
+VALID_ANSWER_MODES = ("assistant", "benchmark")
 VALID_PROMPT_STYLES = ("balanced", "extractive", "audit")
 SOURCE_FILENAME_STOPWORDS = {
     "accessibleversion",
@@ -110,6 +111,16 @@ def _normalize_prompt_style(style: str | None) -> str:
         return normalized
     supported = ", ".join(VALID_PROMPT_STYLES)
     raise RuntimeError(f"Unknown prompt style '{style}'. Choose from: {supported}.")
+
+
+def _normalize_answer_mode(mode: str | None) -> str:
+    if not mode:
+        return "assistant"
+    normalized = mode.strip().lower().replace("-", "_")
+    if normalized in VALID_ANSWER_MODES:
+        return normalized
+    supported = ", ".join(VALID_ANSWER_MODES)
+    raise RuntimeError(f"Unknown answer mode '{mode}'. Choose from: {supported}.")
 
 try:  # pragma: no cover - availability depends on the local environment.
     import faiss  # type: ignore[import-not-found]
@@ -464,40 +475,30 @@ def _format_citation_label(chunk: dict[str, Any]) -> str:
     return f"{title} ({chunk_id})"
 
 
-def _build_answer_system_prompt(prompt_style: str) -> str:
+def _build_answer_system_prompt(answer_mode: str, prompt_style: str) -> str:
+    mode = _normalize_answer_mode(answer_mode)
     style = _normalize_prompt_style(prompt_style)
+
+    if mode == "benchmark":
+        return (
+            "You are answering benchmark ESG questions from supplied document context.\n"
+            "\n"
+            "Use only the supplied context. Do not use outside knowledge. Do not infer missing figures.\n"
+            "\n"
+            "Output rules:\n"
+            "- Return only the answer text.\n"
+            "- Do not add headings, bullets, citations, commentary, evidence excerpts, or limitations.\n"
+            "- Stay as extractive as possible and preserve the document's wording when the answer is available.\n"
+            "- Prefer the shortest complete answer that is still factually correct.\n"
+            "- If the context does not contain enough evidence, return exactly:\n"
+            "The provided context does not contain sufficient evidence to answer this question."
+        )
 
     shared_prefix = (
         "You are an ESG analyst producing reliable, reproducible answers from a document database. "
         "Use only the supplied context; never use outside knowledge or infer missing figures.\n"
         "\n"
     )
-
-    if style == "extractive":
-        return (
-            shared_prefix
-            + "Required output format. Use four blocks in this exact order and keep them concise. "
-            "Do not add headings for the first three blocks.\n"
-            "\n"
-            "Block 1 (key takeaway): Answer in 1-2 short sentences using the document's wording as closely as possible. "
-            "Prefer exact disclosed numbers, dates, targets, and policy labels. If the answer is not evidenced, write: "
-            "'The provided context does not contain sufficient evidence to answer this question.'\n"
-            "\n"
-            "Block 2 (detailed answer): Expand only with facts that are explicitly present in the context. "
-            "Keep paraphrasing minimal and do not add synthesis beyond the source text.\n"
-            "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
-            "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
-            "- When metrics or targets are present, preserve the exact value, baseline, scope, and timeframe.\n"
-            "\n"
-            "Block 3 (Evidence excerpts): Include 2-5 verbatim snippets copied from the context. "
-            "Each excerpt must be under 35 words and followed by its citation label in brackets.\n"
-            "\n"
-            "Block 4 heading must be exactly: **Limitations**\n"
-            "- State what is unknown, partial, conflicting, low-scoring, or absent. Make Uncertainty explicit. "
-            "Do not guess.\n"
-            "\n"
-            "Keep the tone precise and audit-friendly. Prefer extraction over abstraction."
-        )
 
     if style == "audit":
         return (
@@ -524,6 +525,32 @@ def _build_answer_system_prompt(prompt_style: str) -> str:
             "\n"
             "Keep the tone professional and concise. Avoid unsupported interpretation. If interpretation is "
             "necessary, label it with 'Based on the disclosed information'."
+        )
+
+    if style == "extractive":
+        return (
+            shared_prefix
+            + "Required output format. Use four blocks in this exact order and keep them concise. "
+            "Do not add headings for the first three blocks.\n"
+            "\n"
+            "Block 1 (key takeaway): Answer in 1-2 short sentences using the document's wording as closely as possible. "
+            "Prefer exact disclosed numbers, dates, targets, and policy labels. If the answer is not evidenced, write: "
+            "'The provided context does not contain sufficient evidence to answer this question.'\n"
+            "\n"
+            "Block 2 (detailed answer): Expand only with facts that are explicitly present in the context. "
+            "Keep paraphrasing minimal and do not add synthesis beyond the source text.\n"
+            "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
+            "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
+            "- When metrics or targets are present, preserve the exact value, baseline, scope, and timeframe.\n"
+            "\n"
+            "Block 3 (Evidence excerpts): Include 2-5 verbatim snippets copied from the context. "
+            "Each excerpt must be under 35 words and followed by its citation label in brackets.\n"
+            "\n"
+            "Block 4 heading must be exactly: **Limitations**\n"
+            "- State what is unknown, partial, conflicting, low-scoring, or absent. Make Uncertainty explicit. "
+            "Do not guess.\n"
+            "\n"
+            "Keep the tone precise and audit-friendly. Prefer extraction over abstraction."
         )
 
     return (
@@ -1566,7 +1593,8 @@ def answer_question(
     retrieved_chunks: list[dict[str, Any]],
     text_model: str | None = None,
     temperature: float | None = None,
-    prompt_style: str = "extractive",
+    answer_mode: str = "assistant",
+    prompt_style: str = "balanced",
     base_url: str = DEFAULT_BASE_URL,
 ) -> tuple[str, str]:
     if not retrieved_chunks:
@@ -1598,7 +1626,7 @@ def answer_question(
             "contain sufficient evidence. If you cannot find a clear answer, say so explicitly.\n"
         )
 
-    system_prompt = _build_answer_system_prompt(prompt_style)
+    system_prompt = _build_answer_system_prompt(answer_mode, prompt_style)
 
     messages = [
         {"role": "system", "content": system_prompt},
@@ -1741,6 +1769,7 @@ def run_rag_ask(args: Any) -> int:
         retrieved_chunks=retrieved,
         text_model=args.text_model,
         temperature=args.temperature,
+        answer_mode=getattr(args, "answer_mode", "assistant"),
         prompt_style=getattr(args, "prompt_style", "balanced"),
         base_url=args.base_url,
     )

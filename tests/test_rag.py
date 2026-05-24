@@ -461,3 +461,45 @@ def test_answer_question_prompt_requires_excerpts_and_uncertainty(monkeypatch):
     assert "Evidence excerpts" in system_prompt
     assert "Uncertainty" in system_prompt
     assert "Use only the supplied context" in system_prompt
+
+
+def test_answer_question_benchmark_mode_uses_extractive_plain_output(monkeypatch):
+    captured = {}
+
+    class DummyClient:
+        def __init__(self, api_key, base_url):
+            pass
+
+        def get_text_generation_model(self):
+            return "dummy-model"
+
+        def chat_completion(self, model, messages, temperature=None):
+            captured["messages"] = messages
+            return "plain answer"
+
+    monkeypatch.setenv("ALBERT_API_KEY", "test-key")
+    monkeypatch.setattr("app.rag.AlbertClient", DummyClient)
+
+    answer, model = answer_question(
+        question="What is the target?",
+        retrieved_chunks=[
+            {
+                "chunk_id": "chunk-0001",
+                "source_file": "report.pdf",
+                "page_start": 1,
+                "page_end": 2,
+                "score": 0.8,
+                "text": "Reduce Scope 1 and 2 emissions by 2030.",
+            }
+        ],
+        answer_mode="benchmark",
+        prompt_style="extractive",
+        temperature=0.0,
+    )
+
+    assert answer == "plain answer"
+    assert model == "dummy-model"
+    system_prompt = captured["messages"][0]["content"]
+    assert "Return only the answer text" in system_prompt
+    assert "Do not add headings, bullets, citations" in system_prompt
+    assert "Evidence excerpts" not in system_prompt

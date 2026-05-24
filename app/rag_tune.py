@@ -179,6 +179,7 @@ def evaluate_configuration(
     search_breadth: int,
     text_model: str,
     temperature: float,
+    answer_mode: str,
     prompt_style: str,
     index_root: Path,
     built_cache: set[tuple[str, int, int]],
@@ -224,6 +225,7 @@ def evaluate_configuration(
                     retrieved_chunks=retrieved_chunks,
                     text_model=text_model,
                     temperature=temperature,
+                    answer_mode=answer_mode,
                     prompt_style=prompt_style,
                     base_url=base_url,
                 )
@@ -246,6 +248,7 @@ def evaluate_configuration(
                     "answer": answer,
                     "embedding_model": resolved_embedding_model,
                     "text_model": resolved_text_model,
+                    "answer_mode": answer_mode,
                     "prompt_style": prompt_style,
                 }
             )
@@ -287,6 +290,7 @@ def evaluate_configuration(
         "retrieval_architecture": retrieval_architecture,
         "search_breadth": search_breadth,
         "temperature": temperature,
+        "answer_mode": answer_mode,
         "prompt_style": prompt_style,
         "summary": {
             "question_count": len(results),
@@ -348,7 +352,7 @@ def run_rag_tune(args: Any) -> int:
     )
     search_breadths = args.search_breadths or [5, 8, 12]
     temperatures = args.temperatures or [0.0, 0.1, 0.2]
-    prompt_styles = args.prompt_styles or ["balanced", "extractive", "audit"]
+    prompt_styles = args.prompt_styles or ["extractive"]
     prompt_styles = [style for style in prompt_styles if style in VALID_PROMPT_STYLES]
 
     embedding_results: list[dict[str, Any]] = []
@@ -364,6 +368,7 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=max(args.top_k, search_breadths[0]),
             text_model=text_model,
             temperature=temperatures[0],
+            answer_mode="benchmark",
             prompt_style=prompt_styles[0],
             index_root=index_root / _slugify(embedding_model),
             built_cache=built_cache,
@@ -393,6 +398,7 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=max(args.top_k, search_breadths[0]),
             text_model=text_model,
             temperature=temperatures[0],
+            answer_mode="benchmark",
             prompt_style=prompt_styles[0],
             index_root=index_root,
             built_cache=built_cache,
@@ -424,6 +430,7 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=breadth,
             text_model=text_model,
             temperature=temperatures[0],
+            answer_mode="benchmark",
             prompt_style=prompt_styles[0],
             index_root=index_root,
             built_cache=built_cache,
@@ -450,6 +457,7 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=best_retrieval_result["search_breadth"],
             text_model=text_model,
             temperature=temperature,
+            answer_mode="benchmark",
             prompt_style=prompt_style,
             index_root=index_root,
             built_cache=built_cache,
@@ -481,6 +489,7 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=best_retrieval_result["search_breadth"],
             text_model=text_model,
             temperature=best_prompt_result["temperature"],
+            answer_mode="benchmark",
             prompt_style=best_prompt_result["prompt_style"],
             index_root=index_root,
             built_cache=built_cache,
@@ -512,6 +521,7 @@ def run_rag_tune(args: Any) -> int:
             search_breadth=breadth,
             text_model=text_model,
             temperature=best_prompt_result["temperature"],
+            answer_mode="benchmark",
             prompt_style=best_prompt_result["prompt_style"],
             index_root=index_root,
             built_cache=built_cache,
