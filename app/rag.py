@@ -63,6 +63,27 @@ SOURCE_IDENTIFIER_ALIASES = {
     "l_oreal": "loreal oreal",
     "nestl": "nestle",
 }
+COMPANY_DISPLAY_ALIASES = {
+    "l oreal": "L'Oreal",
+    "loreal": "L'Oreal",
+    "loreal oreal": "L'Oreal",
+    "totalenergies": "TotalEnergies",
+}
+REPORT_TYPE_RULES: list[tuple[tuple[str, ...], str]] = [
+    (("climate", "transition", "plan"), "Climate Transition Plan"),
+    (("transition", "plan"), "Transition Plan"),
+    (("net", "zero"), "Net Zero Plan"),
+    (("sustainability",), "Sustainability Report"),
+    (("esg",), "ESG Report"),
+    (("integrated",), "Integrated Report"),
+    (("annual",), "Annual Report"),
+    (("universal", "registration", "document"), "Universal Registration Document"),
+    (("registration", "document"), "Registration Document"),
+    (("tcfd",), "TCFD Report"),
+    (("csr",), "CSR Report"),
+    (("progress",), "Progress Report"),
+    (("climate",), "Climate Report"),
+]
 
 
 def _normalize_retrieval_mode(mode: str) -> str:
@@ -323,6 +344,104 @@ def _detect_contains_targets(text: str) -> bool:
 def _extract_report_year(source_file: str) -> str:
     years = re.findall(r"(20\d{2})", source_file)
     return years[-1] if years else ""
+
+
+def _normalize_identifier_tokens(value: str) -> list[str]:
+    return re.findall(r"[a-z0-9]+", value.lower())
+
+
+def _extract_company_tokens(tokens: list[str]) -> list[str]:
+    return [
+        token
+        for token in tokens
+        if token not in SOURCE_FILENAME_STOPWORDS
+        and not re.fullmatch(r"20\d{2}", token)
+    ]
+
+
+def _format_company_name(tokens: list[str]) -> str:
+    if not tokens:
+        return ""
+
+    phrase = " ".join(tokens)
+    alias = COMPANY_DISPLAY_ALIASES.get(phrase)
+    if alias:
+        return alias
+
+    words: list[str] = []
+    for token in tokens:
+        if token.isdigit():
+            words.append(token)
+        elif len(token) <= 3:
+            words.append(token.upper())
+        else:
+            words.append(token.capitalize())
+    return " ".join(words)
+
+
+def _possessive_suffix(company: str) -> str:
+    stripped = company.rstrip()
+    if not stripped:
+        return ""
+    return "'" if stripped[-1].lower() == "s" else "'s"
+
+
+def _infer_report_type(tokens: list[str]) -> str:
+    token_set = set(tokens)
+    for required, label in REPORT_TYPE_RULES:
+        if all(token in token_set for token in required):
+            return label
+    if "report" in token_set:
+        return "Report"
+    return ""
+
+
+def _format_source_title(source_file: str, source_path: str = "") -> str:
+    stem = Path(source_file).stem
+    tokens = _normalize_identifier_tokens(stem)
+    year = _extract_report_year(source_file)
+    report_type = _infer_report_type(tokens)
+
+    company_tokens = _extract_company_tokens(tokens)
+    if not company_tokens and source_path:
+        path_tokens = _normalize_identifier_tokens(" ".join(Path(source_path).parts[-4:]))
+        company_tokens = _extract_company_tokens(path_tokens)
+
+    company = _format_company_name(company_tokens)
+    if not company:
+        fallback = " ".join(stem.replace("_", " ").replace("-", " ").split()).strip()
+        if fallback:
+            return " ".join(
+                word.upper() if len(word) <= 3 else word.capitalize()
+                for word in fallback.split()
+            )
+        return "Document"
+
+    possessive = _possessive_suffix(company)
+    if year and report_type:
+        return f"{company}{possessive} {year} {report_type}"
+    if year:
+        return f"{company}{possessive} {year} Report"
+    if report_type:
+        return f"{company}{possessive} {report_type}"
+    return f"{company}{possessive} Report"
+
+
+def _format_page_label(page_start: int, page_end: int) -> str:
+    if page_start <= 0 or page_end <= 0:
+        return ""
+    if page_start == page_end:
+        return f"p. {page_start}"
+    return f"pp. {page_start}-{page_end}"
+
+
+def _format_citation_label(chunk: dict[str, Any]) -> str:
+    title = _format_source_title(chunk["source_file"], chunk.get("source_path", ""))
+    page_label = _format_page_label(int(chunk["page_start"]), int(chunk["page_end"]))
+    chunk_id = str(chunk["chunk_id"])
+    if page_label:
+        return f"{title}, {page_label} ({chunk_id})"
+    return f"{title} ({chunk_id})"
 
 
 def _generate_contextual_summary(chunk_text: str) -> str:
@@ -1205,9 +1324,10 @@ def answer_question(
         if normalized in seen_texts:
             continue
         seen_texts.add(normalized)
+        citation_label = _format_citation_label(chunk)
         context_blocks.append(
-            f"[{chunk['chunk_id']}] source={chunk['source_file']} "
-            f"pages={chunk['page_start']}-{chunk['page_end']} "
+            f"[{chunk['chunk_id']}] citation={citation_label} "
+            f"source={chunk['source_file']} pages={chunk['page_start']}-{chunk['page_end']} "
             f"score={chunk['score']:.4f}\n{chunk['text']}"
         )
     context = "\n\n".join(context_blocks)
@@ -1224,23 +1344,24 @@ def answer_question(
         "You are an ESG analyst producing reliable, reproducible answers from a document database. "
         "Use only the supplied context; never use outside knowledge or infer missing figures.\n"
         "\n"
-        "Required output format. Use these exact Markdown section headings, in this order:\n"
-        "**Key takeaway**\n"
-        "- Give the direct answer in 1-3 short sentences. If the answer is not evidenced, write: "
+        "Required output format. Use four blocks in this exact order and keep them concise. "
+        "Do not add headings for the first three blocks.\n"
+        "\n"
+        "Block 1 (key takeaway): Give the direct answer in 1-3 short sentences. "
+        "If the answer is not evidenced, write: "
         "'The provided context does not contain sufficient evidence to answer this question.'\n"
         "\n"
-        "**Detailed answer**\n"
-        "- Explain the answer with enough detail for an ESG analyst to audit it.\n"
-        "- Cite supporting chunk IDs in brackets for every factual claim, e.g. [chunk-0003]. "
-        "Copy chunk IDs exactly with the ASCII hyphen character.\n"
+        "Block 2 (detailed answer): Explain the answer with enough detail for an ESG analyst to audit it.\n"
+        "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
+        "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
+        "- Do not cite raw filenames; use the humanized document title and page range.\n"
         "- When extracting ESG targets or metrics, include metric, value, year, baseline, scope, coverage, "
         "and methodology only when those fields are explicitly present.\n"
         "\n"
-        "**Evidence excerpts**\n"
-        "- Include 2-5 verbatim snippets copied from the context. Each excerpt must be under 35 words "
-        "and followed by its chunk ID.\n"
+        "Block 3 (evidence excerpts): Include 2-5 verbatim snippets copied from the context. "
+        "Each excerpt must be under 35 words and followed by its citation label in brackets.\n"
         "\n"
-        "**Uncertainty**\n"
+        "Block 4 heading must be exactly: **Limitations**\n"
         "- State what is unknown, partial, conflicting, low-scoring, or absent. Do not guess.\n"
         "\n"
         "Keep the tone professional and concise. Avoid unsupported interpretation. If interpretation is "

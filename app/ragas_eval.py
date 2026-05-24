@@ -67,7 +67,7 @@ def extract_cited_chunk_ids(answer: str) -> set[str]:
         .replace("\u2013", "-")
         .replace("\u2014", "-")
     )
-    return set(re.findall(r"[\[【]\s*(chunk-\d+)\s*[\]】]", normalized))
+    return set(re.findall(r"chunk-\d+", normalized))
 
 
 def score_faithfulness(question: str, answer: str, context_chunks: list[dict[str, Any]], client: AlbertClient, model: str) -> dict[str, Any]:
