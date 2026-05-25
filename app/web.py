@@ -18,14 +18,20 @@ from app.rag import (
     DEFAULT_BASE_URL,
     answer_question,
     build_index,
+    generate_company_comparison_answer,
+    generate_company_ranking_answer,
     get_index_summary,
+    is_named_company_comparison_question,
+    is_company_ranking_question,
+    _mentioned_company_labels,
     parse_pdf_path_lines,
     retrieve_chunks,
+    retrieve_company_ranking_chunks,
     set_api_key,
 )
 
 
-DEFAULT_TOP_K = 5
+DEFAULT_TOP_K = 8
 DEFAULT_QUESTION = "What climate-related targets are disclosed for 2030, and are they science-based?"
 
 
@@ -808,7 +814,7 @@ def _render_ask_result(ask_result: dict[str, Any] | None) -> str:
         f"""
 <div class="chunk">
   <div class="chunk-header">
-    <span class="pill">{_escape(chunk["chunk_id"])}</span>
+    <span class="pill">{_escape(chunk.get("company_label", "source"))}</span>
     <span>{_escape(chunk["source_file"])}</span>
     <span>pages {_escape(chunk["page_start"])}-{_escape(chunk["page_end"])}</span>
     <span>score {_escape(f'{chunk["score"]:.4f}')}</span>
@@ -887,24 +893,58 @@ def _ask_handler(form: dict[str, str], index_dir: Path, settings: dict[str, Any]
     settings["question"] = question
     top_k = _coerce_top_k(settings.get("top_k"))
     text_model = str(settings.get("text_model", "")).strip() or None
-    retrieved_chunks, embedding_model = retrieve_chunks(
-        index_dir=index_dir,
-        question=question,
-        top_k=top_k,
-        base_url=DEFAULT_BASE_URL,
-    )
-    answer, text_model = answer_question(
-        question=question,
-        retrieved_chunks=retrieved_chunks,
-        text_model=text_model,
-        base_url=DEFAULT_BASE_URL,
-    )
+    diagnostics: dict[str, Any] = {}
+    if is_named_company_comparison_question(question):
+        companies = _mentioned_company_labels(question)
+        retrieved_chunks, embedding_model, diagnostics = retrieve_company_ranking_chunks(
+            index_dir=index_dir,
+            question=question,
+            per_company_k=3,
+            max_companies=len(companies),
+            target_companies=companies,
+            search_breadth=30,
+            base_url=DEFAULT_BASE_URL,
+        )
+        answer = generate_company_comparison_answer(
+            question=question,
+            retrieved_chunks=retrieved_chunks,
+            companies=companies,
+        )
+        text_model = "deterministic-esg-comparator"
+    elif is_company_ranking_question(question):
+        retrieved_chunks, embedding_model, diagnostics = retrieve_company_ranking_chunks(
+            index_dir=index_dir,
+            question=question,
+            per_company_k=1,
+            max_companies=max(top_k, 20),
+            search_breadth=30,
+            base_url=DEFAULT_BASE_URL,
+        )
+        answer = generate_company_ranking_answer(question=question, retrieved_chunks=retrieved_chunks)
+        text_model = "deterministic-esg-ranker"
+    else:
+        retrieved_chunks, embedding_model = retrieve_chunks(
+            index_dir=index_dir,
+            question=question,
+            top_k=top_k,
+            retrieval_architecture="semantic_rerank",
+            search_breadth=max(top_k, 30),
+            base_url=DEFAULT_BASE_URL,
+        )
+        answer, text_model = answer_question(
+            question=question,
+            retrieved_chunks=retrieved_chunks,
+            text_model=text_model,
+            prompt_style="balanced",
+            base_url=DEFAULT_BASE_URL,
+        )
     return {
         "question": question,
         "embedding_model": embedding_model,
         "text_model": text_model,
         "answer": answer,
         "retrieved_chunks": retrieved_chunks,
+        "diagnostics": diagnostics,
     }
 
 

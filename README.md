@@ -178,7 +178,7 @@ python3 -m app.cli rag-ask "TRIR 2024" --agentic
 python3 -m app.cli rag-ask "emissions targets" --filter-pillar environmental --filter-year 2024
 ```
 
-The default Q&A path uses hybrid semantic plus lexical retrieval, a wider candidate pool, and deterministic answer generation. Answers are instructed to rely only on retrieved document context, cite chunk IDs, include short evidence excerpts, and flag uncertainty when the retrieved context is incomplete.
+The default Q&A path uses semantic retrieval with a compact rerank pool tuned on the RAGAS ESG v2 retrieval benchmark. Answers are instructed to rely only on retrieved document context, cite document titles and page ranges, include short evidence excerpts, and flag uncertainty when the retrieved context is incomplete.
 
 ### `ragas-eval`
 
@@ -190,6 +190,37 @@ python3 -m app.cli ragas-eval --company TotalEnergies --eval-mode all --query-tr
 ```
 
 The RAGAS-style evaluator also reports retrieval hit, partial, and miss rates against the expected contexts in `sample_data/rag_evaluation_dataset.csv`, so answer quality and retrieval quality can be diagnosed separately.
+
+### `ragas-v2-retrieval-*`
+
+The RAGAS ESG v2 retrieval dataset lives under `sample_data/ragas_esg_dataset_v2_retrieval/`. It includes multi-document and multi-company questions plus qrels with graded relevance judgments.
+
+Build the evaluation corpus index:
+
+```bash
+python3 -m app.cli ragas-v2-build-index
+```
+
+Run the tuned retrieval benchmark:
+
+```bash
+python3 -m app.cli ragas-v2-retrieval-eval
+```
+
+Grid-search retrieval settings:
+
+```bash
+python3 -m app.cli ragas-v2-retrieval-grid \
+  --retrieval-modes semantic_rerank dense \
+  --candidate-ks 10 30 60 100 \
+  --comparison-modes auto never
+```
+
+Outputs are written to `outputs/ragas_v2_retrieval/`:
+- `retrieval_results.csv`
+- `metrics_per_question.csv`
+- `metrics_summary.csv`
+- `ragas_v2_retrieval_eval.json`
 
 ### `mcp` — MCP Tool Architecture
 

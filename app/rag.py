@@ -66,6 +66,41 @@ SOURCE_IDENTIFIER_ALIASES = {
     "l_oreal": "loreal oreal",
     "nestl": "nestle",
 }
+SOURCE_COMPANY_ALIASES = {
+    "airbus": "Airbus",
+    "asml": "ASML",
+    "bnp_paribas": "BNP Paribas",
+    "danone": "Danone",
+    "enel": "Enel",
+    "engie": "Engie",
+    "esrs_sustainability_report_vw_ar24": "Volkswagen",
+    "files_1": "L'Oreal",
+    "herm_s": "Hermes",
+    "hermes": "Hermes",
+    "ib": "Iberdrola",
+    "iberdrola": "Iberdrola",
+    "l_or_al": "L'Oreal",
+    "l_oreal": "L'Oreal",
+    "loreal": "L'Oreal",
+    "lvmh": "LVMH",
+    "nestl": "Nestle",
+    "nestle": "Nestle",
+    "novartis": "Novartis",
+    "prosus": "Prosus",
+    "roche": "Roche",
+    "sap": "SAP",
+    "schneider_electric": "Schneider Electric",
+    "schneider_sustainability_impact_q3_2025_results": "Schneider Electric",
+    "siemens": "Siemens",
+    "totalenergies": "TotalEnergies",
+    "urd2024accessibleversion": "Danone",
+    "volkswagen": "Volkswagen",
+}
+RANKING_QUERY_PATTERN = re.compile(
+    r"\b(rank|ranking|compare|comparison|benchmark|best|worst|leaders?|laggards?|top\s+\d+|performance)\b",
+    re.IGNORECASE,
+)
+COMPARISON_QUERY_PATTERN = re.compile(r"\b(compare|comparison|versus|vs\.?|against)\b", re.IGNORECASE)
 COMPANY_DISPLAY_ALIASES = {
     "l oreal": "L'Oreal",
     "loreal": "L'Oreal",
@@ -166,7 +201,14 @@ class AlbertClient:
         delay_seconds = 2.0
 
         for attempt in range(1, 7):
-            response = self.session.request(method, self._url(path), timeout=self.timeout, **kwargs)
+            try:
+                response = self.session.request(method, self._url(path), timeout=self.timeout, **kwargs)
+            except requests.RequestException:
+                if attempt == 6:
+                    raise
+                time.sleep(delay_seconds)
+                delay_seconds = min(delay_seconds * 2.0, 30.0)
+                continue
             if response.status_code not in retryable_statuses or attempt == 6:
                 response.raise_for_status()
                 return response
@@ -433,12 +475,19 @@ def _format_source_title(source_file: str, source_path: str = "") -> str:
     year = _extract_report_year(source_file)
     report_type = _infer_report_type(tokens)
 
+    company = ""
+    if source_path:
+        inferred_company = _company_label_from_source(source_file, source_path)
+        if inferred_company and not re.fullmatch(r"[0-9a-f]{6,}", inferred_company.lower()):
+            company = inferred_company
+
     company_tokens = _extract_company_tokens(tokens)
-    if not company_tokens and source_path:
+    if not company and not company_tokens and source_path:
         path_tokens = _normalize_identifier_tokens(" ".join(Path(source_path).parts[-4:]))
         company_tokens = _extract_company_tokens(path_tokens)
 
-    company = _format_company_name(company_tokens)
+    if not company:
+        company = _format_company_name(company_tokens)
     if not company:
         fallback = " ".join(stem.replace("_", " ").replace("-", " ").split()).strip()
         if fallback:
@@ -466,13 +515,124 @@ def _format_page_label(page_start: int, page_end: int) -> str:
     return f"pp. {page_start}-{page_end}"
 
 
+def _humanize_company_slug(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
+    if slug in SOURCE_COMPANY_ALIASES:
+        return SOURCE_COMPANY_ALIASES[slug]
+    words = [word for word in re.split(r"[_\-\s]+", value) if word]
+    return " ".join(word.upper() if len(word) <= 3 else word.capitalize() for word in words)
+
+
+def _company_label_from_source(source_file: str, source_path: str = "") -> str:
+    path = Path(source_path) if source_path else Path(source_file)
+    normalized_identifier = re.sub(r"[^a-z0-9]+", "_", f"{source_path} {source_file}".lower()).strip("_")
+    for slug, label in sorted(SOURCE_COMPANY_ALIASES.items(), key=lambda item: len(item[0]), reverse=True):
+        if re.search(rf"(^|_){re.escape(slug)}(_|$)", normalized_identifier):
+            return label
+
+    parts = list(path.parts)
+    marker_pairs = [
+        ("pdfs", 1),
+        ("raw", 1),
+        ("downloaded_reports", 0),
+        ("sample_data", 0),
+    ]
+    for marker, offset in marker_pairs:
+        if marker in parts:
+            marker_index = parts.index(marker)
+            if offset and marker_index + offset < len(parts) - 1:
+                return _humanize_company_slug(parts[marker_index + offset])
+            break
+
+    stem = Path(source_file).stem
+    stem = re.sub(r"^(20\d{2}|undated)_", "", stem)
+    stem = re.sub(r"_[0-9a-f]{8}$", "", stem)
+    stem = re.sub(
+        r"\b(annual|ar|climate|databook|document|esg|framework|integrated|progress|report|"
+        r"sustainability|thematic|tracker|urd|universal|registration|statement|results)\b",
+        " ",
+        stem.replace("_", " ").replace("-", " "),
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"\s+", " ", stem).strip()
+    return _humanize_company_slug(cleaned or Path(source_file).stem)
+
+
 def _format_citation_label(chunk: dict[str, Any]) -> str:
     title = _format_source_title(chunk["source_file"], chunk.get("source_path", ""))
     page_label = _format_page_label(int(chunk["page_start"]), int(chunk["page_end"]))
-    chunk_id = str(chunk["chunk_id"])
     if page_label:
-        return f"{title}, {page_label} ({chunk_id})"
-    return f"{title} ({chunk_id})"
+        return f"{title}, {page_label}"
+    return title
+
+
+def is_company_ranking_question(question: str) -> bool:
+    lower = question.lower()
+    return bool(RANKING_QUERY_PATTERN.search(lower) and any(term in lower for term in ("compan", "esg", "target", "achievement", "improvement")))
+
+
+def _mentioned_company_labels(question: str) -> list[str]:
+    normalized_question = re.sub(r"[^a-z0-9]+", "_", question.lower()).strip("_")
+    alias_map: dict[str, str] = {}
+    for slug, label in SOURCE_COMPANY_ALIASES.items():
+        alias_map[slug] = label
+        alias_map[re.sub(r"[^a-z0-9]+", "_", label.lower()).strip("_")] = label
+
+    matches: list[tuple[int, str]] = []
+    for alias, label in alias_map.items():
+        match = re.search(rf"(^|_){re.escape(alias)}(_|$)", normalized_question)
+        if match:
+            matches.append((match.start(), label))
+
+    labels: list[str] = []
+    for _position, label in sorted(matches, key=lambda item: item[0]):
+        if label not in labels:
+            labels.append(label)
+    return labels
+
+
+def is_named_company_comparison_question(question: str) -> bool:
+    return bool(COMPARISON_QUERY_PATTERN.search(question) and len(_mentioned_company_labels(question)) >= 2)
+
+
+def _ranking_dimensions(question: str) -> list[tuple[str, str]]:
+    lower = question.lower()
+    dimensions: list[tuple[str, str]] = []
+    if "ambition" in lower:
+        dimensions.append(("targets", "ESG ambitions targets baseline target year scope coverage validation SBTi net zero reduction"))
+    if "achievement" in lower:
+        dimensions.append(("achievements", "ESG achievements realised performance recognitions awards disclosed results"))
+    if "target" in lower:
+        dimensions.append(("targets", "ESG targets baseline target year scope coverage validation SBTi net zero reduction"))
+    if "improvement" in lower or "progress" in lower:
+        dimensions.append(("improvements", "ESG improvement progress change over time increased decreased reduced compared year over year"))
+    if not dimensions:
+        dimensions = [
+            (
+                "overall",
+                "overall ESG performance ESG ratings MSCI CDP DJSI Sustainalytics EcoVadis ISS ESG FTSE4Good awards reductions SBTi validated targets",
+            ),
+            ("achievements", "ESG achievements realised performance recognitions awards disclosed results"),
+            ("targets", "ESG targets baseline target year scope coverage validation"),
+            ("improvements", "ESG improvement progress change over time year over year"),
+        ]
+    return dimensions
+
+
+def _answer_ranking_dimensions(question: str) -> list[tuple[str, str]]:
+    lower = question.lower()
+    dimensions: list[tuple[str, str]] = []
+    if "ambition" in lower:
+        dimensions.append(("targets", "Ambitions and Targets"))
+    if "achievement" in lower:
+        dimensions.append(("achievements", "Achievements"))
+    if "target" in lower:
+        dimensions.append(("targets", "Targets"))
+    if "improvement" in lower or "progress" in lower:
+        dimensions.append(("improvements", "Improvements"))
+    if not dimensions:
+        dimensions.append(("overall", "Overall ESG Performance"))
+    return dimensions
 
 
 def _build_answer_system_prompt(answer_mode: str, prompt_style: str) -> str:
@@ -512,7 +672,7 @@ def _build_answer_system_prompt(answer_mode: str, prompt_style: str) -> str:
             "\n"
             "Block 2 (detailed answer): Explain the answer with enough detail for an ESG analyst to audit it.\n"
             "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
-            "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
+            "context, e.g. [Engie's 2025 ESG Report, pp. 12-13]. Never mention internal chunk IDs.\n"
             "- Use compact bullets when several metrics or targets must be compared.\n"
             "- Distinguish clearly between disclosed facts and cautious interpretation.\n"
             "\n"
@@ -540,7 +700,7 @@ def _build_answer_system_prompt(answer_mode: str, prompt_style: str) -> str:
             "Block 2 (detailed answer): Expand only with facts that are explicitly present in the context. "
             "Keep paraphrasing minimal and do not add synthesis beyond the source text.\n"
             "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
-            "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
+            "context, e.g. [Engie's 2025 ESG Report, pp. 12-13]. Never mention internal chunk IDs.\n"
             "- When metrics or targets are present, preserve the exact value, baseline, scope, and timeframe.\n"
             "\n"
             "Block 3 (Evidence excerpts): Include 2-5 verbatim snippets copied from the context. "
@@ -564,7 +724,7 @@ def _build_answer_system_prompt(answer_mode: str, prompt_style: str) -> str:
         "\n"
         "Block 2 (detailed answer): Explain the answer with enough detail for an ESG analyst to audit it.\n"
         "- Cite supporting sources in brackets for every factual claim using the citation label provided in the "
-        "context, e.g. [Engie's 2025 ESG Report, pp. 12-13 (chunk-0003)].\n"
+        "context, e.g. [Engie's 2025 ESG Report, pp. 12-13]. Never mention internal chunk IDs.\n"
         "- Do not cite raw filenames; use the humanized document title and page range.\n"
         "- When extracting ESG targets or metrics, include metric, value, year, baseline, scope, coverage, "
         "and methodology only when those fields are explicitly present.\n"
@@ -1476,6 +1636,7 @@ def retrieve_chunks(
             {
                 "score": score,
                 "chunk_id": chunk.chunk_id,
+                "company_label": _company_label_from_source(chunk.source_file, chunk.source_path),
                 "source_file": chunk.source_file,
                 "source_path": chunk.source_path,
                 "page_start": chunk.page_start,
@@ -1492,6 +1653,450 @@ def retrieve_chunks(
         )
 
     return results, selected_embedding_model
+
+
+def retrieve_company_ranking_chunks(
+    *,
+    index_dir: Path,
+    question: str,
+    per_company_k: int = 3,
+    max_companies: int = 20,
+    embedding_model: str | None = None,
+    retrieval_architecture: str = "semantic_rerank",
+    search_breadth: int = 100,
+    target_companies: list[str] | None = None,
+    base_url: str = DEFAULT_BASE_URL,
+) -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
+    manifest = json.loads((index_dir / "manifest.json").read_text(encoding="utf-8"))
+    vector_backend = manifest.get("vector_backend", "none")
+    if vector_backend == "none":
+        raise RuntimeError("This index was built with --dry-run and has no embeddings to search.")
+
+    chunks = _load_chunks(index_dir)
+    target_company_set = set(target_companies or [])
+    company_indices: dict[str, list[int]] = {}
+    for index, chunk in enumerate(chunks):
+        company = _company_label_from_source(chunk.source_file, chunk.source_path)
+        if company and (not target_company_set or company in target_company_set):
+            company_indices.setdefault(company, []).append(index)
+
+    client = AlbertClient(api_key=require_api_key(), base_url=base_url)
+    selected_embedding_model = embedding_model or manifest.get("embedding_model")
+    if not selected_embedding_model:
+        selected_embedding_model = client.get_embedding_model(preferred="bge-m3")
+
+    dimensions = _ranking_dimensions(question)
+    query_texts = [f"{question}\n{dimension_query}" for _, dimension_query in dimensions]
+    query_vectors = embed_texts(
+        client,
+        query_texts,
+        embedding_model=selected_embedding_model,
+        batch_size=1,
+    )
+    vectors = np.load(index_dir / "vectors.npy")
+
+    selected_by_chunk_id: dict[str, dict[str, Any]] = {}
+    company_summaries: list[dict[str, Any]] = []
+    for company, indices in sorted(company_indices.items()):
+        company_matches: list[tuple[str, int, float]] = []
+        for (dimension_name, _dimension_query), query_vector in zip(dimensions, query_vectors):
+            breadth = min(max(search_breadth, per_company_k), len(indices))
+            semantic_matches = _search_vectors_for_indices(query_vector, vectors, indices, breadth)
+            matches = select_chunk_matches(
+                question=f"{question}\n{dimension_name}",
+                chunks=chunks,
+                semantic_matches=semantic_matches,
+                top_k=per_company_k,
+                retrieval_architecture=retrieval_architecture,
+                search_breadth=breadth,
+                candidate_indices=indices,
+            )
+            company_matches.extend((dimension_name, chunk_index, score) for chunk_index, score in matches)
+
+        if not company_matches:
+            continue
+
+        top_score = max(score for _, _, score in company_matches)
+        company_summaries.append(
+            {
+                "company": company,
+                "candidate_chunks": len(indices),
+                "selected_chunks": len({chunk_index for _, chunk_index, _ in company_matches}),
+                "top_score": top_score,
+            }
+        )
+        for dimension_name, chunk_index, score in company_matches:
+            chunk = chunks[chunk_index]
+            existing = selected_by_chunk_id.get(chunk.chunk_id)
+            if existing:
+                existing["score"] = max(float(existing["score"]), float(score))
+                dimensions_set = set(existing.get("evidence_dimensions", []))
+                dimensions_set.add(dimension_name)
+                existing["evidence_dimensions"] = sorted(dimensions_set)
+                continue
+
+            selected_by_chunk_id[chunk.chunk_id] = {
+                "score": score,
+                "chunk_id": chunk.chunk_id,
+                "company_label": company,
+                "evidence_dimensions": [dimension_name],
+                "source_file": chunk.source_file,
+                "source_path": chunk.source_path,
+                "page_start": chunk.page_start,
+                "page_end": chunk.page_end,
+                "token_count": chunk.token_count,
+                "text": chunk.text,
+                "contextual_summary": chunk.contextual_summary,
+                "esg_pillar": chunk.esg_pillar,
+                "section_title": chunk.section_title,
+                "report_year": chunk.report_year,
+                "contains_table": chunk.contains_table,
+                "contains_targets": chunk.contains_targets,
+            }
+
+    company_summaries.sort(key=lambda item: item["top_score"], reverse=True)
+    if target_company_set:
+        allowed_companies = {item["company"] for item in company_summaries if item["company"] in target_company_set}
+    else:
+        allowed_companies = {item["company"] for item in company_summaries[:max_companies]}
+    filtered_chunks = [chunk for chunk in selected_by_chunk_id.values() if chunk["company_label"] in allowed_companies]
+    filtered_chunks.sort(key=lambda item: (item["company_label"], -float(item["score"])))
+
+    diagnostics = {
+        "mode": "company_ranking",
+        "companies_considered": len(company_summaries),
+        "companies_in_context": len(allowed_companies),
+        "per_company_k": per_company_k,
+        "retrieval_architecture": retrieval_architecture,
+        "dimensions": [dimension_name for dimension_name, _ in dimensions],
+        "company_summaries": [item for item in company_summaries if item["company"] in allowed_companies],
+    }
+    return filtered_chunks, selected_embedding_model, diagnostics
+
+
+RANKING_EVIDENCE_PATTERNS = {
+    "achievements": (
+        r"\b(msci|cdp|djsi|ftse4good|ecovadis|iss esg|prime|award|recognition|leader|leadership|"
+        r"rating|ranked|included|inclusion|top|gold|a[- ]?list)\b",
+        r"\b(reduced|reduction|achieved|saved|renewable|certified|validated)\b",
+    ),
+    "targets": (
+        r"\b(target|targets|2030|2040|2045|2050|net[- ]?zero|sbti|science[- ]based|baseline|"
+        r"scope 1|scope 2|scope 3|validated|reduction pathway)\b",
+        r"\b(reduce|reduction|absolute|intensity|supplier engagement|near[- ]term|long[- ]term)\b",
+    ),
+    "improvements": (
+        r"\b(improved|improvement|progress|reduced|reduction|decreased|increased|upgraded|"
+        r"down|fell|saved|compared|year[- ]over[- ]year|since|baseline)\b",
+        r"\b(2020|2021|2022|2023|2024|2025|2019|2018)\b",
+    ),
+    "overall": (
+        r"\b(msci|cdp|djsi|ftse4good|sustainalytics|ecovadis|iss esg|prime|rating|ranked|"
+        r"award|leader|leadership|sbti|science[- ]based|validated|net[- ]?zero)\b",
+        r"\b(reduced|reduction|decreased|saved|improved|upgraded|renewable|emissions)\b",
+    ),
+}
+RANKING_QUANT_PATTERN = re.compile(r"(\d+(?:[.,]\d+)?\s?%|\b20\d{2}\b|\bscope\s?[123]\b)", re.IGNORECASE)
+LOW_QUALITY_RANKING_PATTERNS = (
+    r"\btable of contents\b",
+    r"\bcontents\b.{0,80}\bappendix\b",
+    r"\bdisclose the metrics and targets\b",
+    r"\bdisclose how the organization\b",
+    r"\besrs e[1-5][- ]\d+\b",
+    r"\besrs 2\b.{0,80}\bgeneral disclosures\b",
+    r"\bappendix:?\s*a\b",
+    r"\bpage\s+\d+\b.{0,40}\bpage\s+\d+\b",
+    r"\be\s+s\s+g\b|\bg\s+o\s+v\s+e\s+r\s+n\s+a\s+n\s+c\s+e\b|\bi\s+n\s+d\s+i\s+c\s+a\s+t\s+o\s+r\s+s\b",
+    r"(?:\b[A-Z]\b\s+){5,}",
+)
+
+
+def _ranking_text_quality(text: str) -> float:
+    normalized = normalize_whitespace(text).lower()
+    penalty = 1.0
+    for pattern in LOW_QUALITY_RANKING_PATTERNS:
+        if re.search(pattern, normalized, flags=re.IGNORECASE):
+            penalty *= 0.35
+    if len(re.findall(r"\besrs\b|\btaxonomy\b|\bappendix\b|\bcontents\b", normalized)) >= 6:
+        penalty *= 0.45
+    if len(re.findall(r"\bp\.|pp\.|page\b", normalized)) >= 8:
+        penalty *= 0.5
+    return max(0.1, penalty)
+
+
+def _ranking_keyword_score(text: str, dimension: str) -> float:
+    normalized = text.lower()
+    patterns = RANKING_EVIDENCE_PATTERNS.get(dimension, RANKING_EVIDENCE_PATTERNS["overall"])
+    matches = 0
+    for pattern in patterns:
+        matches += len(re.findall(pattern, normalized, flags=re.IGNORECASE))
+    quant_matches = len(RANKING_QUANT_PATTERN.findall(normalized))
+    return min(matches, 10) * 0.35 + min(quant_matches, 8) * 0.25
+
+
+def _chunk_dimension_score(chunk: dict[str, Any], dimension: str) -> float:
+    dimensions = set(chunk.get("evidence_dimensions", []))
+    dimension_bonus = 1.0 if dimension == "overall" or dimension in dimensions else 0.35
+    retrieval_score = float(chunk.get("score", 0.0)) * 3.0
+    text = str(chunk.get("text", ""))
+    keyword_score = _ranking_keyword_score(text, dimension)
+    target_bonus = 0.4 if dimension in ("targets", "overall") and chunk.get("contains_targets") else 0.0
+    table_bonus = 0.2 if chunk.get("contains_table") else 0.0
+    return (retrieval_score + keyword_score + target_bonus + table_bonus) * dimension_bonus * _ranking_text_quality(text)
+
+
+def _clean_excerpt_text(text: str) -> str:
+    text = normalize_whitespace(text)
+    text = re.sub(r"\bLVM\s+H\b", "LVMH", text)
+    text = re.sub(r"(?:\b[A-Za-z]\b\s+){5,}", " ", text)
+    text = re.sub(r"(?:\b\d\b\s+){3,}", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def _excerpt_for_dimension(text: str, dimension: str, max_words: int = 22) -> str:
+    normalized = _clean_excerpt_text(text)
+    patterns = RANKING_EVIDENCE_PATTERNS.get(dimension, RANKING_EVIDENCE_PATTERNS["overall"])
+    start_word = 0
+    matched_keyword = False
+    for pattern in patterns:
+        match = re.search(pattern, normalized, flags=re.IGNORECASE)
+        if match:
+            start_word = max(0, len(normalized[: match.start()].split()) - 4)
+            matched_keyword = True
+            break
+    words = normalized.split()
+    if not matched_keyword and len(words) > 16 and re.match(r"^\d+$", words[0]):
+        start_word = 12
+    words = words[start_word : start_word + max_words + 1]
+    excerpt = " ".join(words[:max_words])
+    if len(words) > max_words:
+        excerpt += "..."
+    return excerpt
+
+
+def _confidence_label(total_score: float, evidence_count: int, best_chunk: dict[str, Any]) -> str:
+    text = str(best_chunk.get("text", ""))
+    has_quant = bool(RANKING_QUANT_PATTERN.search(text))
+    quality = _ranking_text_quality(text)
+    if total_score >= 7.0 and evidence_count >= 2 and has_quant and quality >= 0.8:
+        return "High"
+    if total_score >= 4.0 and (evidence_count >= 2 or has_quant) and quality >= 0.35:
+        return "Medium"
+    return "Low"
+
+
+def _citation_labels(chunks: list[dict[str, Any]], max_labels: int = 2) -> str:
+    labels: list[str] = []
+    for chunk in chunks:
+        label = _format_citation_label(chunk)
+        if label and label not in labels:
+            labels.append(label)
+        if len(labels) >= max_labels:
+            break
+    return "; ".join(labels)
+
+
+def _ranking_rationale(company_chunks: list[dict[str, Any]], dimension: str) -> str:
+    texts = " ".join(str(chunk.get("text", "")) for chunk in company_chunks[:3]).lower()
+    points: list[str] = []
+    if re.search(r"\bsbti|science[- ]based|validated\b", texts, flags=re.IGNORECASE):
+        points.append("validated or science-based targets")
+    if re.search(r"\bnet[- ]?zero|2030|2040|2045|2050\b", texts, flags=re.IGNORECASE):
+        points.append("time-bound climate commitments")
+    if re.search(r"\bmsci|cdp|djsi|ftse4good|ecovadis|iss esg|prime|award|leader\b", texts, flags=re.IGNORECASE):
+        points.append("external ESG recognitions or ratings")
+    if re.search(r"\breduced|reduction|decreased|saved|improved|upgraded|progress\b", texts, flags=re.IGNORECASE):
+        points.append("documented progress or reductions")
+    if re.search(r"\bscope 1|scope 2|scope 3|emissions|renewable\b", texts, flags=re.IGNORECASE):
+        points.append("quantified climate or emissions evidence")
+    if not points:
+        points.append("relevant ESG disclosure in the retrieved source")
+
+    if dimension == "achievements":
+        prefix = "Ranks here because the evidence shows "
+    elif dimension == "targets":
+        prefix = "Ranks here because the evidence shows "
+    elif dimension == "improvements":
+        prefix = "Ranks here because the evidence shows "
+    else:
+        prefix = "Ranks here based on "
+    return prefix + ", ".join(points[:3]) + "."
+
+
+def generate_company_ranking_answer(
+    *,
+    question: str,
+    retrieved_chunks: list[dict[str, Any]],
+    max_rows: int = 10,
+) -> str:
+    """Build a deterministic, extractive ranking answer from retrieved company evidence."""
+    company_chunks: dict[str, list[dict[str, Any]]] = {}
+    for chunk in retrieved_chunks:
+        company = str(chunk.get("company_label") or "").strip()
+        if company:
+            company_chunks.setdefault(company, []).append(chunk)
+
+    if not company_chunks:
+        return "The retrieved context does not contain company-labelled evidence for a ranking."
+
+    sections: list[str] = []
+    for dimension, title in _answer_ranking_dimensions(question):
+        rows: list[dict[str, Any]] = []
+        for company, chunks in company_chunks.items():
+            scored_chunks = sorted(
+                ((chunk, _chunk_dimension_score(chunk, dimension)) for chunk in chunks),
+                key=lambda item: item[1],
+                reverse=True,
+            )
+            supporting = [(chunk, score) for chunk, score in scored_chunks if score >= 1.5]
+            if not supporting:
+                continue
+            support_scores = [score for _chunk, score in supporting[:3]]
+            total_score = support_scores[0]
+            if len(support_scores) > 1:
+                total_score += support_scores[1] * 0.25
+            if len(support_scores) > 2:
+                total_score += support_scores[2] * 0.1
+            if total_score < 3.5:
+                continue
+            best_chunk = supporting[0][0]
+            rows.append(
+                {
+                    "company": company,
+                    "score": total_score,
+                    "chunks": [chunk for chunk, _score in supporting[:3]],
+                    "best_chunk": best_chunk,
+                    "confidence": _confidence_label(total_score, len(supporting), best_chunk),
+                }
+            )
+
+        rows.sort(key=lambda row: row["score"], reverse=True)
+        rows = rows[:max_rows]
+        if not rows:
+            continue
+
+        sections.append(f"**{title}**")
+        sections.append(
+            "| Rank | Company | Evidence-based rationale | Evidence excerpt | Sources | Confidence |\n"
+            "|---|---|---|---|---|---|"
+        )
+        for rank, row in enumerate(rows, start=1):
+            citations = _citation_labels(row["chunks"], max_labels=2)
+            excerpt = _excerpt_for_dimension(str(row["best_chunk"].get("text", "")), dimension)
+            rationale = _ranking_rationale(row["chunks"], dimension)
+            sections.append(
+                f"| {rank} | {row['company']} | {rationale} | \"{excerpt}\" | {citations} | {row['confidence']} |"
+            )
+        sections.append("")
+
+    sections.append("**Limitations**")
+    sections.append(
+        "- This is a provisional, evidence-weighted ranking from the indexed documents only; it is not an external ESG rating."
+    )
+    sections.append(
+        "- Companies with sparse, qualitative, or non-comparable excerpts may rank lower or be omitted from a dimension."
+    )
+    sections.append("- Confidence reflects disclosure quality in the retrieved excerpts, not independent verification.")
+    return "\n".join(sections).strip()
+
+
+def generate_company_comparison_answer(
+    *,
+    question: str,
+    retrieved_chunks: list[dict[str, Any]],
+    companies: list[str],
+) -> str:
+    """Build a side-by-side company comparison from retrieved company evidence."""
+    dimensions = _answer_ranking_dimensions(question)
+    if dimensions == [("overall", "Overall ESG Performance")] and "ambition" in question.lower():
+        dimensions = [("targets", "Ambitions and Targets")]
+
+    company_chunks: dict[str, list[dict[str, Any]]] = {company: [] for company in companies}
+    for chunk in retrieved_chunks:
+        company = str(chunk.get("company_label") or "").strip()
+        if company in company_chunks:
+            company_chunks[company].append(chunk)
+
+    sections = ["**Company Comparison**"]
+    if len(companies) >= 2:
+        sections.append(
+            f"Based only on the retrieved documents, this comparison covers {', '.join(companies[:-1])} and {companies[-1]}."
+        )
+
+    for dimension, title in dimensions:
+        rows: list[dict[str, Any]] = []
+        for company in companies:
+            chunks = company_chunks.get(company, [])
+            scored = sorted(
+                ((chunk, _chunk_dimension_score(chunk, dimension)) for chunk in chunks),
+                key=lambda item: item[1],
+                reverse=True,
+            )
+            supporting = [(chunk, score) for chunk, score in scored if score >= 0.35]
+            if not supporting:
+                rows.append(
+                    {
+                        "company": company,
+                        "score": 0.0,
+                        "chunks": [],
+                        "best_chunk": None,
+                        "confidence": "Low",
+                    }
+                )
+                continue
+            support_scores = [score for _chunk, score in supporting[:3]]
+            total_score = support_scores[0]
+            if len(support_scores) > 1:
+                total_score += support_scores[1] * 0.25
+            if len(support_scores) > 2:
+                total_score += support_scores[2] * 0.1
+            best_chunk = supporting[0][0]
+            rows.append(
+                {
+                    "company": company,
+                    "score": total_score,
+                    "chunks": [chunk for chunk, _score in supporting[:3]],
+                    "best_chunk": best_chunk,
+                    "confidence": _confidence_label(total_score, len(supporting), best_chunk),
+                }
+            )
+
+        sections.append(f"\n**{title}**")
+        sections.append("| Company | Evidence-based assessment | Evidence excerpt | Sources | Confidence |")
+        sections.append("|---|---|---|---|---|")
+        for row in rows:
+            if not row["chunks"]:
+                sections.append(
+                    f"| {row['company']} | No sufficiently direct evidence was retrieved for this comparison dimension. | N/A | N/A | Low |"
+                )
+                continue
+            rationale = _ranking_rationale(row["chunks"], dimension)
+            excerpt = _excerpt_for_dimension(str(row["best_chunk"].get("text", "")), dimension)
+            sources = _citation_labels(row["chunks"], max_labels=2)
+            sections.append(
+                f"| {row['company']} | {rationale} | \"{excerpt}\" | {sources} | {row['confidence']} |"
+            )
+
+        scored_rows = [row for row in rows if row["score"] > 0]
+        if len(scored_rows) >= 2:
+            scored_rows.sort(key=lambda row: row["score"], reverse=True)
+            leader = scored_rows[0]
+            runner_up = scored_rows[1]
+            if leader["score"] >= runner_up["score"] * 1.15:
+                sections.append(
+                    f"\nBased on the retrieved evidence, {leader['company']} is better supported on {title.lower()} than {runner_up['company']}."
+                )
+            else:
+                sections.append(
+                    f"\nBased on the retrieved evidence, {leader['company']} and {runner_up['company']} are close on {title.lower()}; confidence depends on the completeness of their disclosures."
+                )
+
+    sections.append("\n**Limitations**")
+    sections.append("- This comparison uses only retrieved documents and does not apply an external ESG scoring methodology.")
+    sections.append("- A company may appear weaker where the retrieved excerpts are less specific, not necessarily because its real-world ESG ambition is weaker.")
+    sections.append("- Sources are shown as document title and page range; raw internal chunk IDs are intentionally omitted.")
+    return "\n".join(sections).strip()
 
 
 def retrieve_with_transform(
@@ -1605,14 +2210,14 @@ def answer_question(
 
     seen_texts: set[str] = set()
     context_blocks: list[str] = []
-    for chunk in retrieved_chunks:
+    for source_number, chunk in enumerate(retrieved_chunks, start=1):
         normalized = normalize_whitespace(chunk["text"])
         if normalized in seen_texts:
             continue
         seen_texts.add(normalized)
         citation_label = _format_citation_label(chunk)
         context_blocks.append(
-            f"[{chunk['chunk_id']}] citation={citation_label} "
+            f"[source {source_number}] company={chunk.get('company_label', 'Unknown')} citation={citation_label} "
             f"source={chunk['source_file']} pages={chunk['page_start']}-{chunk['page_end']} "
             f"score={chunk['score']:.4f}\n{chunk['text']}"
         )
@@ -1627,6 +2232,24 @@ def answer_question(
         )
 
     system_prompt = _build_answer_system_prompt(answer_mode, prompt_style)
+    if any(chunk.get("company_label") for chunk in retrieved_chunks) and is_company_ranking_question(question):
+        system_prompt += (
+            "\n\nComparison/ranking mode:\n"
+            "- Treat each company as a separate evidence group using the company= labels in context.\n"
+            "- Start directly with the first requested ranking table. Do not include a key takeaway, executive summary, or one-line summary before the tables.\n"
+            "- If the user asks for multiple rankings, produce a separate ranked markdown table for each requested dimension.\n"
+            "- Each table must use columns: Rank, Company, Evidence-based rationale, Key citations, Confidence.\n"
+            "- Use the same rank order in each table and its surrounding explanation; never contradict a ranking within the same answer.\n"
+            "- Every ranked row must include at least one citation, and each citation must come from a context chunk whose company= label matches that row's Company.\n"
+            "- Never use evidence or citations from one company to justify another company.\n"
+            "- Do not group uncited companies into an Others row; omit companies without direct evidence for that dimension.\n"
+            "- For achievements, rank by disclosed realised performance and recognitions.\n"
+            "- For targets, rank by specificity, ambition, timeframe, baseline, scope coverage, and validation only when disclosed.\n"
+            "- For improvements, rank by documented change over time, not by static ambition.\n"
+            "- Do not rank entities that are subsidiaries or business units as separate companies unless the context database only contains them.\n"
+            "- Add a confidence column and mark thin or non-comparable evidence as Low confidence.\n"
+            "- Do not refuse solely because absolute ESG scores are unavailable; provide a provisional evidence-based ranking from the retrieved excerpts and flag uncertainty.\n"
+        )
 
     messages = [
         {"role": "system", "content": system_prompt},
@@ -1717,7 +2340,39 @@ def run_rag_ask(args: Any) -> int:
         print(f"Answer:\n{result['final_answer']}")
         return 0
 
-    if query_transform or reranker:
+    if is_named_company_comparison_question(question):
+        companies = _mentioned_company_labels(question)
+        retrieved, embedding_model, diagnostics = retrieve_company_ranking_chunks(
+            index_dir=args.index_dir,
+            question=question,
+            per_company_k=3,
+            max_companies=len(companies),
+            target_companies=companies,
+            embedding_model=args.embedding_model,
+            retrieval_architecture="semantic_rerank",
+            search_breadth=max(candidate_k, 30),
+            base_url=args.base_url,
+        )
+        print(
+            f"Retrieved {len(retrieved)} chunks for company comparison "
+            f"across {diagnostics['companies_in_context']} companies using {embedding_model}."
+        )
+    elif is_company_ranking_question(question):
+        retrieved, embedding_model, diagnostics = retrieve_company_ranking_chunks(
+            index_dir=args.index_dir,
+            question=question,
+            per_company_k=1,
+            max_companies=max(args.top_k, 20),
+            embedding_model=args.embedding_model,
+            retrieval_architecture="semantic_rerank",
+            search_breadth=max(candidate_k, 30),
+            base_url=args.base_url,
+        )
+        print(
+            f"Retrieved {len(retrieved)} chunks for company ranking "
+            f"across {diagnostics['companies_in_context']} companies using {embedding_model}."
+        )
+    elif query_transform or reranker:
         retrieved, embedding_model, diagnostics = retrieve_with_transform(
             index_dir=args.index_dir,
             question=question,
@@ -1752,6 +2407,10 @@ def run_rag_ask(args: Any) -> int:
     for chunk in retrieved:
         preview = chunk["text"][:220].replace("\n", " ")
         meta = ""
+        if chunk.get("company_label"):
+            meta += f" [{chunk['company_label']}]"
+        if chunk.get("evidence_dimensions"):
+            meta += f" [{','.join(chunk['evidence_dimensions'])}]"
         if chunk.get("esg_pillar"):
             meta += f" [{chunk['esg_pillar']}]"
         if chunk.get("contextual_summary"):
@@ -1764,14 +2423,25 @@ def run_rag_ask(args: Any) -> int:
     if args.search_only:
         return 0
 
-    answer, text_model = answer_question(
-        question=question,
-        retrieved_chunks=retrieved,
-        text_model=args.text_model,
-        temperature=args.temperature,
-        answer_mode=getattr(args, "answer_mode", "assistant"),
-        prompt_style=getattr(args, "prompt_style", "balanced"),
-        base_url=args.base_url,
-    )
+    if is_named_company_comparison_question(question):
+        answer = generate_company_comparison_answer(
+            question=question,
+            retrieved_chunks=retrieved,
+            companies=_mentioned_company_labels(question),
+        )
+        text_model = "deterministic-esg-comparator"
+    elif is_company_ranking_question(question):
+        answer = generate_company_ranking_answer(question=question, retrieved_chunks=retrieved)
+        text_model = "deterministic-esg-ranker"
+    else:
+        answer, text_model = answer_question(
+            question=question,
+            retrieved_chunks=retrieved,
+            text_model=args.text_model,
+            temperature=args.temperature,
+            answer_mode=getattr(args, "answer_mode", "assistant"),
+            prompt_style=getattr(args, "prompt_style", "balanced"),
+            base_url=args.base_url,
+        )
     print(f"\nAnswer ({text_model}):\n{answer}")
     return 0

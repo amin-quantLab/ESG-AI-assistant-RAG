@@ -104,3 +104,129 @@ def test_web_ask_keeps_question_and_renders_markdown(monkeypatch):
     assert "What are Danone&#x27;s climate targets?" in body
     assert "<h3>Key takeaway</h3>" in body
     assert "<li>The target is disclosed.</li>" in body
+
+
+def test_web_ask_uses_company_ranking_retrieval_for_ranking_questions(monkeypatch):
+    calls = {}
+
+    def fake_retrieve_company_ranking_chunks(**kwargs):
+        calls["ranking"] = kwargs
+        return (
+            [
+                {
+                    "chunk_id": "chunk-0001",
+                    "company_label": "Danone",
+                    "source_file": "danone.pdf",
+                    "page_start": 1,
+                    "page_end": 1,
+                    "score": 0.8,
+                    "text": "Danone evidence.",
+                },
+                {
+                    "chunk_id": "chunk-0002",
+                    "company_label": "Enel",
+                    "source_file": "enel.pdf",
+                    "page_start": 1,
+                    "page_end": 1,
+                    "score": 0.7,
+                    "text": "Enel evidence.",
+                },
+            ],
+            "embedding-model",
+            {"mode": "company_ranking"},
+        )
+
+    def fake_generate_company_ranking_answer(**kwargs):
+        calls["ranking_answer"] = kwargs
+        return "**Overall ESG Performance**\n\n| Rank | Company |\n|---|---|\n| 1 | Danone |"
+
+    monkeypatch.setattr("app.web.retrieve_company_ranking_chunks", fake_retrieve_company_ranking_chunks)
+    monkeypatch.setattr("app.web.generate_company_ranking_answer", fake_generate_company_ranking_answer)
+
+    app = create_app(index_dir=Path("/tmp/nonexistent-index"))
+    body_bytes = urlencode(
+        {"question": "Rank companies by ESG performance in three different ways: achievements, targets, and improvements."}
+    ).encode("utf-8")
+
+    def start_response(status, headers):
+        pass
+
+    body = b"".join(
+        app(
+            {
+                "PATH_INFO": "/ask",
+                "REQUEST_METHOD": "POST",
+                "wsgi.input": __import__("io").BytesIO(body_bytes),
+                "CONTENT_LENGTH": str(len(body_bytes)),
+            },
+            start_response,
+        )
+    ).decode("utf-8")
+
+    assert calls["ranking"]["per_company_k"] == 1
+    assert calls["ranking"]["max_companies"] == 20
+    assert calls["ranking_answer"]["question"].startswith("Rank companies")
+    assert "deterministic-esg-ranker" in body
+    assert "Overall ESG Performance" in body
+
+
+def test_web_ask_uses_named_company_comparison_path(monkeypatch):
+    calls = {}
+
+    def fake_retrieve_company_ranking_chunks(**kwargs):
+        calls["retrieval"] = kwargs
+        return (
+            [
+                {
+                    "chunk_id": "chunk-0001",
+                    "company_label": "Engie",
+                    "source_file": "engie.pdf",
+                    "page_start": 1,
+                    "page_end": 1,
+                    "score": 0.8,
+                    "text": "Engie target evidence.",
+                },
+                {
+                    "chunk_id": "chunk-0002",
+                    "company_label": "LVMH",
+                    "source_file": "lvmh.pdf",
+                    "page_start": 2,
+                    "page_end": 2,
+                    "score": 0.7,
+                    "text": "LVMH target evidence.",
+                },
+            ],
+            "embedding-model",
+            {"mode": "company_ranking"},
+        )
+
+    def fake_generate_company_comparison_answer(**kwargs):
+        calls["comparison_answer"] = kwargs
+        return "**Company Comparison**\n\n| Company | Evidence |\n|---|---|\n| Engie | Evidence |"
+
+    monkeypatch.setattr("app.web.retrieve_company_ranking_chunks", fake_retrieve_company_ranking_chunks)
+    monkeypatch.setattr("app.web.generate_company_comparison_answer", fake_generate_company_comparison_answer)
+
+    app = create_app(index_dir=Path("/tmp/nonexistent-index"))
+    body_bytes = urlencode({"question": "Compare Engie and LVMH in their ESG ambitions"}).encode("utf-8")
+
+    def start_response(status, headers):
+        pass
+
+    body = b"".join(
+        app(
+            {
+                "PATH_INFO": "/ask",
+                "REQUEST_METHOD": "POST",
+                "wsgi.input": __import__("io").BytesIO(body_bytes),
+                "CONTENT_LENGTH": str(len(body_bytes)),
+            },
+            start_response,
+        )
+    ).decode("utf-8")
+
+    assert calls["retrieval"]["target_companies"] == ["Engie", "LVMH"]
+    assert calls["retrieval"]["per_company_k"] == 3
+    assert calls["comparison_answer"]["companies"] == ["Engie", "LVMH"]
+    assert "deterministic-esg-comparator" in body
+    assert "Company Comparison" in body

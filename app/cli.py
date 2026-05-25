@@ -22,6 +22,16 @@ from app.rag import (
 from app.rag_eval import DEFAULT_EVAL_DATASET, DEFAULT_EVAL_OUTPUT, run_rag_eval, run_rag_eval_grid
 from app.rag_tune import DEFAULT_TUNE_OUTPUT, run_rag_tune
 from app.ragas_eval import DEFAULT_RAGAS_OUTPUT, run_ragas_eval
+from app.ragas_retrieval import (
+    DEFAULT_RAGAS_V2_CORPUS,
+    DEFAULT_RAGAS_V2_DATASET,
+    DEFAULT_RAGAS_V2_INDEX_DIR,
+    DEFAULT_RAGAS_V2_OUTPUT_DIR,
+    DEFAULT_RAGAS_V2_QRELS,
+    run_ragas_v2_build_index,
+    run_ragas_v2_retrieval_eval,
+    run_ragas_v2_retrieval_grid,
+)
 from app.smoke_test import run_smoke_test
 from app.utils import OUTPUT_DIR, ensure_directories
 from app.web import run_web_app
@@ -207,7 +217,7 @@ def build_parser() -> argparse.ArgumentParser:
     rag_ask.add_argument(
         "--candidate-k",
         type=int,
-        default=100,
+        default=30,
         help="How many candidate chunks to consider before the final top-k selection.",
     )
     rag_ask.add_argument(
@@ -626,6 +636,103 @@ def build_parser() -> argparse.ArgumentParser:
         help="Albert API base URL.",
     )
 
+    ragas_v2_build = subparsers.add_parser(
+        "ragas-v2-build-index",
+        help="Build a vector index for the RAGAS ESG v2 retrieval corpus",
+    )
+    ragas_v2_build.add_argument("--corpus", type=Path, default=DEFAULT_RAGAS_V2_CORPUS)
+    ragas_v2_build.add_argument("--index-dir", type=Path, default=DEFAULT_RAGAS_V2_INDEX_DIR)
+    ragas_v2_build.add_argument("--embedding-model")
+    ragas_v2_build.add_argument("--batch-size", type=int, default=32)
+    ragas_v2_build.add_argument("--force", action="store_true", help="Rebuild even if the index exists.")
+    ragas_v2_build.add_argument("--base-url", default=DEFAULT_BASE_URL)
+
+    ragas_v2_eval = subparsers.add_parser(
+        "ragas-v2-retrieval-eval",
+        help="Evaluate retrieval against the RAGAS ESG v2 qrels benchmark",
+    )
+    ragas_v2_eval.add_argument("--dataset", type=Path, default=DEFAULT_RAGAS_V2_DATASET)
+    ragas_v2_eval.add_argument("--corpus", type=Path, default=DEFAULT_RAGAS_V2_CORPUS)
+    ragas_v2_eval.add_argument("--qrels", type=Path, default=DEFAULT_RAGAS_V2_QRELS)
+    ragas_v2_eval.add_argument("--index-dir", type=Path, default=DEFAULT_RAGAS_V2_INDEX_DIR)
+    ragas_v2_eval.add_argument("--output-dir", type=Path, default=DEFAULT_RAGAS_V2_OUTPUT_DIR)
+    ragas_v2_eval.add_argument("--top-k", type=int, default=10)
+    ragas_v2_eval.add_argument(
+        "--retrieval-mode",
+        default="semantic_rerank",
+        choices=["dense", "lexical", "hybrid", "semantic_rerank"],
+    )
+    ragas_v2_eval.add_argument("--candidate-k", type=int, default=100)
+    ragas_v2_eval.add_argument("--embedding-model")
+    ragas_v2_eval.add_argument(
+        "--reranker",
+        default="none",
+        choices=["none", "lexical", "embedding", "llm"],
+        help="Optional reranking stage for candidates.",
+    )
+    ragas_v2_eval.add_argument("--dense-weight", type=float, default=0.6)
+    ragas_v2_eval.add_argument("--bm25-weight", type=float, default=0.4)
+    ragas_v2_eval.add_argument("--metadata-weight", type=float, default=0.2)
+    ragas_v2_eval.add_argument(
+        "--adjacent-window",
+        type=int,
+        default=0,
+        help="Include neighboring chunks from the same document.",
+    )
+    ragas_v2_eval.add_argument(
+        "--no-decompose",
+        action="store_true",
+        help="Disable comparison query decomposition.",
+    )
+    ragas_v2_eval.add_argument(
+        "--no-synonyms",
+        action="store_true",
+        help="Disable synonym/acronym expansion.",
+    )
+    ragas_v2_eval.add_argument(
+        "--text-model",
+        help="Text-generation model id for LLM reranking (if enabled).",
+    )
+    ragas_v2_eval.add_argument("--batch-size", type=int, default=32)
+    ragas_v2_eval.add_argument("--strict-min-grade", type=float, default=2.0)
+    ragas_v2_eval.add_argument("--k", nargs="+", type=int, default=[1, 3, 5, 10, 20, 50])
+    ragas_v2_eval.add_argument(
+        "--comparison-mode",
+        choices=["auto", "never", "always"],
+        default="auto",
+        help="Use named-company retrieval for cross-document comparison questions.",
+    )
+    ragas_v2_eval.add_argument("--base-url", default=DEFAULT_BASE_URL)
+
+    ragas_v2_grid = subparsers.add_parser(
+        "ragas-v2-retrieval-grid",
+        help="Grid-search retrieval modes against the RAGAS ESG v2 qrels benchmark",
+    )
+    ragas_v2_grid.add_argument("--dataset", type=Path, default=DEFAULT_RAGAS_V2_DATASET)
+    ragas_v2_grid.add_argument("--corpus", type=Path, default=DEFAULT_RAGAS_V2_CORPUS)
+    ragas_v2_grid.add_argument("--qrels", type=Path, default=DEFAULT_RAGAS_V2_QRELS)
+    ragas_v2_grid.add_argument("--index-dir", type=Path, default=DEFAULT_RAGAS_V2_INDEX_DIR)
+    ragas_v2_grid.add_argument("--output-dir", type=Path, default=DEFAULT_RAGAS_V2_OUTPUT_DIR)
+    ragas_v2_grid.add_argument("--top-k", type=int, default=10)
+    ragas_v2_grid.add_argument(
+        "--retrieval-modes",
+        nargs="+",
+        default=["semantic_rerank", "hybrid", "dense"],
+        choices=["dense", "lexical", "hybrid", "semantic_rerank"],
+    )
+    ragas_v2_grid.add_argument("--candidate-ks", nargs="+", type=int, default=[50, 100])
+    ragas_v2_grid.add_argument(
+        "--comparison-modes",
+        nargs="+",
+        default=["auto", "never"],
+        choices=["auto", "never", "always"],
+    )
+    ragas_v2_grid.add_argument("--embedding-model")
+    ragas_v2_grid.add_argument("--batch-size", type=int, default=32)
+    ragas_v2_grid.add_argument("--strict-min-grade", type=float, default=2.0)
+    ragas_v2_grid.add_argument("--k", nargs="+", type=int, default=[1, 3, 5, 10, 20, 50])
+    ragas_v2_grid.add_argument("--base-url", default=DEFAULT_BASE_URL)
+
     ingest_targets = subparsers.add_parser(
         "ingest-target-reports", help="Download and store the curated ESG report set"
     )
@@ -725,6 +832,15 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "ragas-eval":
         return run_ragas_eval(args)
+
+    if args.command == "ragas-v2-build-index":
+        return run_ragas_v2_build_index(args)
+
+    if args.command == "ragas-v2-retrieval-eval":
+        return run_ragas_v2_retrieval_eval(args)
+
+    if args.command == "ragas-v2-retrieval-grid":
+        return run_ragas_v2_retrieval_grid(args)
 
     if args.command == "rag-tune":
         return run_rag_tune(args)

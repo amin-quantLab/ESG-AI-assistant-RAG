@@ -9,6 +9,10 @@ from app.rag import (
     _starts_with_header,
     answer_question,
     chunk_text,
+    generate_company_comparison_answer,
+    generate_company_ranking_answer,
+    is_named_company_comparison_question,
+    is_company_ranking_question,
     export_chunk_dataset,
     search_vectors,
     select_chunk_matches,
@@ -212,6 +216,35 @@ def test_infer_question_source_paths_handles_scraper_aliases():
     }
 
 
+def test_company_label_from_source_canonicalizes_known_companies():
+    from app.rag import _company_label_from_source
+
+    assert _company_label_from_source(
+        "bnp_paribas_integrated_report_2024_en_bd_1.pdf",
+        "/tmp/sample_data/bnp_paribas_integrated_report_2024_en_bd_1.pdf",
+    ) == "BNP Paribas"
+    assert _company_label_from_source(
+        "totalenergies_sustainability-climate-2025-progress-report_2025_en.pdf",
+        "/tmp/sample_data/totalenergies_sustainability-climate-2025-progress-report_2025_en.pdf",
+    ) == "TotalEnergies"
+    assert _company_label_from_source(
+        "2024_urd_c73e004c.pdf",
+        "/tmp/esg_scraper/data/pdfs/schneider_electric/2024_urd_c73e004c.pdf",
+    ) == "Schneider Electric"
+    assert _company_label_from_source(
+        "files (1).pdf",
+        "/tmp/sample_data/files (1).pdf",
+    ) == "L'Oreal"
+    assert _company_label_from_source(
+        "esrs-sustainability-report-vw-ar24.pdf",
+        "/tmp/sample_data/esrs-sustainability-report-vw-ar24.pdf",
+    ) == "Volkswagen"
+    assert _company_label_from_source(
+        "urd2024accessibleversion.pdf",
+        "/tmp/sample_data/urd2024accessibleversion.pdf",
+    ) == "Danone"
+
+
 def test_infer_question_source_paths_ignores_generic_esg_tokens():
     chunks = [
         ChunkRecord("chunk-0001", "2024_esg_databook.pdf", "/tmp/esg_scraper/data/pdfs/enel/2024_esg_databook.pdf", 1, 1, 12, "Enel"),
@@ -233,6 +266,109 @@ def test_infer_question_source_paths_does_not_narrow_on_year_only():
         "/tmp/esg_scraper/data/pdfs/danone/2024_thematic_report.pdf",
         "/tmp/esg_scraper/data/pdfs/danone/2025_urd.pdf",
     }
+
+
+def test_is_company_ranking_question_detects_multi_company_rankings():
+    assert is_company_ranking_question(
+        "Rank companies by ESG performance in three ways: achievements, targets, and improvements."
+    )
+    assert is_company_ranking_question("Compare companies on ESG targets")
+    assert not is_company_ranking_question("What are Danone's climate targets?")
+    assert is_named_company_comparison_question("Compare Engie and LVMH in their ESG ambitions")
+    assert not is_named_company_comparison_question("Rank companies by ESG performance")
+
+
+def test_generate_company_ranking_answer_builds_overall_table_from_evidence():
+    answer = generate_company_ranking_answer(
+        question="Rank companies by their ESG performance",
+        retrieved_chunks=[
+            {
+                "chunk_id": "chunk-0001",
+                "company_label": "Roche",
+                "source_file": "roche_2025_report.pdf",
+                "source_path": "/tmp/roche_2025_report.pdf",
+                "page_start": 10,
+                "page_end": 11,
+                "score": 0.9,
+                "evidence_dimensions": ["overall", "targets", "improvements"],
+                "contains_targets": True,
+                "contains_table": True,
+                "text": "Roche has SBTi validated Scope 1, 2 and 3 targets and reduced emissions by 34% in 2025.",
+            },
+            {
+                "chunk_id": "chunk-0002",
+                "company_label": "Danone",
+                "source_file": "danone_2024_report.pdf",
+                "source_path": "/tmp/danone_2024_report.pdf",
+                "page_start": 5,
+                "page_end": 5,
+                "score": 0.7,
+                "evidence_dimensions": ["overall"],
+                "contains_targets": False,
+                "contains_table": False,
+                "text": "Danone discloses ESG performance metrics and supplier certification indicators.",
+            },
+        ],
+    )
+
+    assert "**Overall ESG Performance**" in answer
+    assert "| 1 | Roche |" in answer
+    assert "Roche's 2025 Report, pp. 10-11" in answer
+    assert "chunk-0001" not in answer
+    assert "insufficient evidence" not in answer.lower()
+
+
+def test_generate_company_comparison_answer_uses_only_named_companies_and_source_pages():
+    answer = generate_company_comparison_answer(
+        question="Compare Engie and LVMH in their ESG ambitions",
+        companies=["Engie", "LVMH"],
+        retrieved_chunks=[
+            {
+                "chunk_id": "chunk-0001",
+                "company_label": "Engie",
+                "source_file": "2025_sustainability_report_655e6d13.pdf",
+                "source_path": "/tmp/esg_scraper/data/pdfs/engie/2025_sustainability_report_655e6d13.pdf",
+                "page_start": 192,
+                "page_end": 192,
+                "score": 0.9,
+                "evidence_dimensions": ["targets"],
+                "contains_targets": True,
+                "contains_table": False,
+                "text": "ENGIE targets suppliers' ESG performance and SBTi certification by 2030.",
+            },
+            {
+                "chunk_id": "chunk-0002",
+                "company_label": "LVMH",
+                "source_file": "423.esg.en.2024.pdf",
+                "source_path": "/tmp/esg_scraper/data/pdfs/lvmh/423.esg.en.2024.pdf",
+                "page_start": 88,
+                "page_end": 89,
+                "score": 0.8,
+                "evidence_dimensions": ["targets"],
+                "contains_targets": True,
+                "contains_table": True,
+                "text": "LVMH reports 55.1% reduction in GHG emissions and 71% renewable energy.",
+            },
+            {
+                "chunk_id": "chunk-0003",
+                "company_label": "Siemens",
+                "source_file": "siemens.pdf",
+                "source_path": "/tmp/siemens.pdf",
+                "page_start": 1,
+                "page_end": 1,
+                "score": 1.0,
+                "evidence_dimensions": ["targets"],
+                "text": "Siemens evidence should not appear.",
+            },
+        ],
+    )
+
+    assert "Engie" in answer
+    assert "LVMH" in answer
+    assert "Siemens" not in answer
+    assert "Engie's 2025 Sustainability Report, p. 192" in answer
+    assert "LVMH's 2024 ESG Report, pp. 88-89" in answer
+    assert "chunk-" not in answer
 
 
 def test_select_chunk_matches_dense_returns_semantic_only():
