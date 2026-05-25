@@ -1,0 +1,62 @@
+section,dataset_company,index_company,row_id,question_type,dense_relevance,dense_answerable,dense_n_tablefact,coverage_verdict,coverage_reason,hybrid_relevance,hybrid_answerable
+row,Airbus,Airbus,ragas_esg_01_01,policy_or_metric,0.1875,partial,1,partial,The passage mentions diversity and inclusion but does not provide specific details about Airbus's goals or disclosures for 2025.,0.1875,partial
+row,Airbus,Airbus,ragas_esg_16_01,numeric_factual,0.1875,partial,0,no,"The passage does not specify any emissions-related disclosure for 2025, only mentioning past actions and future announcements.",0.4375,partial
+row,Airbus,Airbus,ragas_esg_16_02,numeric_factual,0.1875,partial,0,no,"The passage does not mention any emissions-related disclosures for 2025, only providing data for 2024 and 2023.",0.4375,partial
+row,Airbus,Airbus,ragas_esg_16_03,policy_or_metric,0.1875,partial,1,no,"The passage discusses supply chain challenges and executive comments but does not mention diversity, inclusion, or gender representation in 2025.",0.1875,partial
+row,Airbus,Airbus,ragas_esg_16_04,numeric_factual,0.1875,partial,0,no,The passage discusses governance and board structure but does not mention emissions-related disclosures for 2025.,0.4375,partial
+row,BNP Paribas,BNP Paribas,ragas_esg_02_01,numeric_factual,0.5625,partial,5,yes,The passage explicitly states BNP Paribas's greenhouse gas emissions per full-time employee in 2023.,0.4375,yes
+row,BNP Paribas,BNP Paribas,ragas_esg_29_01,numeric_factual,0.5625,yes,1,partial,The passage discusses BNP Paribas's commitment to net-zero emissions and climate finance but does not specify the exact emissions-related disclosures for 2024.,0.5000,partial
+row,BNP Paribas,BNP Paribas,ragas_esg_29_02,numeric_factual,0.5625,yes,1,partial,The passage discusses credit exposure to fossil fuels and low-carbon energy but does not explicitly state specific emissions-related disclosures for 2024.,0.2500,partial
+row,BNP Paribas,BNP Paribas,ragas_esg_29_03,policy_or_metric,0.3750,partial,2,no,"The passage does not mention diversity, inclusion, or gender representation in 2024.",0.2500,partial
+row,BNP Paribas,BNP Paribas,ragas_esg_29_04,target_or_commitment,0.5625,partial,1,no,"The passage does not mention any specific ESG target, ambition, or commitment disclosed by BNP Paribas in 2024.",0.5625,yes
+row,Danone,Danone,ragas_esg_03_01,target_or_commitment,0.6250,partial,2,partial,The passage mentions Danone's targets for 2025 but does not explicitly state any ESG commitments for 2024.,0.3750,partial
+row,Danone,Danone,ragas_esg_17_01,numeric_factual,0.5625,partial,1,no,The passage does not mention any specific emissions-related disclosure for the year 2025.,0.3750,partial
+row,Danone,Danone,ragas_esg_17_02,numeric_factual,0.5625,partial,1,no,The passage discusses Danone's environmental performance and CDP recognitions but does not mention any specific emissions-related disclosure for 2025.,0.3750,partial
+row,Danone,Danone,ragas_esg_17_03,target_or_commitment,0.5000,partial,1,no,"The passage does not mention any specific ESG target, ambition, or commitment for 2025.",0.3750,yes
+row,Danone,Danone,ragas_esg_17_04,governance_factual,0.9375,yes,1,no,"The passage discusses 2023 compensation details, not 2025 governance, ethics, or compliance information.",0.6250,partial
+row,ENGIE,Engie,ragas_esg_04_01,target_or_commitment,0.7500,yes,1,no,"The passage only provides a statistic about women in management positions, not an ESG target, ambition, or commitment.",0.4375,yes
+row,ENGIE,Engie,ragas_esg_04_02,policy_or_metric,0.2500,partial,5,no,"The passage discusses compensation policies and executive performance criteria but does not mention diversity, inclusion, or gender representation.",0.3125,partial
+row,ENGIE,Engie,ragas_esg_04_03,policy_or_metric,0.2500,partial,5,no,"The passage discusses governance committees and financial reviews but does not mention diversity, inclusion, or gender representation.",0.3125,partial
+row,ENGIE,Engie,ragas_esg_04_04,governance_factual,0.6250,partial,2,partial,"The passage mentions diversity and inclusion policies but does not cover broader governance, ethics, or compliance disclosures for 2023.",0.7500,partial
+row,ENGIE,Engie,ragas_esg_19_01,numeric_factual,0.8750,yes,8,no,The passage does not mention any specific emissions-related disclosure for ENGIE in 2021.,0.8125,yes
+row,Enel,Enel,ragas_esg_05_01,policy_or_metric,0.5625,yes,1,yes,"The passage explicitly details Enel's initiatives and targets for gender representation, diversity, and inclusion, directly answering the question.",0.6250,yes
+row,Enel,Enel,ragas_esg_05_02,social_factual,0.8125,yes,1,no,The passage discusses community initiatives and sustainability projects but does not provide specific workforce-related information.,0.8750,yes
+row,Enel,Enel,ragas_esg_14_01,numeric_factual,0.1875,partial,4,no,The passage discusses Enel's broader climate goals but does not specify emissions-related disclosures for 2011.,0.0000,no
+row,Enel,Enel,ragas_esg_14_02,numeric_factual,0.1875,partial,4,no,The passage discusses Enel's anti-corruption efforts and governance but does not mention emissions-related disclosures for 2011.,0.0000,no
+row,Enel,Enel,ragas_esg_14_03,policy_or_metric,0.7500,yes,4,partial,"The passage mentions work-life balance metrics and parental leave data but does not explicitly address diversity, inclusion, or gender representation initiatives in 2011.",0.6875,partial
+row,L'Oréal,L'Oréal,ragas_esg_08_01,factual,0.1875,partial,0,partial,The passage mentions greenhouse gas emissions as part of an environmental display system but does not specify the exact emissions-related disclosure reported by L'Oréal in 2024.,0.3125,partial
+row,L'Oréal,L'Oréal,ragas_esg_08_02,target_or_commitment,0.2500,partial,2,no,"The passage discusses waste and recycling metrics but does not mention any ESG targets, ambitions, or commitments for 2024.",0.3125,partial
+row,L'Oréal,L'Oréal,ragas_esg_08_03,target_or_commitment,0.2500,partial,2,no,"The passage does not mention any ESG target, ambition, or commitment disclosed by L'Oréal in 2024.",0.3125,partial
+row,L'Oréal,L'Oréal,ragas_esg_08_04,governance_factual,0.8125,yes,0,no,"The passage discusses financial performance and acquisitions but does not mention governance, ethics, or compliance information.",0.7500,partial
+row,Schneider,Schneider Electric,ragas_esg_09_01,numeric_factual,0.3750,partial,5,partial,The passage mentions emissions-related disclosures but lacks specific details about the exact nature of Schneider's 2024 emissions reporting.,0.5625,partial
+row,Schneider,Schneider Electric,ragas_esg_09_02,numeric_factual,0.3750,partial,5,partial,The passage mentions Schneider's emissions reduction progress but does not explicitly state the specific emissions-related disclosure for 2024.,0.5625,partial
+row,Schneider,Schneider Electric,ragas_esg_09_03,factual,0.3750,partial,5,no,The passage does not mention any specific emissions-related disclosure for 2024.,0.5625,partial
+row,Schneider,Schneider Electric,ragas_esg_09_04,governance_factual,0.7500,yes,2,partial,"The passage mentions Schneider's sustainability goals and performance metrics but lacks specific details on governance, ethics, or compliance disclosures for 2024.",0.7500,partial
+row,Schneider,Schneider Electric,ragas_esg_20_01,numeric_factual,0.3750,partial,5,partial,The passage mentions emissions-related disclosures but lacks specific details about the exact nature of Schneider's 2024 emissions reporting.,0.5625,partial
+row,Siemens,Siemens,ragas_esg_10_01,numeric_factual,0.6250,partial,4,partial,The passage discusses Siemens' emissions reduction targets but does not specify the exact disclosure made in 2018.,0.3750,partial
+row,Siemens,Siemens,ragas_esg_10_02,target_or_commitment,0.7500,yes,0,yes,"The passage explicitly states Siemens' 2030 commitment to use 100% green electricity, which is an ESG target.",0.7500,yes
+row,Siemens,Siemens,ragas_esg_10_03,policy_or_metric,0.6875,partial,2,no,"The passage discusses political engagement and lobbying but does not mention diversity, inclusion, or gender representation.",0.6250,partial
+row,Siemens,Siemens,ragas_esg_10_04,governance_factual,0.6250,partial,0,partial,The passage discusses governance and compliance related to political engagement but does not provide specific details about broader ethics or compliance disclosures for 2018.,0.6250,yes
+row,Siemens,Siemens,ragas_esg_26_01,numeric_factual,0.6250,partial,7,yes,The passage explicitly states Siemens' Net Zero emissions target and its use of carbon offsets to compensate for residual emissions.,0.5000,partial
+row,TotalEnergies,TotalEnergies,ragas_esg_11_01,numeric_factual,0.1875,partial,1,no,The passage discusses water treatment and renewable energy projects but does not mention emissions-related disclosures.,0.5000,partial
+row,TotalEnergies,TotalEnergies,ragas_esg_11_02,target_or_commitment,0.5625,partial,1,no,"The passage lists initiatives but does not mention any ESG target, ambition, or commitment for 2024.",0.5625,partial
+row,TotalEnergies,TotalEnergies,ragas_esg_11_03,policy_or_metric,0.1875,partial,4,partial,"The passage mentions gender-related issues and training but lacks specific details about TotalEnergies' 2024 diversity, inclusion, or gender representation disclosures.",0.3750,partial
+row,TotalEnergies,TotalEnergies,ragas_esg_24_01,numeric_factual,0.3125,partial,2,partial,The passage mentions GHG emissions but does not specify the exact emissions-related disclosure reported by TotalEnergies.,0.4375,partial
+row,TotalEnergies,TotalEnergies,ragas_esg_24_02,target_or_commitment,0.6250,yes,0,yes,"The passage explicitly mentions TotalEnergies' support for tripling renewable energy capacity and doubling energy efficiency measures by 2030, which is an ESG commitment.",0.5625,yes
+row,Volkswagen,Volkswagen,ragas_esg_12_01,factual,0.1250,partial,8,no,The passage does not mention any specific emissions-related disclosures by Volkswagen in 2024.,0.3750,yes
+row,Volkswagen,Volkswagen,ragas_esg_12_02,target_or_commitment,0.1875,partial,7,no,"The passage discusses supplier environmental management systems but does not mention any ESG target, ambition, or commitment for 2024.",0.1875,partial
+row,Volkswagen,Volkswagen,ragas_esg_12_03,target_or_commitment,0.1875,partial,7,no,"The passage does not mention any ESG target, ambition, or commitment disclosed by Volkswagen in 2024.",0.1875,partial
+row,Volkswagen,Volkswagen,ragas_esg_12_04,policy_or_metric,0.0625,no,7,no,The passage does not mention specific details about employee health and safety in 2024.,0.1250,partial
+row,Volkswagen,Volkswagen,ragas_esg_13_01,numeric_factual,0.1250,partial,8,partial,The passage mentions Volkswagen's Green Finance Report and TCFD alignment but does not specify the exact emissions-related disclosures for 2024.,0.3750,yes
+
+section,dataset_company,index_company,n,dense_rel,hybrid_rel,hybrid_delta,coverage_yes_rate,coverage_no_rate,tablefact_share,class
+company_agg,Volkswagen,Volkswagen,5,0.1375,0.2500,+0.1125,0.0000,0.8000,0.9250,COVERAGE_GAP
+company_agg,Airbus,Airbus,5,0.1875,0.3375,+0.1500,0.0000,0.8000,0.0500,COVERAGE_GAP
+company_agg,L'Oréal,L'Oréal,4,0.3750,0.4219,+0.0469,0.0000,0.7500,0.1250,COVERAGE_GAP
+company_agg,TotalEnergies,TotalEnergies,5,0.3750,0.4875,+0.1125,0.2000,0.4000,0.2000,COVERAGE_GAP
+company_agg,Schneider,Schneider Electric,5,0.4500,0.6000,+0.1500,0.0000,0.2000,0.5500,COVERAGE_GAP
+company_agg,Enel,Enel,5,0.5000,0.4375,-0.0625,0.2000,0.6000,0.3500,COVERAGE_GAP
+company_agg,BNP Paribas,BNP Paribas,5,0.5250,0.4000,-0.1250,0.2000,0.4000,0.2500,COVERAGE_GAP
+company_agg,ENGIE,Engie,5,0.5500,0.5250,-0.0250,0.0000,0.8000,0.5250,COVERAGE_GAP
+company_agg,Danone,Danone,5,0.6375,0.4250,-0.2125,0.0000,0.8000,0.1500,GOOD
+company_agg,Siemens,Siemens,5,0.6625,0.5750,-0.0875,0.4000,0.2000,0.3250,GOOD

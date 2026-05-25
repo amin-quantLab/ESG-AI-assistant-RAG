@@ -1,0 +1,17 @@
+section,K,recall_hit_pct,recall_ph_pct,n_reach
+sweep,100,0.0000,0.2903,31
+sweep,250,0.0000,0.4194,31
+sweep,500,0.0000,0.5161,31
+sweep,1000,0.0323,0.5806,31
+
+section,strategy,base_top8_ph_pct,pool_at_100_ph_pct,ce_top8_ph_pct,realized_gain_pp,final_batch_size,truncated_n,ce_failed_n
+ce,dense_ce,9.68,29.03,12.90,+3.23,20,0,0
+ce,narrative_ce,0.00,29.03,3.23,+3.23,20,0,0
+
+section,bucket,count
+hist_r_ph_reachable,1-8,3
+hist_r_ph_reachable,9-100,6
+hist_r_ph_reachable,101-250,4
+hist_r_ph_reachable,251-500,3
+hist_r_ph_reachable,501-1000,2
+hist_r_ph_reachable,1001-inf,13
