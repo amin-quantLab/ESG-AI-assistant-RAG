@@ -337,9 +337,14 @@ def run_full_ragas_eval(
     prompt_style: str = "extractive",
     answer_mode: str = "benchmark",
     base_url: str = DEFAULT_BASE_URL,
+    generator_model: str | None = None,
+    judge_model: str | None = None,
+    limit_rows: int | None = None,
 ) -> dict[str, Any]:
     client = AlbertClient(api_key=require_api_key(), base_url=base_url)
-    text_model = client.get_text_generation_model()
+    gen_model = generator_model or client.get_text_generation_model()
+    judge = judge_model or gen_model
+    text_model = gen_model
 
     rows = _load_rows(dataset_path)
     selected_company = company or _infer_company(index_dir, rows)
@@ -349,6 +354,8 @@ def run_full_ragas_eval(
     company_rows = [row for row in rows if row.get("company") == selected_company]
     if not company_rows:
         raise RuntimeError(f"No evaluation rows found for company '{selected_company}'.")
+    if limit_rows:
+        company_rows = company_rows[:limit_rows]
 
     results: list[dict[str, Any]] = []
     retrieval_results: list[dict[str, Any]] = []
@@ -392,7 +399,7 @@ def run_full_ragas_eval(
             answer, _ = answer_question(
                 question=question,
                 retrieved_chunks=retrieved_chunks,
-                text_model=text_model,
+                text_model=gen_model,
                 temperature=0.0,
                 answer_mode=answer_mode,
                 prompt_style=prompt_style,
@@ -418,13 +425,13 @@ def run_full_ragas_eval(
             result_entry["retrieval"] = retrieval_row
 
         if eval_mode in ("ragas", "all") and answer:
-            faithfulness = score_faithfulness(question, answer, retrieved_chunks, client, text_model)
-            relevancy = score_answer_relevancy(question, answer, client, text_model)
-            precision = score_context_precision(question, answer, retrieved_chunks, client, text_model)
-            recall = score_context_recall(question, answer, retrieved_chunks, expected_contexts, client, text_model)
-            hallucination = score_hallucination(question, answer, retrieved_chunks, client, text_model)
+            faithfulness = score_faithfulness(question, answer, retrieved_chunks, client, judge)
+            relevancy = score_answer_relevancy(question, answer, client, judge)
+            precision = score_context_precision(question, answer, retrieved_chunks, client, judge)
+            recall = score_context_recall(question, answer, retrieved_chunks, expected_contexts, client, judge)
+            hallucination = score_hallucination(question, answer, retrieved_chunks, client, judge)
             citation = score_citation_coverage(answer, cited_chunk_ids, retrieved_chunks)
-            unsupported = detect_unsupported_claims(question, answer, retrieved_chunks, client, text_model)
+            unsupported = detect_unsupported_claims(question, answer, retrieved_chunks, client, judge)
 
             result_entry["ragas"] = {
                 "faithfulness": faithfulness["score"],
@@ -451,7 +458,9 @@ def run_full_ragas_eval(
         "company": selected_company,
         "question_count": len(results),
         "eval_mode": eval_mode,
-        "text_model": text_model,
+        "text_model": gen_model,
+        "generator_model": gen_model,
+        "judge_model": judge,
         "retrieval_mode": retrieval_mode,
         "candidate_k": candidate_k,
         "top_k": top_k,
@@ -491,6 +500,9 @@ def run_ragas_eval(args: Any) -> int:
         prompt_style=getattr(args, "prompt_style", "extractive"),
         answer_mode=getattr(args, "answer_mode", "benchmark"),
         base_url=args.base_url,
+        generator_model=getattr(args, "generator_model", None),
+        judge_model=getattr(args, "judge_model", None),
+        limit_rows=getattr(args, "limit_rows", None),
     )
 
     output_path = getattr(args, "output", DEFAULT_RAGAS_OUTPUT)

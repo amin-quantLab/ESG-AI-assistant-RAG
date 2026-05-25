@@ -8,7 +8,7 @@ import os
 import re
 import time
 from collections import Counter
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -1239,7 +1239,8 @@ def select_chunk_matches(
 
 def _load_chunks(index_dir: Path) -> list[ChunkRecord]:
     payload = json.loads((index_dir / "chunks.json").read_text(encoding="utf-8"))
-    return [ChunkRecord(**item) for item in payload]
+    allowed = {f.name for f in fields(ChunkRecord)}
+    return [ChunkRecord(**{k: v for k, v in item.items() if k in allowed}) for item in payload]
 
 
 def _store_index(index_dir: Path, vectors: np.ndarray) -> str:

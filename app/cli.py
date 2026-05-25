@@ -635,6 +635,22 @@ def build_parser() -> argparse.ArgumentParser:
         default=DEFAULT_BASE_URL,
         help="Albert API base URL.",
     )
+    ragas_eval.add_argument(
+        "--generator-model",
+        default=None,
+        help="Albert model id to use for answer generation (defaults to client.get_text_generation_model()).",
+    )
+    ragas_eval.add_argument(
+        "--judge-model",
+        default=None,
+        help="Albert model id to use for RAGAS judge metrics (defaults to the generator model).",
+    )
+    ragas_eval.add_argument(
+        "--limit-rows",
+        type=int,
+        default=None,
+        help="Optional cap on the number of evaluation rows (cost control).",
+    )
 
     ragas_v2_build = subparsers.add_parser(
         "ragas-v2-build-index",
