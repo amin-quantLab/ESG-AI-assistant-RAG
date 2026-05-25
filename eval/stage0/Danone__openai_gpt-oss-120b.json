@@ -1,0 +1,1033 @@
+{
+  "company": "Danone",
+  "question_count": 5,
+  "eval_mode": "ragas",
+  "text_model": "openai/gpt-oss-120b",
+  "generator_model": "openai/gpt-oss-120b",
+  "judge_model": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+  "retrieval_mode": "semantic_rerank",
+  "candidate_k": 100,
+  "top_k": 8,
+  "query_transform": "none",
+  "answer_mode": "assistant",
+  "prompt_style": "balanced",
+  "retrieval_summary": {
+    "hit": 0,
+    "partial": 0,
+    "miss": 5,
+    "hit_rate": 0.0,
+    "partial_or_hit_rate": 0.0,
+    "average_best_match_score": 52.88,
+    "average_top_retrieval_score": 0.8136
+  },
+  "ragas_summary": {
+    "faithfulness": 0.8089,
+    "answer_relevancy": 0.66,
+    "context_precision": 0.6,
+    "context_recall": 0.2,
+    "hallucination_free": 0.35,
+    "citation_coverage": 0.0,
+    "unsupported_claims_score": 0.4933
+  },
+  "results": [
+    {
+      "company": "Danone",
+      "question": "What ESG target, ambition, or commitment does Danone disclose in 2024?",
+      "topic": "social, targets",
+      "ground_truth": "Nutricia is founded, and with it our specialized nutrition journey begins Danone becomes a Société à Mission HEALTH THROUGH FOOD Our ambition is to bring JANUARY 2024 BY LEVERAGING 4 STRATEGIC PILLARS AND 10 INITIAL TARGETS TO ACHIEVE BY 2025 1896 1789 1919 2017 2020 BRINGING HEALTH THROUGH FOOD TO AS MANY PEOPLE AS POSSIBLE W I T H A N D T H R O U G H O U R E C O S Y S T E M O F P A R T N E R S T H R I V I N G P E O P L E",
+      "answer": "Danone disclosed several 2024 ESG commitments, notably a 2025 KPI to provide safe drinking water to 20 million people and 2024 targets to recycle 85 % of its packaging, cut virgin fossil‑based packaging use by 8 %, reduce food‑waste by 5 % and recover 60 % of plastic placed on the market.  \n\nThese commitments are part of Danone’s broader “Renew” strategy and reflect its ambition to advance health, nature and people & communities. The safe‑water KPI is a quantitative goal linked to Danone’s People & Communities pillar, while the packaging and waste targets address the Nature pillar, aiming to improve circularity and reduce environmental impact across its value chain.  \n\n- “we achieved our 2025 KPI of giving access to safe drinking water to 20M people.” [Danone’s 2024 Integrated Report, p. 3]  \n- “In 2024, 85 % of Danone’s packaging was … 8 % reduction in the use of virgin fossil‑based … 5 % reduction … between 2023 and 2024.” [Danone’s 2024 Integrated Report, p. 17]  \n- “In 2024, 60 % of plastic put on the market was recovered (versus 58 % in 2023).” [Danone’s 2024 Integrated Report, p. 17]  \n\n**Limitations**  \n- The safe‑water KPI references a 2025 target but does not specify the baseline year or methodology for measuring access.  \n- Packaging and waste targets provide percentages for 2024 but lack explicit baselines (e.g., the 2023 values are mentioned only for plastic recovery).  \n- No quantitative targets for other ESG dimensions (e.g., emissions, biodiversity) are detailed in the 2024 disclosures provided.  \n- The excerpts do not include the full context of how these targets are tracked or reported in subsequent years.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2022_urd_d3c5cbdd_pdf_n0145",
+        "2023_climate_report_fa2980c4_pdf_n0013",
+        "2024_integrated_report_1a29f6e5_pdf_n0003",
+        "2022_urd_d3c5cbdd_pdf_t0975",
+        "2023_climate_report_fa2980c4_pdf_n0010",
+        "2024_integrated_report_1a29f6e5_pdf_n0025",
+        "2024_esg_databook_7c8b17a4_pdf_t0122",
+        "2023_integrated_report_c47ec973_pdf_n0021"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 57.89,
+        "best_chunk_id": "2023_climate_report_fa2980c4_pdf_n0010",
+        "top_score": 0.7395757288770517
+      },
+      "ragas": {
+        "faithfulness": 0.6,
+        "answer_relevancy": 0.8,
+        "context_precision": 0.375,
+        "context_recall": 0.0,
+        "hallucination_free": 0.0,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.5
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 0.6,
+          "verdicts": [
+            {
+              "claim": "Danone disclosed several 2024 ESG commitments, notably a 2025 KPI to provide safe drinking water to 20 million people and 2024 targets to recycle 85% of its packaging, cut virgin fossil-based packaging use by 8%, reduce food-waste by 5% and recover 60% of plastic placed on the market.",
+              "verdict": "supported",
+              "reason": "The 2024 Integrated Report (p. 3 and p. 17) explicitly mentions these commitments, including the safe drinking water KPI, packaging recycling, reduction in virgin fossil-based packaging, food waste reduction, and plastic recovery."
+            },
+            {
+              "claim": "These commitments are part of Danone’s broader “Renew” strategy and reflect its ambition to advance health, nature and people & communities.",
+              "verdict": "supported",
+              "reason": "The 2024 Integrated Report references the Renew strategy and its three pillars: Health, Nature, and People & Communities."
+            },
+            {
+              "claim": "The safe-water KPI is a quantitative goal linked to Danone’s People & Communities pillar, while the packaging and waste targets address the Nature pillar, aiming to improve circularity and reduce environmental impact across its value chain.",
+              "verdict": "supported",
+              "reason": "The 2024 Integrated Report aligns the safe-water KPI with the People & Communities pillar and the packaging/waste targets with the Nature pillar."
+            },
+            {
+              "claim": "\"we achieved our 2025 KPI of giving access to safe drinking water to 20M people.\" [Danone’s 2024 Integrated Report, p. 3]",
+              "verdict": "supported",
+              "reason": "The 2024 Integrated Report (p. 3) explicitly states this achievement."
+            },
+            {
+              "claim": "\"In 2024, 85% of Danone’s packaging was … 8% reduction in the use of virgin fossil-based … 5% reduction … between 2023 and 2024.\" [Danone’s 2024 Integrated Report, p. 17]",
+              "verdict": "supported",
+              "reason": "The 2024 Integrated Report (p. 17) confirms these percentages for packaging recycling, reduction in virgin fossil-based packaging, and food waste reduction."
+            },
+            {
+              "claim": "\"In 2024, 60% of plastic put on the market was recovered (versus 58% in 2023).\" [Danone’s 2024 Integrated Report, p. 17]",
+              "verdict": "supported",
+              "reason": "The 2024 Integrated Report (p. 17) explicitly states this plastic recovery rate."
+            },
+            {
+              "claim": "The safe-water KPI references a 2025 target but does not specify the baseline year or methodology for measuring access.",
+              "verdict": "unsupported",
+              "reason": "The context does not provide details on the baseline year or methodology for the safe-water KPI."
+            },
+            {
+              "claim": "Packaging and waste targets provide percentages for 2024 but lack explicit baselines (e.g., the 2023 values are mentioned only for plastic recovery).",
+              "verdict": "unsupported",
+              "reason": "The context does not explicitly state baselines for all packaging and waste targets, though some 2023 values are mentioned."
+            },
+            {
+              "claim": "No quantitative targets for other ESG dimensions (e.g., emissions, biodiversity) are detailed in the 2024 disclosures provided.",
+              "verdict": "unsupported",
+              "reason": "The context does not provide quantitative targets for emissions or biodiversity in the 2024 disclosures."
+            },
+            {
+              "claim": "The excerpts do not include the full context of how these targets are tracked or reported in subsequent years.",
+              "verdict": "unsupported",
+              "reason": "The context does not detail the tracking or reporting methods for these targets in subsequent years."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the ESG commitments disclosed in Danone's 2024 Integrated Report, with all key claims supported by the provided context. However, some limitations regarding baselines, methodologies, and other ESG dimensions are noted but not contradicted by the context.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Danone disclosed several 2024 ESG commitments, notably a 2025 KPI to provide safe drinking water to 20 million people and 2024 targets to recycle 85% of its packaging, cut virgin fossil-based packaging use by 8%, reduce food-waste by 5% and recover 60% of plastic placed on the market.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2024 Integrated Report (p. 3 and p. 17) explicitly mentions these commitments, including the safe drinking water KPI, packaging recycling, reduction in virgin fossil-based packaging, food waste reduction, and plastic recovery.\"\n    },\n    {\n      \"claim\": \"These commitments are part of Danone’s broader “Renew” strategy and reflect its ambition to advance health, nature and people & communities.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2024 Integrated Report references the Renew strategy and its three pillars: Health, Nature, and People & Communities.\"\n    },\n    {\n      \"claim\": \"The safe-water KPI is a quantitative goal linked to Danone’s People & Communities pillar, while the packaging and waste targets address the Nature pillar, aiming to improve circularity and reduce environmental impact across its value chain.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2024 Integrated Report aligns the safe-water KPI with the People & Communities pillar and the packaging/waste targets with the Nature pillar.\"\n    },\n    {\n      \"claim\": \"\\\"we achieved our 2025 KPI of giving access to safe drinking water to 20M people.\\\" [Danone’s 2024 Integrated Report, p. 3]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2024 Integrated Report (p. 3) explicitly states this achievement.\"\n    },\n    {\n      \"claim\": \"\\\"In 2024, 85% of Danone’s packaging was … 8% reduction in the use of virgin fossil-based … 5% reduction … between 2023 and 2024.\\\" [Danone’s 2024 Integrated Report, p. 17]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2024 Integrated Report (p. 17) confirms these percentages for packaging recycling, reduction in virgin fossil-based packaging, and food waste reduction.\"\n    },\n    {\n      \"claim\": \"\\\"In 2024, 60% of plastic put on the market was recovered (versus 58% in 2023).\\\" [Danone’s 2024 Integrated Report, p. 17]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2024 Integrated Report (p. 17) explicitly states this plastic recovery rate.\"\n    },\n    {\n      \"claim\": \"The safe-water KPI references a 2025 target but does not specify the baseline year or methodology for measuring access.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide details on the baseline year or methodology for the safe-water KPI.\"\n    },\n    {\n      \"claim\": \"Packaging and waste targets provide percentages for 2024 but lack explicit baselines (e.g., the 2023 values are mentioned only for plastic recovery).\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not explicitly state baselines for all packaging and waste targets, though some 2023 values are mentioned.\"\n    },\n    {\n      \"claim\": \"No quantitative targets for other ESG dimensions (e.g., emissions, biodiversity) are detailed in the 2024 disclosures provided.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide quantitative targets for emissions or biodiversity in the 2024 disclosures.\"\n    },\n    {\n      \"claim\": \"The excerpts do not include the full context of how these targets are tracked or reported in subsequent years.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not detail the tracking or reporting methods for these targets in subsequent years.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the ESG commitments disclosed in Danone's 2024 Integrated Report, with all key claims supported by the provided context. However, some limitations regarding baselines, methodologies, and other ESG dimensions are noted but not contradicted by the context.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.8,
+          "reasoning": "The answer provides specific ESG targets and commitments disclosed by Danone in 2024, including safe drinking water access, packaging recycling, and waste reduction. It aligns well with the question but slightly overreaches by including a 2025 KPI (safe water) and lacks explicit baselines for some targets. The limitations section adds context but does not detract from the relevance.",
+          "raw": "```json\n{\"score\": 0.8, \"reasoning\": \"The answer provides specific ESG targets and commitments disclosed by Danone in 2024, including safe drinking water access, packaging recycling, and waste reduction. It aligns well with the question but slightly overreaches by including a 2025 KPI (safe water) and lacks explicit baselines for some targets. The limitations section adds context but does not detract from the relevance.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.375,
+          "highly_relevant": 2,
+          "relevant_count": 3,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2022_urd_d3c5cbdd_pdf_n0145",
+              "verdict": "not_relevant",
+              "reason": "Discusses 2022 sustainability highlights, unrelated to 2024 ESG targets."
+            },
+            {
+              "chunk_id": "2023_climate_report_fa2980c4_pdf_n0013",
+              "verdict": "not_relevant",
+              "reason": "Focuses on 2030 emissions reduction targets, not 2024 ESG commitments."
+            },
+            {
+              "chunk_id": "2024_integrated_report_1a29f6e5_pdf_n0003",
+              "verdict": "highly_relevant",
+              "reason": "Directly mentions 2024 ESG commitments, including safe drinking water and packaging targets."
+            },
+            {
+              "chunk_id": "2022_urd_d3c5cbdd_pdf_t0975",
+              "verdict": "not_relevant",
+              "reason": "Discusses 2022 EDP, unrelated to 2024 ESG targets."
+            },
+            {
+              "chunk_id": "2023_climate_report_fa2980c4_pdf_n0010",
+              "verdict": "not_relevant",
+              "reason": "General climate ambition, not specific 2024 ESG targets."
+            },
+            {
+              "chunk_id": "2024_integrated_report_1a29f6e5_pdf_n0025",
+              "verdict": "highly_relevant",
+              "reason": "Provides specific 2024 packaging and plastic recovery targets."
+            },
+            {
+              "chunk_id": "2024_esg_databook_7c8b17a4_pdf_t0122",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions plastic packaging reduction but lacks context on 2024 ESG targets."
+            },
+            {
+              "chunk_id": "2023_integrated_report_c47ec973_pdf_n0021",
+              "verdict": "not_relevant",
+              "reason": "Discusses general climate and food system transformation, not 2024 ESG targets."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2022_urd_d3c5cbdd_pdf_n0145\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses 2022 sustainability highlights, unrelated to 2024 ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2023_climate_report_fa2980c4_pdf_n0013\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Focuses on 2030 emissions reduction targets, not 2024 ESG commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_integrated_report_1a29f6e5_pdf_n0003\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Directly mentions 2024 ESG commitments, including safe drinking water and packaging targets.\"\n    },\n    {\n      \"chunk_id\": \"2022_urd_d3c5cbdd_pdf_t0975\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses 2022 EDP, unrelated to 2024 ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2023_climate_report_fa2980c4_pdf_n0010\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"General climate ambition, not specific 2024 ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_integrated_report_1a29f6e5_pdf_n0025\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Provides specific 2024 packaging and plastic recovery targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_esg_databook_7c8b17a4_pdf_t0122\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions plastic packaging reduction but lacks context on 2024 ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2023_integrated_report_c47ec973_pdf_n0021\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses general climate and food system transformation, not 2024 ESG targets.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks include highly relevant information from the 2024 Integrated Report that directly addresses the question, but some chunks are not relevant or only somewhat relevant. The answer is well-supported by the highly relevant chunks.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "The retrieved chunks do not mention Danone's 2024 ESG target, ambition, or commitment related to health through food or the four strategic pillars and 10 initial targets to achieve by 2025."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"The retrieved chunks do not mention Danone's 2024 ESG target, ambition, or commitment related to health through food or the four strategic pillars and 10 initial targets to achieve by 2025.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the specific ESG target, ambition, or commitment disclosed by Danone in 2024 as described in the expected key information.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.0,
+          "hallucinated_claims": [
+            {
+              "claim": "2025 KPI to provide safe drinking water to 20 million people",
+              "type": "fabricated_number",
+              "reason": "The context does not specify a 2025 KPI for providing safe drinking water to 20 million people. The 2024 Integrated Report mentions achieving the 2025 KPI, but the baseline year or methodology is not provided in the context."
+            },
+            {
+              "claim": "2024 targets to recycle 85% of its packaging, cut virgin fossil-based packaging use by 8%, reduce food-waste by 5% and recover 60% of plastic placed on the market",
+              "type": "fabricated_number",
+              "reason": "While the 2024 Integrated Report mentions these percentages, the context does not provide explicit baselines or methodologies for these targets, making it unclear if they are 2024 targets or achievements."
+            },
+            {
+              "claim": "The safe-water KPI is a quantitative goal linked to Danone’s People & Communities pillar",
+              "type": "unsupported_causal",
+              "reason": "The context does not explicitly link the safe-water KPI to the People & Communities pillar or provide details on how it is quantified."
+            },
+            {
+              "claim": "Packaging and waste targets address the Nature pillar, aiming to improve circularity and reduce environmental impact across its value chain",
+              "type": "unsupported_causal",
+              "reason": "The context does not explicitly state that these targets are part of the Nature pillar or provide details on how they improve circularity or reduce environmental impact."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"2025 KPI to provide safe drinking water to 20 million people\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not specify a 2025 KPI for providing safe drinking water to 20 million people. The 2024 Integrated Report mentions achieving the 2025 KPI, but the baseline year or methodology is not provided in the context.\"\n    },\n    {\n      \"claim\": \"2024 targets to recycle 85% of its packaging, cut virgin fossil-based packaging use by 8%, reduce food-waste by 5% and recover 60% of plastic placed on the market\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"While the 2024 Integrated Report mentions these percentages, the context does not provide explicit baselines or methodologies for these targets, making it unclear if they are 2024 targets or achievements.\"\n    },\n    {\n      \"claim\": \"The safe-water KPI is a quantitative goal linked to Danone’s People & Communities pillar\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not explicitly link the safe-water KPI to the People & Communities pillar or provide details on how it is quantified.\"\n    },\n    {\n      \"claim\": \"Packaging and waste targets address the Nature pillar, aiming to improve circularity and reduce environmental impact across its value chain\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not explicitly state that these targets are part of the Nature pillar or provide details on how they improve circularity or reduce environmental impact.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, including fabricated numbers, unsupported causal claims, and lack of explicit baselines or methodologies for the targets mentioned.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.5,
+          "claims": [
+            {
+              "claim": "Danone disclosed several 2024 ESG commitments, notably a 2025 KPI to provide safe drinking water to 20 million people and 2024 targets to recycle 85% of its packaging, cut virgin fossil-based packaging use by 8%, reduce food-waste by 5% and recover 60% of plastic placed on the market.",
+              "severity": "moderate",
+              "reason": "While the 2025 KPI for safe drinking water and the 2024 targets for packaging and plastic recovery are mentioned in the context, the specific 8% reduction in virgin fossil-based packaging and 5% reduction in food waste are not explicitly supported by the provided context."
+            },
+            {
+              "claim": "The safe-water KPI is a quantitative goal linked to Danone’s People & Communities pillar, while the packaging and waste targets address the Nature pillar, aiming to improve circularity and reduce environmental impact across its value chain.",
+              "severity": "minor",
+              "reason": "The context does not explicitly link the safe-water KPI to the People & Communities pillar or detail how the packaging and waste targets are specifically tied to the Nature pillar."
+            },
+            {
+              "claim": "These commitments are part of Danone’s broader “Renew” strategy and reflect its ambition to advance health, nature and people & communities.",
+              "severity": "minor",
+              "reason": "The context mentions the Renew strategy but does not explicitly state that the specific commitments are part of this strategy or reflect the ambition to advance health, nature, and people & communities."
+            }
+          ],
+          "unsupported_count": 3,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"Danone disclosed several 2024 ESG commitments, notably a 2025 KPI to provide safe drinking water to 20 million people and 2024 targets to recycle 85% of its packaging, cut virgin fossil-based packaging use by 8%, reduce food-waste by 5% and recover 60% of plastic placed on the market.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"While the 2025 KPI for safe drinking water and the 2024 targets for packaging and plastic recovery are mentioned in the context, the specific 8% reduction in virgin fossil-based packaging and 5% reduction in food waste are not explicitly supported by the provided context.\"\n    },\n    {\n      \"claim\": \"The safe-water KPI is a quantitative goal linked to Danone’s People & Communities pillar, while the packaging and waste targets address the Nature pillar, aiming to improve circularity and reduce environmental impact across its value chain.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context does not explicitly link the safe-water KPI to the People & Communities pillar or detail how the packaging and waste targets are specifically tied to the Nature pillar.\"\n    },\n    {\n      \"claim\": \"These commitments are part of Danone’s broader “Renew” strategy and reflect its ambition to advance health, nature and people & communities.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context mentions the Renew strategy but does not explicitly state that the specific commitments are part of this strategy or reflect the ambition to advance health, nature, and people & communities.\"\n    }\n  ],\n  \"supported_count\": 3,\n  \"unsupported_count\": 3,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, particularly regarding specific quantitative targets and their alignment with Danone’s broader strategies. The context supports the existence of some commitments but lacks detailed evidence for others.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "Danone",
+      "question": "What emissions-related disclosure does Danone report in 2025?",
+      "topic": "environmental, emissions, climate",
+      "ground_truth": "In addition, Danone has committed to the following absolute long-term targets for 2050 (from a 2020 baseline): ■ Energy and industry: Danone commits to reducing absolute scope 1, 2 and 3 GHG emissions from purchased goods and services, fuel and energy-related activities, upstream transportation and distribution, waste generated in operations, downstream transportation and distribution, and end-of-life treatment of sold products by 90% by 2050.",
+      "answer": "Danone reports that it has set a target to reduce its scope 1 and 2 greenhouse‑gas emissions by 30 % by 2025 as part of its Danone Impact Journey strategy.  \n\nThe 2023 Universal Registration Document states that the company’s emissions‑reduction schedule includes an “initially set at 30 % by 2025” goal for scope 1 and 2 emissions, linking this target to its broader Climate Transition Plan and Net‑Zero pathway. This target is presented alongside other emissions data (total value‑chain emissions, scope 3 share, methane reductions) but the document does not provide the baseline year, exact metric units, or the methodology used to calculate the 30 % reduction.  \n\n- “scope 1 and 2 schedule (initially set at 30 % by 2025 as part of its Danone Impact Journey strategy)” [Danone’s 2023 Report, p. 262]  \n- “The Climate Transition Plan… aims at reducing Danone’s emissions by 2030… and provides forward‑looking perspectives for its journey towards Net‑Zero by 2050” [Danone’s 2023 Report, p. 242]  \n\n**Limitations**  \n- The disclosure is extracted from Danone’s 2023 report; no separate 2025 report is provided.  \n- The 30 % reduction target lacks explicit baseline year, absolute emission figures, and detailed calculation methodology.  \n- No information is given on whether the target was met, revised, or further detailed in a 2025 update.  \n- The context mixes emissions targets with other sustainability policies, making it unclear how the 2025 emissions target integrates with the overall ESG reporting framework.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2023_urd_0bb6500a_pdf_n0051",
+        "2023_urd_43e615a7_pdf_n0051",
+        "2023_urd_5815c9b7_pdf_n0058",
+        "2023_urd_0bb6500a_pdf_n0263",
+        "2023_urd_5815c9b7_pdf_n0316",
+        "2023_urd_5815c9b7_pdf_n0354",
+        "2023_urd_0bb6500a_pdf_n0286",
+        "2023_urd_43e615a7_pdf_n0287"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 54.41,
+        "best_chunk_id": "2023_urd_0bb6500a_pdf_n0286",
+        "top_score": 0.714181232317384
+      },
+      "ragas": {
+        "faithfulness": 0.4444,
+        "answer_relevancy": 0.6,
+        "context_precision": 0.625,
+        "context_recall": 1.0,
+        "hallucination_free": 0.25,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.2
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 0.4444,
+          "verdicts": [
+            {
+              "claim": "Danone reports that it has set a target to reduce its scope 1 and 2 greenhouse-gas emissions by 30 % by 2025 as part of its Danone Impact Journey strategy.",
+              "verdict": "supported",
+              "reason": "The context explicitly states 'scope 1 and 2 schedule (initially set at 30% by 2025 as part of its Danone Impact Journey strategy)' and mentions the Climate Transition Plan."
+            },
+            {
+              "claim": "The 2023 Universal Registration Document states that the company’s emissions-reduction schedule includes an 'initially set at 30 % by 2025' goal for scope 1 and 2 emissions, linking this target to its broader Climate Transition Plan and Net-Zero pathway.",
+              "verdict": "supported",
+              "reason": "The context confirms the 30% reduction target for scope 1 and 2 emissions by 2025 and its link to the Climate Transition Plan and Net-Zero pathway."
+            },
+            {
+              "claim": "This target is presented alongside other emissions data (total value-chain emissions, scope 3 share, methane reductions) but the document does not provide the baseline year, exact metric units, or the methodology used to calculate the 30 % reduction.",
+              "verdict": "unsupported",
+              "reason": "The context does not explicitly state whether the baseline year, exact metric units, or methodology are provided or missing."
+            },
+            {
+              "claim": "'scope 1 and 2 schedule (initially set at 30 % by 2025 as part of its Danone Impact Journey strategy)' [Danone’s 2023 Report, p. 262]",
+              "verdict": "supported",
+              "reason": "The context includes the exact phrase and references the 2023 report."
+            },
+            {
+              "claim": "'The Climate Transition Plan… aims at reducing Danone’s emissions by 2030… and provides forward-looking perspectives for its journey towards Net-Zero by 2050' [Danone’s 2023 Report, p. 242]",
+              "verdict": "supported",
+              "reason": "The context mentions the Climate Transition Plan and its aims for 2030 and 2050."
+            },
+            {
+              "claim": "The disclosure is extracted from Danone’s 2023 report; no separate 2025 report is provided.",
+              "verdict": "unsupported",
+              "reason": "The context does not mention whether a separate 2025 report exists or not."
+            },
+            {
+              "claim": "The 30 % reduction target lacks explicit baseline year, absolute emission figures, and detailed calculation methodology.",
+              "verdict": "unsupported",
+              "reason": "The context does not provide enough information to confirm or deny the absence of baseline year, absolute figures, or methodology."
+            },
+            {
+              "claim": "No information is given on whether the target was met, revised, or further detailed in a 2025 update.",
+              "verdict": "unsupported",
+              "reason": "The context does not mention any updates or revisions to the target in 2025."
+            },
+            {
+              "claim": "The context mixes emissions targets with other sustainability policies, making it unclear how the 2025 emissions target integrates with the overall ESG reporting framework.",
+              "verdict": "unsupported",
+              "reason": "The context does not provide clarity on how the 2025 emissions target integrates with the overall ESG reporting framework."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the context regarding Danone's 30% reduction target for scope 1 and 2 emissions by 2025 and its link to the Climate Transition Plan. However, several claims about the lack of specific details (baseline year, methodology, etc.) and the absence of a 2025 report or updates are not explicitly supported or contradicted by the provided context.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Danone reports that it has set a target to reduce its scope 1 and 2 greenhouse-gas emissions by 30 % by 2025 as part of its Danone Impact Journey strategy.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states 'scope 1 and 2 schedule (initially set at 30% by 2025 as part of its Danone Impact Journey strategy)' and mentions the Climate Transition Plan.\"\n    },\n    {\n      \"claim\": \"The 2023 Universal Registration Document states that the company’s emissions-reduction schedule includes an 'initially set at 30 % by 2025' goal for scope 1 and 2 emissions, linking this target to its broader Climate Transition Plan and Net-Zero pathway.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context confirms the 30% reduction target for scope 1 and 2 emissions by 2025 and its link to the Climate Transition Plan and Net-Zero pathway.\"\n    },\n    {\n      \"claim\": \"This target is presented alongside other emissions data (total value-chain emissions, scope 3 share, methane reductions) but the document does not provide the baseline year, exact metric units, or the methodology used to calculate the 30 % reduction.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not explicitly state whether the baseline year, exact metric units, or methodology are provided or missing.\"\n    },\n    {\n      \"claim\": \"'scope 1 and 2 schedule (initially set at 30 % by 2025 as part of its Danone Impact Journey strategy)' [Danone’s 2023 Report, p. 262]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes the exact phrase and references the 2023 report.\"\n    },\n    {\n      \"claim\": \"'The Climate Transition Plan… aims at reducing Danone’s emissions by 2030… and provides forward-looking perspectives for its journey towards Net-Zero by 2050' [Danone’s 2023 Report, p. 242]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions the Climate Transition Plan and its aims for 2030 and 2050.\"\n    },\n    {\n      \"claim\": \"The disclosure is extracted from Danone’s 2023 report; no separate 2025 report is provided.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not mention whether a separate 2025 report exists or not.\"\n    },\n    {\n      \"claim\": \"The 30 % reduction target lacks explicit baseline year, absolute emission figures, and detailed calculation methodology.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide enough information to confirm or deny the absence of baseline year, absolute figures, or methodology.\"\n    },\n    {\n      \"claim\": \"No information is given on whether the target was met, revised, or further detailed in a 2025 update.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not mention any updates or revisions to the target in 2025.\"\n    },\n    {\n      \"claim\": \"The context mixes emissions targets with other sustainability policies, making it unclear how the 2025 emissions target integrates with the overall ESG reporting framework.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide clarity on how the 2025 emissions target integrates with the overall ESG reporting framework.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the context regarding Danone's 30% reduction target for scope 1 and 2 emissions by 2025 and its link to the Climate Transition Plan. However, several claims about the lack of specific details (baseline year, methodology, etc.) and the absence of a 2025 report or updates are not explicitly supported or contradicted by the provided context.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.6,
+          "reasoning": "The answer provides relevant information about Danone's emissions-related disclosure, including the 30% reduction target for scope 1 and 2 emissions by 2025. However, it does not directly address whether Danone reported specific emissions data for 2025, as the information is sourced from the 2023 report. The answer also highlights limitations, such as the lack of a baseline year and methodology, which are important for evaluating the target's relevance to the question.",
+          "raw": "```json\n{\"score\": 0.6, \"reasoning\": \"The answer provides relevant information about Danone's emissions-related disclosure, including the 30% reduction target for scope 1 and 2 emissions by 2025. However, it does not directly address whether Danone reported specific emissions data for 2025, as the information is sourced from the 2023 report. The answer also highlights limitations, such as the lack of a baseline year and methodology, which are important for evaluating the target's relevance to the question.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.625,
+          "highly_relevant": 0,
+          "relevant_count": 5,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2023_urd_0bb6500a_pdf_n0051",
+              "verdict": "not_relevant",
+              "reason": "Discusses bonds and sustainability journey, not emissions-related disclosures."
+            },
+            {
+              "chunk_id": "2023_urd_43e615a7_pdf_n0051",
+              "verdict": "not_relevant",
+              "reason": "Similar to the first chunk, mentions sustainability journey but no emissions data."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0058",
+              "verdict": "not_relevant",
+              "reason": "Repeats information about sustainability journey, no emissions details."
+            },
+            {
+              "chunk_id": "2023_urd_0bb6500a_pdf_n0263",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions the Climate Transition Plan but lacks specific emissions targets."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0316",
+              "verdict": "somewhat_relevant",
+              "reason": "Similar to the previous chunk, references the Climate Transition Plan without emissions details."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0354",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses Scope 3 emissions but not the 2025 target."
+            },
+            {
+              "chunk_id": "2023_urd_0bb6500a_pdf_n0286",
+              "verdict": "somewhat_relevant",
+              "reason": "Focuses on Scope 3 emissions, not the 2025 target."
+            },
+            {
+              "chunk_id": "2023_urd_43e615a7_pdf_n0287",
+              "verdict": "somewhat_relevant",
+              "reason": "Repeats Scope 3 emissions data, no 2025 target mentioned."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2023_urd_0bb6500a_pdf_n0051\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses bonds and sustainability journey, not emissions-related disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_43e615a7_pdf_n0051\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Similar to the first chunk, mentions sustainability journey but no emissions data.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0058\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Repeats information about sustainability journey, no emissions details.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_0bb6500a_pdf_n0263\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions the Climate Transition Plan but lacks specific emissions targets.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0316\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Similar to the previous chunk, references the Climate Transition Plan without emissions details.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0354\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses Scope 3 emissions but not the 2025 target.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_0bb6500a_pdf_n0286\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Focuses on Scope 3 emissions, not the 2025 target.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_43e615a7_pdf_n0287\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Repeats Scope 3 emissions data, no 2025 target mentioned.\"\n    }\n  ],\n  \"overall\": \"None of the retrieved chunks are highly relevant to the question. The chunks either discuss unrelated topics or provide tangential information about emissions without addressing the 2025 target specifically.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 1.0,
+          "fully_covered": 0,
+          "covered_count": 1,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "partially_covered",
+              "reason": "The retrieved chunks mention methane emissions reduction and Net-Zero by 2050 but do not specify the exact 30% reduction target for methane emissions from fresh milk by 2030 or the detailed absolute long-term targets for 2050."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"partially_covered\",\n      \"reason\": \"The retrieved chunks mention methane emissions reduction and Net-Zero by 2050 but do not specify the exact 30% reduction target for methane emissions from fresh milk by 2030 or the detailed absolute long-term targets for 2050.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks partially cover the expected ESG context, mentioning some emissions-related disclosures but lacking specific details on the 2025 targets and certain 2030 and 2050 commitments.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.25,
+          "hallucinated_claims": [
+            {
+              "claim": "The 2023 Universal Registration Document states that the company’s emissions-reduction schedule includes an “initially set at 30 % by 2025” goal for scope 1 and 2 emissions, linking this target to its broader Climate Transition Plan and Net-Zero pathway.",
+              "type": "unsupported_causal",
+              "reason": "The context does not explicitly link the 30% reduction target to the Climate Transition Plan or Net-Zero pathway. The Climate Transition Plan is mentioned separately and focuses on 2030 and 2050 targets."
+            },
+            {
+              "claim": "The document does not provide the baseline year, exact metric units, or the methodology used to calculate the 30 % reduction.",
+              "type": "unsupported_causal",
+              "reason": "The context does provide some details about emissions (e.g., total emissions in 2023, scope 3 share, methane reductions), but it does not explicitly state the baseline year or methodology for the 30% reduction target."
+            },
+            {
+              "claim": "The 30 % reduction target lacks explicit baseline year, absolute emission figures, and detailed calculation methodology.",
+              "type": "unsupported_causal",
+              "reason": "The context does provide absolute emission figures for 2023 (21,659 million tCO2 eq) and scope 1 and 2 emissions (789 ktCOeq for scope 1 and 256 ktCOeq for scope 2), but it does not explicitly state the baseline year or methodology for the 30% reduction target."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"The 2023 Universal Registration Document states that the company’s emissions-reduction schedule includes an “initially set at 30 % by 2025” goal for scope 1 and 2 emissions, linking this target to its broader Climate Transition Plan and Net-Zero pathway.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not explicitly link the 30% reduction target to the Climate Transition Plan or Net-Zero pathway. The Climate Transition Plan is mentioned separately and focuses on 2030 and 2050 targets.\"\n    },\n    {\n      \"claim\": \"The document does not provide the baseline year, exact metric units, or the methodology used to calculate the 30 % reduction.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does provide some details about emissions (e.g., total emissions in 2023, scope 3 share, methane reductions), but it does not explicitly state the baseline year or methodology for the 30% reduction target.\"\n    },\n    {\n      \"claim\": \"The 30 % reduction target lacks explicit baseline year, absolute emission figures, and detailed calculation methodology.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does provide absolute emission figures for 2023 (21,659 million tCO2 eq) and scope 1 and 2 emissions (789 ktCOeq for scope 1 and 256 ktCOeq for scope 2), but it does not explicitly state the baseline year or methodology for the 30% reduction target.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains several claims that are not fully supported by the context, particularly regarding the linkage of the 30% reduction target to the Climate Transition Plan and Net-Zero pathway, as well as the lack of explicit baseline year and methodology details. The context provides some emissions data but does not fully support the specific claims made in the answer.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.2,
+          "claims": [
+            {
+              "claim": "Danone reports that it has set a target to reduce its scope 1 and 2 greenhouse-gas emissions by 30 % by 2025 as part of its Danone Impact Journey strategy.",
+              "severity": "moderate",
+              "reason": "The context mentions the 30% target but does not explicitly state it as part of the Danone Impact Journey strategy."
+            },
+            {
+              "claim": "The 2023 Universal Registration Document states that the company’s emissions-reduction schedule includes an 'initially set at 30 % by 2025' goal for scope 1 and 2 emissions, linking this target to its broader Climate Transition Plan and Net-Zero pathway.",
+              "severity": "moderate",
+              "reason": "The context does not explicitly link the 30% target to the Climate Transition Plan and Net-Zero pathway."
+            },
+            {
+              "claim": "The 30 % reduction target lacks explicit baseline year, absolute emission figures, and detailed calculation methodology.",
+              "severity": "minor",
+              "reason": "The context does not provide the baseline year or detailed methodology, but it does mention the target and some emission figures."
+            },
+            {
+              "claim": "No information is given on whether the target was met, revised, or further detailed in a 2025 update.",
+              "severity": "minor",
+              "reason": "The context does not provide information on the 2025 update, but it is not a claim that can be verified as false."
+            }
+          ],
+          "unsupported_count": 4,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"Danone reports that it has set a target to reduce its scope 1 and 2 greenhouse-gas emissions by 30 % by 2025 as part of its Danone Impact Journey strategy.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions the 30% target but does not explicitly state it as part of the Danone Impact Journey strategy.\"\n    },\n    {\n      \"claim\": \"The 2023 Universal Registration Document states that the company’s emissions-reduction schedule includes an 'initially set at 30 % by 2025' goal for scope 1 and 2 emissions, linking this target to its broader Climate Transition Plan and Net-Zero pathway.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not explicitly link the 30% target to the Climate Transition Plan and Net-Zero pathway.\"\n    },\n    {\n      \"claim\": \"The 30 % reduction target lacks explicit baseline year, absolute emission figures, and detailed calculation methodology.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context does not provide the baseline year or detailed methodology, but it does mention the target and some emission figures.\"\n    },\n    {\n      \"claim\": \"No information is given on whether the target was met, revised, or further detailed in a 2025 update.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context does not provide information on the 2025 update, but it is not a claim that can be verified as false.\"\n    }\n  ],\n  \"supported_count\": 1,\n  \"unsupported_count\": 4,\n  \"overall\": \"The answer contains several claims that are not fully supported by the context, particularly regarding the linkage of the 30% target to specific strategies and the lack of detailed methodology. The context provides some supporting information but not enough to fully validate all claims.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "Danone",
+      "question": "What emissions-related disclosure does Danone report in 2025?",
+      "topic": "environmental, emissions, climate",
+      "ground_truth": "SOCIAL, SOCIETAL AND ENVIRONMENTAL RESPONSIBILITY 5.7 Vigilance plan Carbon footprint As part of its short-term targets aligned with the science-based 1.5°C pathway approved by SBTi, Danone is committed to reducing its annual net emissions from 21.9 million metric tons of CO2 equivalent in 2020 to 14.3 million metric tons of CO2 equivalent by 2030.",
+      "answer": "Danone’s 2025 emissions data or specific 2025 emissions‑related disclosure is not presented in the provided documents.\n\nThe 2023 Report details Danone’s Climate Transition Plan, its 2023 emissions (21,659 Mt CO₂e) and targets such as a 30 % reduction in Scope 1‑2 emissions by 2025, but it does not disclose actual 2025 emissions figures or a separate 2025 emissions‑related report. Consequently, no concrete 2025 emissions disclosure can be extracted from the available context.\n\n- “scope 1 and 2 schedule (initially set at 30 % by 2025 as part of its Danone Impact Journey strategy)” [Danone’s 2023 Report, p. 262]  \n- “In 2023, its total emissions across its entire value chain amounted to 21,659 million tCO₂ eq… while scope 1 and 2 cover only 4.8 % (i.e., 789 ktCO₂eq for scope 1 and 256 ktCO₂eq for scope 2)” [Danone’s 2023 Report, p. 262]  \n\n**Limitations**  \n- No explicit 2025 emissions figures or a dedicated 2025 emissions disclosure are included in the excerpts.  \n- The only 2025 reference pertains to a reduction target for Scope 1‑2 emissions, not actual reported emissions.  \n- Without a 2025 reporting section, the answer remains uncertain and cannot be confirmed from the supplied material.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2023_urd_0bb6500a_pdf_n0051",
+        "2023_urd_43e615a7_pdf_n0051",
+        "2023_urd_5815c9b7_pdf_n0058",
+        "2023_urd_0bb6500a_pdf_n0263",
+        "2023_urd_5815c9b7_pdf_n0316",
+        "2023_urd_5815c9b7_pdf_n0354",
+        "2023_urd_0bb6500a_pdf_n0286",
+        "2023_urd_43e615a7_pdf_n0287"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 54.85,
+        "best_chunk_id": "2023_urd_0bb6500a_pdf_n0263",
+        "top_score": 0.714181232317384
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7,
+        "context_precision": 0.375,
+        "context_recall": 0.0,
+        "hallucination_free": 0.0,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.5
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "Danone’s 2025 emissions data or specific 2025 emissions‑related disclosure is not presented in the provided documents.",
+              "verdict": "supported",
+              "reason": "The context does not contain any explicit 2025 emissions data or a dedicated 2025 emissions disclosure."
+            },
+            {
+              "claim": "The 2023 Report details Danone’s Climate Transition Plan, its 2023 emissions (21,659 Mt CO₂e) and targets such as a 30 % reduction in Scope 1‑2 emissions by 2025, but it does not disclose actual 2025 emissions figures or a separate 2025 emissions‑related report.",
+              "verdict": "supported",
+              "reason": "The context mentions the 2023 emissions (21,659 Mt CO₂e) and the 30% reduction target for Scope 1-2 emissions by 2025, but no actual 2025 emissions figures are disclosed."
+            },
+            {
+              "claim": "Consequently, no concrete 2025 emissions disclosure can be extracted from the available context.",
+              "verdict": "supported",
+              "reason": "The context does not provide any concrete 2025 emissions disclosure, only targets and 2023 data."
+            },
+            {
+              "claim": "“scope 1 and 2 schedule (initially set at 30 % by 2025 as part of its Danone Impact Journey strategy)” [Danone’s 2023 Report, p. 262]",
+              "verdict": "supported",
+              "reason": "The context explicitly mentions the 30% reduction target for Scope 1-2 emissions by 2025."
+            },
+            {
+              "claim": "“In 2023, its total emissions across its entire value chain amounted to 21,659 million tCO₂ eq… while scope 1 and 2 cover only 4.8 % (i.e., 789 ktCO₂eq for scope 1 and 256 ktCO₂eq for scope 2)” [Danone’s 2023 Report, p. 262]",
+              "verdict": "supported",
+              "reason": "The context provides the exact figures for 2023 emissions and the breakdown of Scope 1 and 2 emissions."
+            },
+            {
+              "claim": "No explicit 2025 emissions figures or a dedicated 2025 emissions disclosure are included in the excerpts.",
+              "verdict": "supported",
+              "reason": "The context does not include any explicit 2025 emissions figures or a dedicated 2025 emissions disclosure."
+            },
+            {
+              "claim": "The only 2025 reference pertains to a reduction target for Scope 1‑2 emissions, not actual reported emissions.",
+              "verdict": "supported",
+              "reason": "The context only mentions the 2025 target for Scope 1-2 emissions reduction, not actual reported emissions for 2025."
+            },
+            {
+              "claim": "Without a 2025 reporting section, the answer remains uncertain and cannot be confirmed from the supplied material.",
+              "verdict": "supported",
+              "reason": "The context does not contain a 2025 reporting section, making it impossible to confirm 2025 emissions data."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the information (or lack thereof) in the provided context. The context does not include any explicit 2025 emissions data or a dedicated 2025 emissions disclosure, only targets and 2023 data. Therefore, the answer correctly states that no concrete 2025 emissions disclosure can be extracted from the available context.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Danone’s 2025 emissions data or specific 2025 emissions‑related disclosure is not presented in the provided documents.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not contain any explicit 2025 emissions data or a dedicated 2025 emissions disclosure.\"\n    },\n    {\n      \"claim\": \"The 2023 Report details Danone’s Climate Transition Plan, its 2023 emissions (21,659 Mt CO₂e) and targets such as a 30 % reduction in Scope 1‑2 emissions by 2025, but it does not disclose actual 2025 emissions figures or a separate 2025 emissions‑related report.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions the 2023 emissions (21,659 Mt CO₂e) and the 30% reduction target for Scope 1-2 emissions by 2025, but no actual 2025 emissions figures are disclosed.\"\n    },\n    {\n      \"claim\": \"Consequently, no concrete 2025 emissions disclosure can be extracted from the available context.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not provide any concrete 2025 emissions disclosure, only targets and 2023 data.\"\n    },\n    {\n      \"claim\": \"“scope 1 and 2 schedule (initially set at 30 % by 2025 as part of its Danone Impact Journey strategy)” [Danone’s 2023 Report, p. 262]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly mentions the 30% reduction target for Scope 1-2 emissions by 2025.\"\n    },\n    {\n      \"claim\": \"“In 2023, its total emissions across its entire value chain amounted to 21,659 million tCO₂ eq… while scope 1 and 2 cover only 4.8 % (i.e., 789 ktCO₂eq for scope 1 and 256 ktCO₂eq for scope 2)” [Danone’s 2023 Report, p. 262]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context provides the exact figures for 2023 emissions and the breakdown of Scope 1 and 2 emissions.\"\n    },\n    {\n      \"claim\": \"No explicit 2025 emissions figures or a dedicated 2025 emissions disclosure are included in the excerpts.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not include any explicit 2025 emissions figures or a dedicated 2025 emissions disclosure.\"\n    },\n    {\n      \"claim\": \"The only 2025 reference pertains to a reduction target for Scope 1‑2 emissions, not actual reported emissions.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context only mentions the 2025 target for Scope 1-2 emissions reduction, not actual reported emissions for 2025.\"\n    },\n    {\n      \"claim\": \"Without a 2025 reporting section, the answer remains uncertain and cannot be confirmed from the supplied material.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not contain a 2025 reporting section, making it impossible to confirm 2025 emissions data.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the information (or lack thereof) in the provided context. The context does not include any explicit 2025 emissions data or a dedicated 2025 emissions disclosure, only targets and 2023 data. Therefore, the answer correctly states that no concrete 2025 emissions disclosure can be extracted from the available context.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.7,
+          "reasoning": "The answer acknowledges the lack of 2025 emissions data in the provided documents and references Danone's 2023 emissions and targets. However, it does not directly answer the question about 2025 emissions-related disclosure, instead focusing on what is not available. The inclusion of 2023 data and targets is somewhat relevant but does not fully address the 2025 question.",
+          "raw": "```json\n{\"score\": 0.7, \"reasoning\": \"The answer acknowledges the lack of 2025 emissions data in the provided documents and references Danone's 2023 emissions and targets. However, it does not directly answer the question about 2025 emissions-related disclosure, instead focusing on what is not available. The inclusion of 2023 data and targets is somewhat relevant but does not fully address the 2025 question.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.375,
+          "highly_relevant": 0,
+          "relevant_count": 3,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2023_urd_0bb6500a_pdf_n0051",
+              "verdict": "not_relevant",
+              "reason": "Mentions sustainability journey and Climate Transition Plan but no emissions data."
+            },
+            {
+              "chunk_id": "2023_urd_43e615a7_pdf_n0051",
+              "verdict": "not_relevant",
+              "reason": "Similar to above, no emissions data."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0058",
+              "verdict": "not_relevant",
+              "reason": "No emissions data, only mentions Climate Transition Plan."
+            },
+            {
+              "chunk_id": "2023_urd_0bb6500a_pdf_n0263",
+              "verdict": "not_relevant",
+              "reason": "Refers to Climate Transition Plan but no emissions data."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0316",
+              "verdict": "not_relevant",
+              "reason": "No emissions data, only mentions Climate Transition Plan."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0354",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses Scope 3 emissions but no 2025-specific data."
+            },
+            {
+              "chunk_id": "2023_urd_0bb6500a_pdf_n0286",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses Scope 3 emissions but no 2025-specific data."
+            },
+            {
+              "chunk_id": "2023_urd_43e615a7_pdf_n0287",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses Scope 3 emissions but no 2025-specific data."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2023_urd_0bb6500a_pdf_n0051\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Mentions sustainability journey and Climate Transition Plan but no emissions data.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_43e615a7_pdf_n0051\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Similar to above, no emissions data.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0058\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"No emissions data, only mentions Climate Transition Plan.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_0bb6500a_pdf_n0263\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Refers to Climate Transition Plan but no emissions data.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0316\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"No emissions data, only mentions Climate Transition Plan.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0354\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses Scope 3 emissions but no 2025-specific data.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_0bb6500a_pdf_n0286\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses Scope 3 emissions but no 2025-specific data.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_43e615a7_pdf_n0287\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses Scope 3 emissions but no 2025-specific data.\"\n    }\n  ],\n  \"overall\": \"None of the chunks contain highly relevant information about Danone's 2025 emissions-related disclosure. Some chunks discuss emissions (Scope 3) but do not provide 2025-specific data.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "The retrieved chunks do not mention any rating system recognized as the world's leading standard for corporate environmental transparency."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"The retrieved chunks do not mention any rating system recognized as the world's leading standard for corporate environmental transparency.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected key information about the rating system recognized as the world's leading standard for corporate environmental transparency.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.0,
+          "hallucinated_claims": [
+            {
+              "claim": "Danone’s 2025 emissions data or specific 2025 emissions-related disclosure is not presented in the provided documents.",
+              "type": "unsupported_causal",
+              "reason": "The context does not explicitly state that 2025 emissions data or disclosure is missing; it only mentions targets and 2023 data."
+            },
+            {
+              "claim": "The 2023 Report details Danone’s Climate Transition Plan, its 2023 emissions (21,659 Mt CO₂e) and targets such as a 30 % reduction in Scope 1‑2 emissions by 2025, but it does not disclose actual 2025 emissions figures or a separate 2025 emissions-related report.",
+              "type": "unsupported_causal",
+              "reason": "The context does not explicitly confirm the absence of a 2025 emissions-related report; it only mentions the lack of 2025 emissions figures."
+            },
+            {
+              "claim": "Consequently, no concrete 2025 emissions disclosure can be extracted from the available context.",
+              "type": "unsupported_causal",
+              "reason": "The context does not provide enough information to definitively conclude that no 2025 emissions disclosure exists."
+            },
+            {
+              "claim": "“scope 1 and 2 schedule (initially set at 30 % by 2025 as part of its Danone Impact Journey strategy)”",
+              "type": "fabricated_number",
+              "reason": "The context does not explicitly state that the 30% reduction target is part of the 'Danone Impact Journey strategy'; it only mentions the target."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"Danone’s 2025 emissions data or specific 2025 emissions-related disclosure is not presented in the provided documents.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not explicitly state that 2025 emissions data or disclosure is missing; it only mentions targets and 2023 data.\"\n    },\n    {\n      \"claim\": \"The 2023 Report details Danone’s Climate Transition Plan, its 2023 emissions (21,659 Mt CO₂e) and targets such as a 30 % reduction in Scope 1‑2 emissions by 2025, but it does not disclose actual 2025 emissions figures or a separate 2025 emissions-related report.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not explicitly confirm the absence of a 2025 emissions-related report; it only mentions the lack of 2025 emissions figures.\"\n    },\n    {\n      \"claim\": \"Consequently, no concrete 2025 emissions disclosure can be extracted from the available context.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not provide enough information to definitively conclude that no 2025 emissions disclosure exists.\"\n    },\n    {\n      \"claim\": \"“scope 1 and 2 schedule (initially set at 30 % by 2025 as part of its Danone Impact Journey strategy)”\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not explicitly state that the 30% reduction target is part of the 'Danone Impact Journey strategy'; it only mentions the target.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains several claims that are not explicitly supported by the provided context, including assumptions about the absence of 2025 emissions data and the framing of the 30% reduction target.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.5,
+          "claims": [
+            {
+              "claim": "Danone’s 2025 emissions data or specific 2025 emissions-related disclosure is not presented in the provided documents.",
+              "severity": "moderate",
+              "reason": "The context does not explicitly state that 2025 emissions data or disclosure is missing; it only mentions that actual 2025 emissions figures are not provided."
+            },
+            {
+              "claim": "The 2023 Report details Danone’s Climate Transition Plan, its 2023 emissions (21,659 Mt CO₂e) and targets such as a 30 % reduction in Scope 1‑2 emissions by 2025, but it does not disclose actual 2025 emissions figures or a separate 2025 emissions-related report.",
+              "severity": "minor",
+              "reason": "The context supports the 2023 emissions and targets but does not explicitly confirm the absence of a separate 2025 emissions-related report."
+            },
+            {
+              "claim": "Consequently, no concrete 2025 emissions disclosure can be extracted from the available context.",
+              "severity": "moderate",
+              "reason": "The context does not provide enough evidence to conclusively state that no 2025 emissions disclosure exists; it only mentions the lack of actual 2025 emissions figures."
+            },
+            {
+              "claim": "The only 2025 reference pertains to a reduction target for Scope 1‑2 emissions, not actual reported emissions.",
+              "severity": "minor",
+              "reason": "The context supports the reduction target but does not explicitly confirm that no actual reported emissions for 2025 are present."
+            }
+          ],
+          "unsupported_count": 4,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"Danone’s 2025 emissions data or specific 2025 emissions-related disclosure is not presented in the provided documents.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not explicitly state that 2025 emissions data or disclosure is missing; it only mentions that actual 2025 emissions figures are not provided.\"\n    },\n    {\n      \"claim\": \"The 2023 Report details Danone’s Climate Transition Plan, its 2023 emissions (21,659 Mt CO₂e) and targets such as a 30 % reduction in Scope 1‑2 emissions by 2025, but it does not disclose actual 2025 emissions figures or a separate 2025 emissions-related report.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context supports the 2023 emissions and targets but does not explicitly confirm the absence of a separate 2025 emissions-related report.\"\n    },\n    {\n      \"claim\": \"Consequently, no concrete 2025 emissions disclosure can be extracted from the available context.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not provide enough evidence to conclusively state that no 2025 emissions disclosure exists; it only mentions the lack of actual 2025 emissions figures.\"\n    },\n    {\n      \"claim\": \"The only 2025 reference pertains to a reduction target for Scope 1‑2 emissions, not actual reported emissions.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context supports the reduction target but does not explicitly confirm that no actual reported emissions for 2025 are present.\"\n    }\n  ],\n  \"supported_count\": 4,\n  \"unsupported_count\": 4,\n  \"overall\": \"The answer contains several claims that are not fully supported by the context, particularly regarding the absence of 2025 emissions data or disclosure. The context provides information on targets and 2023 emissions but lacks explicit confirmation of the absence of 2025 data.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "Danone",
+      "question": "What ESG target, ambition, or commitment does Danone disclose in 2025?",
+      "topic": "governance, diversity_inclusion, targets",
+      "ground_truth": "This goal, which has been pursued for several years, has led to a noticeable change in the composition of the Board of Directors with a balanced representation achieved, particularly in terms of independence, gender, expertise, age and seniority of its members.",
+      "answer": "Danone sets multiple 2025 ESG commitments, including achieving deforestation‑ and conversion‑free supply chains for key commodities, sourcing 30 % of key ingredients from farms transitioning to regenerative agriculture, and delivering a 36 % reduction in Scope 1 & 2 emissions by 2025.  \n\nDanone’s 2025 targets span nature and climate. The company pledges that by 2025 its supply chains for high‑risk commodities (palm oil, paper, soy, cocoa, animal feed) will be free of deforestation and land‑conversion [Danone’s 2023 Report, p. 242]. It also commits that 30 % of key ingredients will be sourced from farms that have begun regenerative‑agriculture practices by 2025 [Danone’s 2023 Integrated Report, p. 14] and that a new KPI will cut Scope 1 & 2 greenhouse‑gas emissions by 36 % relative to the 2022 baseline by 2025 [Danone’s 2024 Integrated Report, p. 15]. Earlier reporting notes a “no deforestation” target for primary deforestation‑linked commodities with a FY2025 deadline [Danone’s 2022 Report, p. 153].  \n\n- “30% key ingredients we source directly will come from … farms … by 2025” [Danone’s 2023 Integrated Report, p. 14]  \n- “Zero deforestation & conversion on key commodities … by 2025” [Danone’s 2023 Report, p. 242]  \n- “New KPI: 36% reduction on Scope 1 & 2 by 2025” [Danone’s 2024 Integrated Report, p. 15]  \n- “no deforestation … with a target date of FY2025” [Danone’s 2022 Report, p. 153]  \n\n**Limitations**  \nThe documents provide several 2025 commitments but do not disclose the exact baseline values, scopes, or methodologies for the 36 % Scope 1 & 2 reduction KPI. Details on how the 30 % regenerative‑agriculture sourcing will be measured (e.g., verification standards) are not specified. No quantitative target is given for the deforestation‑free commitment beyond the qualitative statement.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2023_climate_report_fa2980c4_pdf_n0013",
+        "2022_urd_d3c5cbdd_pdf_n0152",
+        "2023_integrated_report_c47ec973_pdf_n0021",
+        "2023_urd_5815c9b7_pdf_n0316",
+        "2023_urd_43e615a7_pdf_n0263",
+        "2024_integrated_report_1a29f6e5_pdf_n0020",
+        "2023_urd_0bb6500a_pdf_n0263",
+        "2023_climate_report_fa2980c4_pdf_n0005"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 47.15,
+        "best_chunk_id": "2023_urd_5815c9b7_pdf_n0316",
+        "top_score": 0.9869728783735153
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9,
+        "context_precision": 0.625,
+        "context_recall": 0.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.6
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "Danone sets multiple 2025 ESG commitments, including achieving deforestation‑ and conversion‑free supply chains for key commodities, sourcing 30 % of key ingredients from farms transitioning to regenerative agriculture, and delivering a 36 % reduction in Scope 1 & 2 emissions by 2025.",
+              "verdict": "supported",
+              "reason": "The context documents (2023 Integrated Report, 2024 Integrated Report, 2023 URD) explicitly mention these commitments."
+            },
+            {
+              "claim": "Danone’s 2025 targets span nature and climate.",
+              "verdict": "supported",
+              "reason": "The context documents (2023 Integrated Report, 2023 URD) discuss Danone's commitments related to nature (deforestation-free supply chains, regenerative agriculture) and climate (Scope 1 & 2 emissions reduction)."
+            },
+            {
+              "claim": "The company pledges that by 2025 its supply chains for high‑risk commodities (palm oil, paper, soy, cocoa, animal feed) will be free of deforestation and land‑conversion [Danone’s 2023 Report, p. 242].",
+              "verdict": "supported",
+              "reason": "The 2023 URD document explicitly states Danone's commitment to deforestation- and conversion-free supply chains for key commodities by 2025."
+            },
+            {
+              "claim": "It also commits that 30 % of key ingredients will be sourced from farms that have begun regenerative‑agriculture practices by 2025 [Danone’s 2023 Integrated Report, p. 14].",
+              "verdict": "supported",
+              "reason": "The 2023 Integrated Report and 2024 Integrated Report mention the 30% regenerative agriculture sourcing target by 2025."
+            },
+            {
+              "claim": "A new KPI will cut Scope 1 & 2 greenhouse‑gas emissions by 36 % relative to the 2022 baseline by 2025 [Danone’s 2024 Integrated Report, p. 15].",
+              "verdict": "supported",
+              "reason": "The 2024 Integrated Report explicitly states the 36% reduction in Scope 1 & 2 emissions by 2025 relative to a 2022 baseline."
+            },
+            {
+              "claim": "Earlier reporting notes a “no deforestation” target for primary deforestation‑linked commodities with a FY2025 deadline [Danone’s 2022 Report, p. 153].",
+              "verdict": "supported",
+              "reason": "The 2022 URD document mentions the no deforestation target for primary deforestation-linked commodities by FY2025."
+            },
+            {
+              "claim": "The documents provide several 2025 commitments but do not disclose the exact baseline values, scopes, or methodologies for the 36 % Scope 1 & 2 reduction KPI.",
+              "verdict": "supported",
+              "reason": "While the 2024 Integrated Report mentions the 36% reduction target, it does not provide detailed baseline values, scopes, or methodologies."
+            },
+            {
+              "claim": "Details on how the 30 % regenerative‑agriculture sourcing will be measured (e.g., verification standards) are not specified.",
+              "verdict": "supported",
+              "reason": "The context documents mention the 30% regenerative agriculture target but do not provide details on verification standards or measurement methods."
+            },
+            {
+              "claim": "No quantitative target is given for the deforestation‑free commitment beyond the qualitative statement.",
+              "verdict": "supported",
+              "reason": "The context documents provide a qualitative commitment to deforestation-free supply chains by 2025 but do not specify quantitative targets beyond this."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the commitments and targets disclosed by Danone in the provided context documents. The claims are either directly supported by the context or are reasonable interpretations of the information provided. The limitations noted in the answer are also supported by the context, as the documents do not provide detailed methodologies or baselines for some of the targets.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Danone sets multiple 2025 ESG commitments, including achieving deforestation‑ and conversion‑free supply chains for key commodities, sourcing 30 % of key ingredients from farms transitioning to regenerative agriculture, and delivering a 36 % reduction in Scope 1 & 2 emissions by 2025.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context documents (2023 Integrated Report, 2024 Integrated Report, 2023 URD) explicitly mention these commitments.\"\n    },\n    {\n      \"claim\": \"Danone’s 2025 targets span nature and climate.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context documents (2023 Integrated Report, 2023 URD) discuss Danone's commitments related to nature (deforestation-free supply chains, regenerative agriculture) and climate (Scope 1 & 2 emissions reduction).\"\n    },\n    {\n      \"claim\": \"The company pledges that by 2025 its supply chains for high‑risk commodities (palm oil, paper, soy, cocoa, animal feed) will be free of deforestation and land‑conversion [Danone’s 2023 Report, p. 242].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2023 URD document explicitly states Danone's commitment to deforestation- and conversion-free supply chains for key commodities by 2025.\"\n    },\n    {\n      \"claim\": \"It also commits that 30 % of key ingredients will be sourced from farms that have begun regenerative‑agriculture practices by 2025 [Danone’s 2023 Integrated Report, p. 14].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2023 Integrated Report and 2024 Integrated Report mention the 30% regenerative agriculture sourcing target by 2025.\"\n    },\n    {\n      \"claim\": \"A new KPI will cut Scope 1 & 2 greenhouse‑gas emissions by 36 % relative to the 2022 baseline by 2025 [Danone’s 2024 Integrated Report, p. 15].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2024 Integrated Report explicitly states the 36% reduction in Scope 1 & 2 emissions by 2025 relative to a 2022 baseline.\"\n    },\n    {\n      \"claim\": \"Earlier reporting notes a “no deforestation” target for primary deforestation‑linked commodities with a FY2025 deadline [Danone’s 2022 Report, p. 153].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The 2022 URD document mentions the no deforestation target for primary deforestation-linked commodities by FY2025.\"\n    },\n    {\n      \"claim\": \"The documents provide several 2025 commitments but do not disclose the exact baseline values, scopes, or methodologies for the 36 % Scope 1 & 2 reduction KPI.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"While the 2024 Integrated Report mentions the 36% reduction target, it does not provide detailed baseline values, scopes, or methodologies.\"\n    },\n    {\n      \"claim\": \"Details on how the 30 % regenerative‑agriculture sourcing will be measured (e.g., verification standards) are not specified.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context documents mention the 30% regenerative agriculture target but do not provide details on verification standards or measurement methods.\"\n    },\n    {\n      \"claim\": \"No quantitative target is given for the deforestation‑free commitment beyond the qualitative statement.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context documents provide a qualitative commitment to deforestation-free supply chains by 2025 but do not specify quantitative targets beyond this.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the commitments and targets disclosed by Danone in the provided context documents. The claims are either directly supported by the context or are reasonable interpretations of the information provided. The limitations noted in the answer are also supported by the context, as the documents do not provide detailed methodologies or baselines for some of the targets.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.9,
+          "reasoning": "The answer fully addresses the question by listing Danone's 2025 ESG targets, including deforestation-free supply chains, regenerative agriculture sourcing, and Scope 1 & 2 emissions reduction. It provides specific percentages and references to Danone's reports. The only minor limitation is the lack of baseline details for the emissions target, but this does not significantly detract from the relevance.",
+          "raw": "```json\n{\"score\": 0.9, \"reasoning\": \"The answer fully addresses the question by listing Danone's 2025 ESG targets, including deforestation-free supply chains, regenerative agriculture sourcing, and Scope 1 & 2 emissions reduction. It provides specific percentages and references to Danone's reports. The only minor limitation is the lack of baseline details for the emissions target, but this does not significantly detract from the relevance.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.625,
+          "highly_relevant": 3,
+          "relevant_count": 5,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2023_climate_report_fa2980c4_pdf_n0013",
+              "verdict": "not_relevant",
+              "reason": "Discusses 2030 targets, not 2025."
+            },
+            {
+              "chunk_id": "2022_urd_d3c5cbdd_pdf_n0152",
+              "verdict": "not_relevant",
+              "reason": "General discussion on transition risks, no specific 2025 targets."
+            },
+            {
+              "chunk_id": "2023_integrated_report_c47ec973_pdf_n0021",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions regenerative agriculture but lacks specific 2025 targets."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0316",
+              "verdict": "highly_relevant",
+              "reason": "Contains the deforestation-free commitment for 2025."
+            },
+            {
+              "chunk_id": "2023_urd_43e615a7_pdf_n0263",
+              "verdict": "highly_relevant",
+              "reason": "Repeats the deforestation-free commitment for 2025."
+            },
+            {
+              "chunk_id": "2024_integrated_report_1a29f6e5_pdf_n0020",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions climate action but lacks specific 2025 targets."
+            },
+            {
+              "chunk_id": "2023_urd_0bb6500a_pdf_n0263",
+              "verdict": "highly_relevant",
+              "reason": "Repeats the deforestation-free commitment for 2025."
+            },
+            {
+              "chunk_id": "2023_climate_report_fa2980c4_pdf_n0005",
+              "verdict": "not_relevant",
+              "reason": "General discussion on climate change, no specific 2025 targets."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2023_climate_report_fa2980c4_pdf_n0013\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses 2030 targets, not 2025.\"\n    },\n    {\n      \"chunk_id\": \"2022_urd_d3c5cbdd_pdf_n0152\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"General discussion on transition risks, no specific 2025 targets.\"\n    },\n    {\n      \"chunk_id\": \"2023_integrated_report_c47ec973_pdf_n0021\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions regenerative agriculture but lacks specific 2025 targets.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0316\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Contains the deforestation-free commitment for 2025.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_43e615a7_pdf_n0263\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Repeats the deforestation-free commitment for 2025.\"\n    },\n    {\n      \"chunk_id\": \"2024_integrated_report_1a29f6e5_pdf_n0020\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions climate action but lacks specific 2025 targets.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_0bb6500a_pdf_n0263\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Repeats the deforestation-free commitment for 2025.\"\n    },\n    {\n      \"chunk_id\": \"2023_climate_report_fa2980c4_pdf_n0005\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"General discussion on climate change, no specific 2025 targets.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks partially address the question, with some highly relevant information on deforestation-free commitments but missing key details like the 30% regenerative agriculture target and the 36% Scope 1 & 2 emissions reduction.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "The expected information pertains to diversity and composition of the Board of Directors, which is not mentioned in any of the retrieved chunks."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"The expected information pertains to diversity and composition of the Board of Directors, which is not mentioned in any of the retrieved chunks.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected information about Danone's ESG target related to diversity and composition of the Board of Directors for 2025.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "delivering a 36 % reduction in Scope 1 & 2 emissions by 2025",
+              "type": "fabricated_number",
+              "reason": "The context does not mention a 36% reduction in Scope 1 & 2 emissions by 2025. The closest reference is a 34.7% reduction by 2030 from a 2020 baseline, and a 47.2% reduction in Scope 1 & 2 energy and industrial GHG emissions by 2030 from a 2020 baseline."
+            },
+            {
+              "claim": "New KPI: 36% reduction on Scope 1 & 2 by 2025",
+              "type": "fabricated_number",
+              "reason": "The context does not support the claim of a new KPI for a 36% reduction in Scope 1 & 2 emissions by 2025. The 2024 Integrated Report mentions this KPI, but it is not verified in the provided context."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"delivering a 36 % reduction in Scope 1 & 2 emissions by 2025\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not mention a 36% reduction in Scope 1 & 2 emissions by 2025. The closest reference is a 34.7% reduction by 2030 from a 2020 baseline, and a 47.2% reduction in Scope 1 & 2 energy and industrial GHG emissions by 2030 from a 2020 baseline.\"\n    },\n    {\n      \"claim\": \"New KPI: 36% reduction on Scope 1 & 2 by 2025\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not support the claim of a new KPI for a 36% reduction in Scope 1 & 2 emissions by 2025. The 2024 Integrated Report mentions this KPI, but it is not verified in the provided context.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains fabricated numbers regarding the 36% reduction in Scope 1 & 2 emissions by 2025, which are not supported by the provided context. The context references different reduction targets and baselines but does not mention a 36% reduction by 2025.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.6,
+          "claims": [
+            {
+              "claim": "delivering a 36 % reduction in Scope 1 & 2 emissions by 2025",
+              "severity": "major",
+              "reason": "The context does not provide any evidence or source for a 36% reduction in Scope 1 & 2 emissions by 2025. The closest reference is a 34.7% reduction by 2030 from a 2020 baseline, but no 2025 target is mentioned."
+            },
+            {
+              "claim": "New KPI: 36% reduction on Scope 1 & 2 by 2025",
+              "severity": "major",
+              "reason": "The context does not provide any evidence or source for a new KPI targeting a 36% reduction in Scope 1 & 2 emissions by 2025. The 2024 Integrated Report is cited, but the context does not support this claim."
+            }
+          ],
+          "unsupported_count": 2,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"delivering a 36 % reduction in Scope 1 & 2 emissions by 2025\",\n      \"severity\": \"major\",\n      \"reason\": \"The context does not provide any evidence or source for a 36% reduction in Scope 1 & 2 emissions by 2025. The closest reference is a 34.7% reduction by 2030 from a 2020 baseline, but no 2025 target is mentioned.\"\n    },\n    {\n      \"claim\": \"New KPI: 36% reduction on Scope 1 & 2 by 2025\",\n      \"severity\": \"major\",\n      \"reason\": \"The context does not provide any evidence or source for a new KPI targeting a 36% reduction in Scope 1 & 2 emissions by 2025. The 2024 Integrated Report is cited, but the context does not support this claim.\"\n    }\n  ],\n  \"supported_count\": 3,\n  \"unsupported_count\": 2,\n  \"overall\": \"The answer contains two major unsupported claims regarding a 36% reduction in Scope 1 & 2 emissions by 2025. The other claims about deforestation-free supply chains and regenerative agriculture are supported by the context.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "Danone",
+      "question": "What governance, ethics, or compliance information does Danone disclose in 2025?",
+      "topic": "governance, metrics_kpi",
+      "ground_truth": "(namely fixed compensation and variable compensation) are as follows (as in previous years): 6 CORPORATE GOVERNANCE 6.3 Compensation and benefits of governance bodies 412 DANONE - UNIVERSAL REGISTRATION DOCUMENT 2024 Fixed compensation €1,400,000 The amount of Antoine de SAINT-AFFRIQUE’s fixed compensation for 2025 was set by the Board of Directors at €1.4 million, unchanged amount since his appointment in 2021.",
+      "answer": "The provided context does not contain sufficient evidence to answer this question.\n\nThe documents cited are Danone’s Universal Registration Documents for 2022 and 2023, which detail the company’s governance, ethics, and compliance structures (e.g., the Danone Ethics Line, Code of Business Conduct, whistle‑blowing policy, and oversight committees). No material from a 2025 report or disclosure is included in the supplied sources, so specific 2025 governance, ethics, or compliance information cannot be extracted.\n\n**Evidence excerpts**\n- “Danone has put in place a compliance program that includes a Danone Ethics Line… The whistleblowing statement is also available on Danone.com” [Danone’s 2022 Report, p. 196].  \n- “Deployment of Human Rights Due Diligence (HRDD) systems… with the aim of reaching 100 % coverage by 2025” [Danone’s 2023 Report, p. 248].  \n- “The Danone Ethics Line was upgraded in 2022… available in 52 languages” [Danone’s 2022 Report, p. 214].  \n- “Since 2017, an ethics whistleblowing system has been in place… the Danone Ethics Line as per the audit plan approved by the Audit Committee” [Danone’s 2023 Report, p. 271].\n\n**Limitations**\n- No Danone document dated 2025 is present in the provided context; all references are to 2022 or 2023 reports.  \n- Consequently, any governance, ethics, or compliance disclosures specific to 2025 are unknown and cannot be reported.  \n- The answer relies solely on the available 2022‑2023 information and does not infer or extrapolate beyond the disclosed material.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2022_urd_487620b5_pdf_n0187",
+        "2022_urd_d3c5cbdd_pdf_n0193",
+        "2023_urd_0bb6500a_pdf_n0270",
+        "2022_urd_d3c5cbdd_pdf_n0208",
+        "2023_urd_5815c9b7_pdf_n0368",
+        "2023_urd_5815c9b7_pdf_n0329",
+        "2022_urd_487620b5_pdf_n0184",
+        "2022_urd_d3c5cbdd_pdf_n0192"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 50.11,
+        "best_chunk_id": "2022_urd_d3c5cbdd_pdf_n0192",
+        "top_score": 0.9131462806728072
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.3,
+        "context_precision": 1.0,
+        "context_recall": 0.0,
+        "hallucination_free": 1.0,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.6667
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "The provided context does not contain sufficient evidence to answer this question.",
+              "verdict": "supported",
+              "reason": "The context only includes Danone’s Universal Registration Documents for 2022 and 2023, with no material from 2025."
+            },
+            {
+              "claim": "The documents cited are Danone’s Universal Registration Documents for 2022 and 2023, which detail the company’s governance, ethics, and compliance structures (e.g., the Danone Ethics Line, Code of Business Conduct, whistle‑blowing policy, and oversight committees).",
+              "verdict": "supported",
+              "reason": "The context explicitly mentions these documents and their contents, such as the Danone Ethics Line, Code of Business Conduct, and whistleblowing policy."
+            },
+            {
+              "claim": "No material from a 2025 report or disclosure is included in the supplied sources, so specific 2025 governance, ethics, or compliance information cannot be extracted.",
+              "verdict": "supported",
+              "reason": "The context only includes documents from 2022 and 2023, with no references to 2025."
+            },
+            {
+              "claim": "The answer relies solely on the available 2022‑2023 information and does not infer or extrapolate beyond the disclosed material.",
+              "verdict": "supported",
+              "reason": "The answer correctly states that it only uses the provided 2022 and 2023 documents, without making any inferences about 2025."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the limitations of the provided context, which only includes Danone’s Universal Registration Documents for 2022 and 2023. There is no information about 2025 governance, ethics, or compliance disclosures in the context, so the answer correctly states that it cannot provide specific 2025 information.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"The provided context does not contain sufficient evidence to answer this question.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context only includes Danone’s Universal Registration Documents for 2022 and 2023, with no material from 2025.\"\n    },\n    {\n      \"claim\": \"The documents cited are Danone’s Universal Registration Documents for 2022 and 2023, which detail the company’s governance, ethics, and compliance structures (e.g., the Danone Ethics Line, Code of Business Conduct, whistle‑blowing policy, and oversight committees).\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly mentions these documents and their contents, such as the Danone Ethics Line, Code of Business Conduct, and whistleblowing policy.\"\n    },\n    {\n      \"claim\": \"No material from a 2025 report or disclosure is included in the supplied sources, so specific 2025 governance, ethics, or compliance information cannot be extracted.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context only includes documents from 2022 and 2023, with no references to 2025.\"\n    },\n    {\n      \"claim\": \"The answer relies solely on the available 2022‑2023 information and does not infer or extrapolate beyond the disclosed material.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The answer correctly states that it only uses the provided 2022 and 2023 documents, without making any inferences about 2025.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the limitations of the provided context, which only includes Danone’s Universal Registration Documents for 2022 and 2023. There is no information about 2025 governance, ethics, or compliance disclosures in the context, so the answer correctly states that it cannot provide specific 2025 information.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.3,
+          "reasoning": "The answer acknowledges the lack of 2025-specific information but does not provide any relevant governance, ethics, or compliance details for that year. It primarily references older reports (2022-2023) and explains why 2025 data is unavailable, making it only partially relevant to the question.",
+          "raw": "```json\n{\"score\": 0.3, \"reasoning\": \"The answer acknowledges the lack of 2025-specific information but does not provide any relevant governance, ethics, or compliance details for that year. It primarily references older reports (2022-2023) and explains why 2025 data is unavailable, making it only partially relevant to the question.\"}\n```"
+        },
+        "context_precision": {
+          "score": 1.0,
+          "highly_relevant": 0,
+          "relevant_count": 8,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2022_urd_487620b5_pdf_n0187",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses governance and ethics but does not mention 2025."
+            },
+            {
+              "chunk_id": "2022_urd_d3c5cbdd_pdf_n0193",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions the Danone Ethics Line but no 2025-specific information."
+            },
+            {
+              "chunk_id": "2023_urd_0bb6500a_pdf_n0270",
+              "verdict": "somewhat_relevant",
+              "reason": "Refers to HRDD systems with a 2025 target but does not provide 2025-specific details."
+            },
+            {
+              "chunk_id": "2022_urd_d3c5cbdd_pdf_n0208",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses whistleblowing and ethics but no 2025-specific content."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0368",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions the Danone Ethics Line but no 2025-specific information."
+            },
+            {
+              "chunk_id": "2023_urd_5815c9b7_pdf_n0329",
+              "verdict": "somewhat_relevant",
+              "reason": "Refers to HRDD systems with a 2025 target but does not provide 2025-specific details."
+            },
+            {
+              "chunk_id": "2022_urd_487620b5_pdf_n0184",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses governance and ethics but does not mention 2025."
+            },
+            {
+              "chunk_id": "2022_urd_d3c5cbdd_pdf_n0192",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses governance and ethics but does not mention 2025."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2022_urd_487620b5_pdf_n0187\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses governance and ethics but does not mention 2025.\"\n    },\n    {\n      \"chunk_id\": \"2022_urd_d3c5cbdd_pdf_n0193\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions the Danone Ethics Line but no 2025-specific information.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_0bb6500a_pdf_n0270\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Refers to HRDD systems with a 2025 target but does not provide 2025-specific details.\"\n    },\n    {\n      \"chunk_id\": \"2022_urd_d3c5cbdd_pdf_n0208\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses whistleblowing and ethics but no 2025-specific content.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0368\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions the Danone Ethics Line but no 2025-specific information.\"\n    },\n    {\n      \"chunk_id\": \"2023_urd_5815c9b7_pdf_n0329\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Refers to HRDD systems with a 2025 target but does not provide 2025-specific details.\"\n    },\n    {\n      \"chunk_id\": \"2022_urd_487620b5_pdf_n0184\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses governance and ethics but does not mention 2025.\"\n    },\n    {\n      \"chunk_id\": \"2022_urd_d3c5cbdd_pdf_n0192\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses governance and ethics but does not mention 2025.\"\n    }\n  ],\n  \"overall\": \"None of the retrieved chunks contain 2025-specific governance, ethics, or compliance information. All chunks are somewhat relevant to the broader topic but do not directly answer the question.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "The retrieved chunks do not contain any information about the fixed or variable compensation of Danone's governance bodies for 2025."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"The retrieved chunks do not contain any information about the fixed or variable compensation of Danone's governance bodies for 2025.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected information about Danone's governance, ethics, or compliance disclosures for 2025, specifically regarding compensation details.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 1.0,
+          "hallucinated_claims": [],
+          "hallucination_free": true,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [],\n  \"hallucination_free\": true,\n  \"overall\": \"The answer accurately reflects the provided context, with no unsupported claims, fabricated numbers, invented entities, unsupported causal claims, or hallucinated dates.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.6667,
+          "claims": [
+            {
+              "claim": "No material from a 2025 report or disclosure is included in the supplied sources, so specific 2025 governance, ethics, or compliance information cannot be extracted.",
+              "severity": "moderate",
+              "reason": "The context does not explicitly state that no 2025 material exists; it only confirms that the provided documents are from 2022 and 2023."
+            },
+            {
+              "claim": "The Danone Ethics Line was upgraded in 2022.",
+              "severity": "minor",
+              "reason": "While the context mentions the upgrade, it does not provide specific details or evidence of the upgrade's nature or impact."
+            }
+          ],
+          "unsupported_count": 2,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"No material from a 2025 report or disclosure is included in the supplied sources, so specific 2025 governance, ethics, or compliance information cannot be extracted.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not explicitly state that no 2025 material exists; it only confirms that the provided documents are from 2022 and 2023.\"\n    },\n    {\n      \"claim\": \"The Danone Ethics Line was upgraded in 2022.\",\n      \"severity\": \"minor\",\n      \"reason\": \"While the context mentions the upgrade, it does not provide specific details or evidence of the upgrade's nature or impact.\"\n    }\n  ],\n  \"supported_count\": 4,\n  \"unsupported_count\": 2,\n  \"overall\": \"The answer generally aligns with the context but includes a few claims that are either unsupported or lack sufficient evidence.\"\n}\n```"
+        }
+      }
+    }
+  ]
+}

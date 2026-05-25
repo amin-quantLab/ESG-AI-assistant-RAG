@@ -1,0 +1,1079 @@
+{
+  "company": "Volkswagen",
+  "question_count": 5,
+  "eval_mode": "ragas",
+  "text_model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "generator_model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "judge_model": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+  "retrieval_mode": "semantic_rerank",
+  "candidate_k": 100,
+  "top_k": 8,
+  "query_transform": "none",
+  "answer_mode": "assistant",
+  "prompt_style": "balanced",
+  "retrieval_summary": {
+    "hit": 0,
+    "partial": 1,
+    "miss": 4,
+    "hit_rate": 0.0,
+    "partial_or_hit_rate": 0.2,
+    "average_best_match_score": 54.58,
+    "average_top_retrieval_score": 0.7556
+  },
+  "ragas_summary": {
+    "faithfulness": 0.8106,
+    "answer_relevancy": 0.7,
+    "context_precision": 0.55,
+    "context_recall": 0.2,
+    "hallucination_free": 0.5,
+    "citation_coverage": 0.0,
+    "unsupported_claims_score": 0.4793
+  },
+  "results": [
+    {
+      "company": "Volkswagen",
+      "question": "What emissions-related disclosure does Volkswagen report in 2024?",
+      "topic": "environmental, emissions",
+      "ground_truth": "Environmental operating costs include measures that protect the environment against harmful factors by avoiding, reducing, or eliminating emissions as well as measures that conserve resources.",
+      "answer": "Block 1 (key takeaway): Volkswagen reports emissions-related disclosures including CO2 emissions data, energy consumption metrics, and operational controls in their 2024 sustainability report. The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024 [Volkswagen's 2024 Sustainability Report, p. 60].\n\nBlock 2 (detailed answer): Volkswagen's 2024 sustainability report provides detailed emissions-related disclosures across multiple categories. The company reports total energy consumption at 19.0 units in 2024 [Volkswagen's 2024 Sustainability Report, p. 60]. Specific fuel consumption data includes natural gas at 8.7 units, coal and coal products at 0.8 units, and crude oil and petroleum products at 1.1 units for the same period [Volkswagen's 2024 Sustainability Report, p. 60]. Additionally, Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management [Volkswagen's 2024 Sustainability Report, p. 60]. While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption metrics [Volkswagen's 2024 Sustainability Report, p. 80].\n\nBlock 3 (Evidence excerpts): \n\"Total energy consumption in 2024 is 19.0\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"Natural gas in 2024 is 8.7\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"Coal and coal products in 2024 is 0.8\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"Crude oil and petroleum products in 2024 is 1.1\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"with operational control in 2024 is 24.6\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\n**Limitations**\nThe provided context does not contain sufficient information about Volkswagen's specific emissions disclosure practices beyond basic quantitative metrics. The report lacks detailed methodology descriptions for emissions calculations, scope definitions, or comprehensive coverage information. There is no clear indication of whether these emissions are reported under Scope 1, 2, or 3 categories, nor is there information about the reporting framework used (e.g., GHG Protocol, GRI). The CO1, 2 metric value of 0.0 suggests either complete avoidance of certain emissions or incomplete reporting, but the context does not clarify this ambiguity. The relationship between various fuel consumption metrics and overall carbon footprint remains unspecified. Based on the disclosed information, it's unclear if Volkswagen follows standardized emissions reporting frameworks like TCFD recommendations or if they provide sufficient detail for stakeholder assessment of their climate impact.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_sustainability_report_91620cfe_pdf_t2531",
+        "2024_sustainability_report_91620cfe_pdf_t2872",
+        "2024_sustainability_report_91620cfe_pdf_t2080",
+        "2024_sustainability_report_91620cfe_pdf_t2090",
+        "2024_sustainability_report_91620cfe_pdf_t2086",
+        "2024_sustainability_report_91620cfe_pdf_t2088",
+        "2024_sustainability_report_91620cfe_pdf_t2083",
+        "2023_sustainability_report_b39ced16_pdf_t1166"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 47.37,
+        "best_chunk_id": "2024_sustainability_report_91620cfe_pdf_t2086",
+        "top_score": 0.7645967952813857
+      },
+      "ragas": {
+        "faithfulness": 0.4167,
+        "answer_relevancy": 0.7,
+        "context_precision": 0.75,
+        "context_recall": 0.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.2
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 0.4167,
+          "verdicts": [
+            {
+              "claim": "Volkswagen reports emissions-related disclosures including CO2 emissions data, energy consumption metrics, and operational controls in their 2024 sustainability report.",
+              "verdict": "supported",
+              "reason": "The context includes references to CO2 emissions (CO1, 2), total energy consumption, and operational control metrics."
+            },
+            {
+              "claim": "The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024 [Volkswagen's 2024 Sustainability Report, p. 60].",
+              "verdict": "supported",
+              "reason": "The context explicitly lists total energy consumption, natural gas, coal, and crude oil/petroleum products for 2024."
+            },
+            {
+              "claim": "Volkswagen's 2024 sustainability report provides detailed emissions-related disclosures across multiple categories.",
+              "verdict": "unsupported",
+              "reason": "The context does not provide details about the categories or comprehensiveness of emissions-related disclosures."
+            },
+            {
+              "claim": "The company reports total energy consumption at 19.0 units in 2024 [Volkswagen's 2024 Sustainability Report, p. 60].",
+              "verdict": "supported",
+              "reason": "The context explicitly states 'Total energy consumption in 2024 is 19.0'."
+            },
+            {
+              "claim": "Specific fuel consumption data includes natural gas at 8.7 units, coal and coal products at 0.8 units, and crude oil and petroleum products at 1.1 units for the same period [Volkswagen's 2024 Sustainability Report, p. 60].",
+              "verdict": "supported",
+              "reason": "The context explicitly lists these values for 2024."
+            },
+            {
+              "claim": "Additionally, Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management [Volkswagen's 2024 Sustainability Report, p. 60].",
+              "verdict": "supported",
+              "reason": "The context states 'with operational control in 2024 is 24.6'."
+            },
+            {
+              "claim": "While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption metrics [Volkswagen's 2024 Sustainability Report, p. 80].",
+              "verdict": "unsupported",
+              "reason": "The context does not provide any explanation or differentiation between CO1, 2 and other metrics."
+            },
+            {
+              "claim": "The report lacks detailed methodology descriptions for emissions calculations, scope definitions, or comprehensive coverage information.",
+              "verdict": "unsupported",
+              "reason": "The context does not mention methodology, scope definitions, or coverage information."
+            },
+            {
+              "claim": "There is no clear indication of whether these emissions are reported under Scope 1, 2, or 3 categories, nor is there information about the reporting framework used (e.g., GHG Protocol, GRI).",
+              "verdict": "unsupported",
+              "reason": "The context does not provide any information about reporting scopes or frameworks."
+            },
+            {
+              "claim": "The CO1, 2 metric value of 0.0 suggests either complete avoidance of certain emissions or incomplete reporting, but the context does not clarify this ambiguity.",
+              "verdict": "unsupported",
+              "reason": "The context does not provide any clarification on the CO1, 2 metric or its implications."
+            },
+            {
+              "claim": "The relationship between various fuel consumption metrics and overall carbon footprint remains unspecified.",
+              "verdict": "unsupported",
+              "reason": "The context does not discuss the relationship between fuel consumption and carbon footprint."
+            },
+            {
+              "claim": "Based on the disclosed information, it's unclear if Volkswagen follows standardized emissions reporting frameworks like TCFD recommendations or if they provide sufficient detail for stakeholder assessment of their climate impact.",
+              "verdict": "unsupported",
+              "reason": "The context does not mention TCFD recommendations or stakeholder assessment details."
+            }
+          ],
+          "reasoning": "The answer includes several supported claims based on the provided context, particularly regarding specific metrics like energy consumption, natural gas, coal, and operational control. However, many claims about methodology, reporting frameworks, and the relationship between metrics are unsupported as the context does not address these aspects. The mention of CO1, 2 as 0.0 is supported, but its interpretation is unsupported by the context.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Volkswagen reports emissions-related disclosures including CO2 emissions data, energy consumption metrics, and operational controls in their 2024 sustainability report.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes references to CO2 emissions (CO1, 2), total energy consumption, and operational control metrics.\"\n    },\n    {\n      \"claim\": \"The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024 [Volkswagen's 2024 Sustainability Report, p. 60].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly lists total energy consumption, natural gas, coal, and crude oil/petroleum products for 2024.\"\n    },\n    {\n      \"claim\": \"Volkswagen's 2024 sustainability report provides detailed emissions-related disclosures across multiple categories.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide details about the categories or comprehensiveness of emissions-related disclosures.\"\n    },\n    {\n      \"claim\": \"The company reports total energy consumption at 19.0 units in 2024 [Volkswagen's 2024 Sustainability Report, p. 60].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states 'Total energy consumption in 2024 is 19.0'.\"\n    },\n    {\n      \"claim\": \"Specific fuel consumption data includes natural gas at 8.7 units, coal and coal products at 0.8 units, and crude oil and petroleum products at 1.1 units for the same period [Volkswagen's 2024 Sustainability Report, p. 60].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly lists these values for 2024.\"\n    },\n    {\n      \"claim\": \"Additionally, Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management [Volkswagen's 2024 Sustainability Report, p. 60].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states 'with operational control in 2024 is 24.6'.\"\n    },\n    {\n      \"claim\": \"While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption metrics [Volkswagen's 2024 Sustainability Report, p. 80].\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide any explanation or differentiation between CO1, 2 and other metrics.\"\n    },\n    {\n      \"claim\": \"The report lacks detailed methodology descriptions for emissions calculations, scope definitions, or comprehensive coverage information.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not mention methodology, scope definitions, or coverage information.\"\n    },\n    {\n      \"claim\": \"There is no clear indication of whether these emissions are reported under Scope 1, 2, or 3 categories, nor is there information about the reporting framework used (e.g., GHG Protocol, GRI).\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide any information about reporting scopes or frameworks.\"\n    },\n    {\n      \"claim\": \"The CO1, 2 metric value of 0.0 suggests either complete avoidance of certain emissions or incomplete reporting, but the context does not clarify this ambiguity.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide any clarification on the CO1, 2 metric or its implications.\"\n    },\n    {\n      \"claim\": \"The relationship between various fuel consumption metrics and overall carbon footprint remains unspecified.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not discuss the relationship between fuel consumption and carbon footprint.\"\n    },\n    {\n      \"claim\": \"Based on the disclosed information, it's unclear if Volkswagen follows standardized emissions reporting frameworks like TCFD recommendations or if they provide sufficient detail for stakeholder assessment of their climate impact.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not mention TCFD recommendations or stakeholder assessment details.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer includes several supported claims based on the provided context, particularly regarding specific metrics like energy consumption, natural gas, coal, and operational control. However, many claims about methodology, reporting frameworks, and the relationship between metrics are unsupported as the context does not address these aspects. The mention of CO1, 2 as 0.0 is supported, but its interpretation is unsupported by the context.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.7,
+          "reasoning": "The answer provides specific emissions-related disclosures from Volkswagen's 2024 sustainability report, including energy consumption metrics and operational controls. However, it lacks clarity on the reporting framework (e.g., GHG Protocol, TCFD) and scope definitions (Scope 1, 2, or 3), which are key aspects of emissions disclosures. The mention of 'CO1, 2' is unclear and may be a typo, further reducing relevance. While detailed, the answer misses critical context for a complete understanding of Volkswagen's emissions reporting practices.",
+          "raw": "```json\n{\"score\": 0.7, \"reasoning\": \"The answer provides specific emissions-related disclosures from Volkswagen's 2024 sustainability report, including energy consumption metrics and operational controls. However, it lacks clarity on the reporting framework (e.g., GHG Protocol, TCFD) and scope definitions (Scope 1, 2, or 3), which are key aspects of emissions disclosures. The mention of 'CO1, 2' is unclear and may be a typo, further reducing relevance. While detailed, the answer misses critical context for a complete understanding of Volkswagen's emissions reporting practices.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.75,
+          "highly_relevant": 4,
+          "relevant_count": 6,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2531",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions CO1, 2 emissions but lacks clarity on relevance to the question."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2872",
+              "verdict": "not_relevant",
+              "reason": "Discusses wastewater discharge, unrelated to emissions."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2080",
+              "verdict": "highly_relevant",
+              "reason": "Directly reports total energy consumption, a key emissions-related metric."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2090",
+              "verdict": "highly_relevant",
+              "reason": "Provides specific natural gas consumption data, relevant to emissions."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2086",
+              "verdict": "highly_relevant",
+              "reason": "Details coal and coal products consumption, directly tied to emissions."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2088",
+              "verdict": "highly_relevant",
+              "reason": "Reports crude oil and petroleum products usage, relevant to emissions."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2083",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions operational control but lacks clarity on emissions context."
+            },
+            {
+              "chunk_id": "2023_sustainability_report_b39ced16_pdf_t1166",
+              "verdict": "not_relevant",
+              "reason": "Refers to 2022 data, not 2024, and is unrelated to the question."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2531\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions CO1, 2 emissions but lacks clarity on relevance to the question.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2872\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses wastewater discharge, unrelated to emissions.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2080\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Directly reports total energy consumption, a key emissions-related metric.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2090\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Provides specific natural gas consumption data, relevant to emissions.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2086\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Details coal and coal products consumption, directly tied to emissions.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2088\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Reports crude oil and petroleum products usage, relevant to emissions.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2083\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions operational control but lacks clarity on emissions context.\"\n    },\n    {\n      \"chunk_id\": \"2023_sustainability_report_b39ced16_pdf_t1166\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Refers to 2022 data, not 2024, and is unrelated to the question.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks include several highly relevant pieces of information directly addressing Volkswagen's 2024 emissions-related disclosures, such as energy consumption and fuel usage. However, some chunks are either somewhat relevant or not relevant, indicating a need for more precise retrieval to fully answer the question.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "No information about environmental operating costs, investments in climate protection, or specific measures like sewage, waste management, or air pollution control is present in the retrieved chunks."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"No information about environmental operating costs, investments in climate protection, or specific measures like sewage, waste management, or air pollution control is present in the retrieved chunks.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected emissions-related disclosure details from Volkswagen's 2024 report. They focus on quantitative metrics like CO2 emissions, energy consumption, and wastewater discharge but lack qualitative and financial details about environmental protection expenditures and specific measures.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "operational controls at 24.6 units in 2024",
+              "type": "fabricated_number",
+              "reason": "The context does not define 'operational controls' as a metric, and the number 24.6 is not clearly tied to emissions-related disclosures."
+            },
+            {
+              "claim": "CO1, 2 in 2024 as 0.0",
+              "type": "fabricated_number",
+              "reason": "The context shows 'CO1, 2 in 2024 is 0.0' but does not explain what 'CO1, 2' refers to, making the claim ambiguous and unsupported."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"operational controls at 24.6 units in 2024\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not define 'operational controls' as a metric, and the number 24.6 is not clearly tied to emissions-related disclosures.\"\n    },\n    {\n      \"claim\": \"CO1, 2 in 2024 as 0.0\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context shows 'CO1, 2 in 2024 is 0.0' but does not explain what 'CO1, 2' refers to, making the claim ambiguous and unsupported.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains fabricated or ambiguous claims regarding 'operational controls' and 'CO1, 2' metrics, which are not clearly defined or supported by the provided context.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.2,
+          "claims": [
+            {
+              "claim": "The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024",
+              "severity": "moderate",
+              "reason": "While the context provides these metrics, it does not explicitly state that the company 'discloses' them as a claim."
+            },
+            {
+              "claim": "Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management",
+              "severity": "major",
+              "reason": "The context does not explain what 'operational control' means or how it relates to emission monitoring and management."
+            },
+            {
+              "claim": "While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption metrics",
+              "severity": "major",
+              "reason": "The context does not provide any explanation or evidence to support this interpretation."
+            },
+            {
+              "claim": "The relationship between various fuel consumption metrics and overall carbon footprint remains unspecified",
+              "severity": "moderate",
+              "reason": "This is a conclusion drawn from the lack of information in the context, but it is not a claim that can be directly supported or refuted by the provided context."
+            }
+          ],
+          "unsupported_count": 4,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024\",\n      \"severity\": \"moderate\",\n      \"reason\": \"While the context provides these metrics, it does not explicitly state that the company 'discloses' them as a claim.\"\n    },\n    {\n      \"claim\": \"Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management\",\n      \"severity\": \"major\",\n      \"reason\": \"The context does not explain what 'operational control' means or how it relates to emission monitoring and management.\"\n    },\n    {\n      \"claim\": \"While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption metrics\",\n      \"severity\": \"major\",\n      \"reason\": \"The context does not provide any explanation or evidence to support this interpretation.\"\n    },\n    {\n      \"claim\": \"The relationship between various fuel consumption metrics and overall carbon footprint remains unspecified\",\n      \"severity\": \"moderate\",\n      \"reason\": \"This is a conclusion drawn from the lack of information in the context, but it is not a claim that can be directly supported or refuted by the provided context.\"\n    }\n  ],\n  \"supported_count\": 1,\n  \"unsupported_count\": 4,\n  \"overall\": \"The answer contains several claims that are not directly supported by the context, particularly regarding the interpretation of operational controls and the relationship between metrics. The context provides quantitative data but lacks explanatory details, leading to unsupported conclusions.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "Volkswagen",
+      "question": "What ESG target, ambition, or commitment does Volkswagen disclose in 2024?",
+      "topic": "social, employees, supply_chain",
+      "ground_truth": "Our objective is for 100% of direct, revenue-generating suppliers with a production site and more than 100 employees to have a certified environmental management system by 2025.",
+      "answer": "Block 1 (key takeaway): Volkswagen's 2024 Sustainability Report discloses a decarbonization index of 48.0 for 2024, indicating the company's commitment to reducing carbon emissions [Volkswagen's 2024 Sustainability Report, p. 50]. The report also highlights the company's focus on sustainable mobility through extensive model launches, including 30 new electric vehicles [Volkswagen's 2024 Report, p. 1]. However, specific ESG targets or ambitions beyond these metrics are not clearly defined in the provided documents.\n\nBlock 2 (detailed answer): Volkswagen's 2024 Sustainability Report provides several ESG-related metrics and commitments. The decarbonization index stands at 48.0 for 2024, reflecting the company's efforts to reduce carbon emissions [Volkswagen's 2024 Sustainability Report, p. 50]. Additionally, the report mentions the company's strategic focus on sustainable mobility, with plans to launch 30 new models in 2024, including multiple electric vehicles such as the Audi Q6 e-tron and Volkswagen ID.7 Tourer [Volkswagen's 2024 Report, p. 1]. While the report discusses broader ESG initiatives like managing controversies and improving internal data infrastructure, it does not specify concrete ESG targets or measurable ambitions beyond the decarbonization index and product launch plans. The company's emphasis on the TOP-10 program suggests a structured approach to achieving strategic goals, though specific ESG performance targets are not detailed in the provided excerpts.\n\nBlock 3 (Evidence excerpts):\n\"For Volkswagen's sustainability_report, Decarbonization index* │GRI 305- in 2024 is 48.0\" [Volkswagen's 2024 Sustainability Report, p. 50]\n\"2024 will be a record year in terms of model launches. We are preparing for the biggest product offensive in the history of the Volkswagen Group\" [Volkswagen's 2024 Report, p. 1]\n\"We are planning with not less than 30 new models across the brands. These cars will electrify and excite customers and fans across the globe\" [Volkswagen's 2024 Report, p. 1]\n\"The Volkswagen Group will deliver reliably, fast and sustainably. Volkswagen takes responsibility\" [Volkswagen's 2024 Report, p. 1]\n\n**Limitations**\nThe provided documents do not contain explicit ESG targets, ambitions, or commitments beyond the decarbonization index and product launch plans. Specific measurable objectives related to environmental, social, or governance performance are not clearly defined in the available excerpts. The documents lack detailed information about targets for carbon neutrality, renewable energy adoption, diversity metrics, or supply chain improvements. The focus appears to be on general strategic initiatives rather than quantified ESG goals.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_sustainability_report_91620cfe_pdf_t2531",
+        "2024_sustainability_report_91620cfe_pdf_t2090",
+        "2023_sustainability_report_b39ced16_pdf_n0024",
+        "2024_sustainability_report_91620cfe_pdf_t2083",
+        "volkswagen_ag_2023_earnings_call_mar_13__n0012",
+        "2024_sustainability_report_91620cfe_pdf_t2080",
+        "2024_sustainability_report_91620cfe_pdf_t2086",
+        "2024_sustainability_report_91620cfe_pdf_t1759"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 48.66,
+        "best_chunk_id": "volkswagen_ag_2023_earnings_call_mar_13__n0012",
+        "top_score": 0.7734088878289207
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6,
+        "context_precision": 0.375,
+        "context_recall": 0.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.5714
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "Volkswagen's 2024 Sustainability Report discloses a decarbonization index of 48.0 for 2024, indicating the company's commitment to reducing carbon emissions",
+              "verdict": "supported",
+              "reason": "The decarbonization index of 48.0 is explicitly mentioned in the context (2024_sustainability_report_91620cfe_pdf_t1759)."
+            },
+            {
+              "claim": "The report also highlights the company's focus on sustainable mobility through extensive model launches, including 30 new electric vehicles",
+              "verdict": "supported",
+              "reason": "The context mentions the launch of 30 new models, including electric vehicles like the Audi Q6 e-tron and Volkswagen ID.7 Tourer (volkswagen_ag_2023_earnings_call_mar_13__n0012)."
+            },
+            {
+              "claim": "specific ESG targets or ambitions beyond these metrics are not clearly defined in the provided documents",
+              "verdict": "supported",
+              "reason": "The context does not provide explicit, measurable ESG targets beyond the decarbonization index and product launches."
+            },
+            {
+              "claim": "The company's emphasis on the TOP-10 program suggests a structured approach to achieving strategic goals",
+              "verdict": "supported",
+              "reason": "The TOP-10 program is mentioned as a central management tool in the context (volkswagen_ag_2023_earnings_call_mar_13__n0012)."
+            },
+            {
+              "claim": "The documents lack detailed information about targets for carbon neutrality, renewable energy adoption, diversity metrics, or supply chain improvements",
+              "verdict": "supported",
+              "reason": "The context does not provide specific targets for these areas, focusing instead on general initiatives and metrics."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the information provided in the context. The decarbonization index and product launches are explicitly mentioned, while the lack of specific ESG targets is consistent with the context. The TOP-10 program is referenced as a strategic tool, and the absence of detailed targets for carbon neutrality, renewable energy, diversity, and supply chain improvements is also supported by the context.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Volkswagen's 2024 Sustainability Report discloses a decarbonization index of 48.0 for 2024, indicating the company's commitment to reducing carbon emissions\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The decarbonization index of 48.0 is explicitly mentioned in the context (2024_sustainability_report_91620cfe_pdf_t1759).\"\n    },\n    {\n      \"claim\": \"The report also highlights the company's focus on sustainable mobility through extensive model launches, including 30 new electric vehicles\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions the launch of 30 new models, including electric vehicles like the Audi Q6 e-tron and Volkswagen ID.7 Tourer (volkswagen_ag_2023_earnings_call_mar_13__n0012).\"\n    },\n    {\n      \"claim\": \"specific ESG targets or ambitions beyond these metrics are not clearly defined in the provided documents\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not provide explicit, measurable ESG targets beyond the decarbonization index and product launches.\"\n    },\n    {\n      \"claim\": \"The company's emphasis on the TOP-10 program suggests a structured approach to achieving strategic goals\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The TOP-10 program is mentioned as a central management tool in the context (volkswagen_ag_2023_earnings_call_mar_13__n0012).\"\n    },\n    {\n      \"claim\": \"The documents lack detailed information about targets for carbon neutrality, renewable energy adoption, diversity metrics, or supply chain improvements\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not provide specific targets for these areas, focusing instead on general initiatives and metrics.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the information provided in the context. The decarbonization index and product launches are explicitly mentioned, while the lack of specific ESG targets is consistent with the context. The TOP-10 program is referenced as a strategic tool, and the absence of detailed targets for carbon neutrality, renewable energy, diversity, and supply chain improvements is also supported by the context.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.6,
+          "reasoning": "The answer provides some relevant information about Volkswagen's ESG-related disclosures in 2024, such as the decarbonization index and product launch plans. However, it does not fully address the question by clearly stating specific ESG targets, ambitions, or commitments beyond these metrics. The limitations section acknowledges the lack of explicit ESG targets, which further highlights the incompleteness of the response.",
+          "raw": "```json\n{\"score\": 0.6, \"reasoning\": \"The answer provides some relevant information about Volkswagen's ESG-related disclosures in 2024, such as the decarbonization index and product launch plans. However, it does not fully address the question by clearly stating specific ESG targets, ambitions, or commitments beyond these metrics. The limitations section acknowledges the lack of explicit ESG targets, which further highlights the incompleteness of the response.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.375,
+          "highly_relevant": 1,
+          "relevant_count": 3,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2531",
+              "verdict": "not_relevant",
+              "reason": "Discusses CO1, 2 emissions but not ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2090",
+              "verdict": "not_relevant",
+              "reason": "Discusses natural gas usage but not ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2023_sustainability_report_b39ced16_pdf_n0024",
+              "verdict": "somewhat_relevant",
+              "reason": "Lists ESG-related topics but does not provide specific 2024 targets or commitments."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2083",
+              "verdict": "not_relevant",
+              "reason": "Discusses operational control but not ESG targets or commitments."
+            },
+            {
+              "chunk_id": "volkswagen_ag_2023_earnings_call_mar_13__n0012",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions the TOP-10 program, which may relate to strategic goals but not explicitly ESG targets."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2080",
+              "verdict": "not_relevant",
+              "reason": "Discusses total energy consumption but not ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2086",
+              "verdict": "not_relevant",
+              "reason": "Discusses coal usage but not ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t1759",
+              "verdict": "highly_relevant",
+              "reason": "Directly mentions the decarbonization index for 2024, which is an ESG-related commitment."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2531\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses CO1, 2 emissions but not ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2090\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses natural gas usage but not ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2023_sustainability_report_b39ced16_pdf_n0024\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Lists ESG-related topics but does not provide specific 2024 targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2083\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses operational control but not ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"volkswagen_ag_2023_earnings_call_mar_13__n0012\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions the TOP-10 program, which may relate to strategic goals but not explicitly ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2080\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses total energy consumption but not ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2086\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses coal usage but not ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t1759\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Directly mentions the decarbonization index for 2024, which is an ESG-related commitment.\"\n    }\n  ],\n  \"overall\": \"Only one chunk (t1759) is highly relevant, providing a specific ESG-related metric (decarbonization index). Other chunks are either not relevant or only somewhat relevant, lacking explicit ESG targets or commitments for 2024.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "The retrieved chunks do not contain any information about Volkswagen's ESG target, ambition, or commitment related to suppliers having a certified environmental management system by 2025."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"The retrieved chunks do not contain any information about Volkswagen's ESG target, ambition, or commitment related to suppliers having a certified environmental management system by 2025.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected ESG context related to Volkswagen's commitment to suppliers having a certified environmental management system by 2025.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "The report also highlights the company's focus on sustainable mobility through extensive model launches, including 30 new electric vehicles",
+              "type": "unsupported_causal",
+              "reason": "The context mentions 30 new models but does not explicitly state that all 30 are electric vehicles."
+            },
+            {
+              "claim": "The company's emphasis on the TOP-10 program suggests a structured approach to achieving strategic goals, though specific ESG performance targets are not detailed in the provided excerpts.",
+              "type": "unsupported_causal",
+              "reason": "The context does not link the TOP-10 program to ESG performance targets or provide evidence of its impact on ESG goals."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"The report also highlights the company's focus on sustainable mobility through extensive model launches, including 30 new electric vehicles\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context mentions 30 new models but does not explicitly state that all 30 are electric vehicles.\"\n    },\n    {\n      \"claim\": \"The company's emphasis on the TOP-10 program suggests a structured approach to achieving strategic goals, though specific ESG performance targets are not detailed in the provided excerpts.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not link the TOP-10 program to ESG performance targets or provide evidence of its impact on ESG goals.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains claims that are not fully supported by the provided context, particularly regarding the nature of the 30 new models and the connection between the TOP-10 program and ESG targets.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.5714,
+          "claims": [
+            {
+              "claim": "The report also highlights the company's focus on sustainable mobility through extensive model launches, including 30 new electric vehicles",
+              "severity": "moderate",
+              "reason": "While the context mentions 30 new models, it does not specify that all 30 are electric vehicles. The context only mentions specific electric models like Audi Q6 e-tron and Volkswagen ID.7 Tourer."
+            },
+            {
+              "claim": "The company's emphasis on the TOP-10 program suggests a structured approach to achieving strategic goals, though specific ESG performance targets are not detailed in the provided excerpts.",
+              "severity": "moderate",
+              "reason": "The context mentions the TOP-10 program but does not explicitly link it to ESG performance targets or provide details on how it achieves strategic goals related to ESG."
+            },
+            {
+              "claim": "The Volkswagen Group will deliver reliably, fast and sustainably. Volkswagen takes responsibility",
+              "severity": "minor",
+              "reason": "This is a general statement found in the context, but it lacks specific evidence or measurable commitments to support the claim of delivering sustainably."
+            }
+          ],
+          "unsupported_count": 3,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"The report also highlights the company's focus on sustainable mobility through extensive model launches, including 30 new electric vehicles\",\n      \"severity\": \"moderate\",\n      \"reason\": \"While the context mentions 30 new models, it does not specify that all 30 are electric vehicles. The context only mentions specific electric models like Audi Q6 e-tron and Volkswagen ID.7 Tourer.\"\n    },\n    {\n      \"claim\": \"The company's emphasis on the TOP-10 program suggests a structured approach to achieving strategic goals, though specific ESG performance targets are not detailed in the provided excerpts.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions the TOP-10 program but does not explicitly link it to ESG performance targets or provide details on how it achieves strategic goals related to ESG.\"\n    },\n    {\n      \"claim\": \"The Volkswagen Group will deliver reliably, fast and sustainably. Volkswagen takes responsibility\",\n      \"severity\": \"minor\",\n      \"reason\": \"This is a general statement found in the context, but it lacks specific evidence or measurable commitments to support the claim of delivering sustainably.\"\n    }\n  ],\n  \"supported_count\": 4,\n  \"unsupported_count\": 3,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, particularly regarding the specifics of ESG targets and the nature of the model launches. The context supports the decarbonization index and general commitments but lacks detailed ESG targets.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "Volkswagen",
+      "question": "What ESG target, ambition, or commitment does Volkswagen disclose in 2024?",
+      "topic": "governance, water, targets",
+      "ground_truth": "Furthermore, the BOM allocates in annual budgets the resources required to achieve water-related targets, such as reducing water consumption by 45% by 2025 compared to 2010.",
+      "answer": "Block 1 (key takeaway): Volkswagen discloses a commitment to decarbonization as a core ESG priority in 2024, with specific targets including reducing carbon emissions and transitioning to electric vehicle platforms. The company emphasizes clear strategic goals through its TOP-10 program and plans to launch 30 new models, including electric vehicles, to support its sustainability objectives.\n\nBlock 2 (detailed answer): Volkswagen's 2024 Sustainability Report highlights decarbonization as a central pillar of its ESG strategy, with a decarbonization index of 48.0 in 2024 [Volkswagen's 2024 Sustainability Report, p. 50]. The company aims to reduce its environmental impact through strategic initiatives, including the transition to electric vehicle platforms and the launch of 30 new models in 2024, with a focus on electrification [Volkswagen's 2024 Report, p. 1]. The TOP-10 program serves as the central management tool for implementing these goals, emphasizing clear structures and measurable outcomes [Volkswagen's 2024 Report, p. 1]. Additionally, Volkswagen reports total energy consumption of 19.0 in 2024, with minimal reliance on coal and natural gas, indicating efforts to reduce fossil fuel dependency [Volkswagen's 2024 Sustainability Report, p. 60].\n\nBlock 3 (Evidence excerpts):\n\"Decarbonization index* │GRI 305- in 2024 is 48.0\" [Volkswagen's 2024 Sustainability Report, p. 50]\n\"Total energy consumption in 2024 is 19.0\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"Coal and coal products in 2024 is 0.8\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"Natural gas in 2024 is 8.7\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"The TOP-10 program is and will remain our central management tool with expanded content\" [Volkswagen's 2024 Report, p. 1]\n\n**Limitations**\nThe provided context does not contain explicit ESG targets or commitments beyond general decarbonization efforts and strategic planning. Specific numerical targets for emissions reduction, renewable energy adoption, or other ESG metrics are not clearly defined in the disclosed documents. The focus appears to be on strategic direction rather than quantified objectives. There is no detailed information on scope, baseline, or methodology for ESG performance measurement beyond the decarbonization index. The documents lack clarity on how the TOP-10 program translates into specific ESG outcomes or whether there are measurable KPIs tied to the 2024 sustainability goals.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_sustainability_report_91620cfe_pdf_t2531",
+        "2024_sustainability_report_91620cfe_pdf_t2090",
+        "2023_sustainability_report_b39ced16_pdf_n0024",
+        "2024_sustainability_report_91620cfe_pdf_t2083",
+        "volkswagen_ag_2023_earnings_call_mar_13__n0012",
+        "2024_sustainability_report_91620cfe_pdf_t2080",
+        "2024_sustainability_report_91620cfe_pdf_t2086",
+        "2024_sustainability_report_91620cfe_pdf_t1759"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 48.1,
+        "best_chunk_id": "2024_sustainability_report_91620cfe_pdf_t2080",
+        "top_score": 0.7734088878289207
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.7,
+        "context_precision": 0.75,
+        "context_recall": 0.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.5714
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "Volkswagen discloses a commitment to decarbonization as a core ESG priority in 2024, with specific targets including reducing carbon emissions and transitioning to electric vehicle platforms.",
+              "verdict": "supported",
+              "reason": "The context mentions decarbonization as a central pillar of Volkswagen's ESG strategy in the 2024 Sustainability Report and references the decarbonization index of 48.0."
+            },
+            {
+              "claim": "The company emphasizes clear strategic goals through its TOP-10 program and plans to launch 30 new models, including electric vehicles, to support its sustainability objectives.",
+              "verdict": "supported",
+              "reason": "The context explicitly states that the TOP-10 program is the central management tool for implementing goals and mentions the launch of 30 new models, including electric vehicles, in 2024."
+            },
+            {
+              "claim": "Volkswagen's 2024 Sustainability Report highlights decarbonization as a central pillar of its ESG strategy, with a decarbonization index of 48.0 in 2024.",
+              "verdict": "supported",
+              "reason": "The context directly states the decarbonization index of 48.0 in the 2024 Sustainability Report."
+            },
+            {
+              "claim": "The company aims to reduce its environmental impact through strategic initiatives, including the transition to electric vehicle platforms and the launch of 30 new models in 2024, with a focus on electrification.",
+              "verdict": "supported",
+              "reason": "The context mentions the launch of 30 new models, including electric vehicles, and the focus on electrification as part of Volkswagen's strategic initiatives."
+            },
+            {
+              "claim": "The TOP-10 program serves as the central management tool for implementing these goals, emphasizing clear structures and measurable outcomes.",
+              "verdict": "supported",
+              "reason": "The context explicitly states that the TOP-10 program is the central management tool with expanded content and clear structures."
+            },
+            {
+              "claim": "Additionally, Volkswagen reports total energy consumption of 19.0 in 2024, with minimal reliance on coal and natural gas, indicating efforts to reduce fossil fuel dependency.",
+              "verdict": "supported",
+              "reason": "The context provides the total energy consumption of 19.0 and the specific values for coal (0.8) and natural gas (8.7) in 2024."
+            },
+            {
+              "claim": "The provided context does not contain explicit ESG targets or commitments beyond general decarbonization efforts and strategic planning.",
+              "verdict": "supported",
+              "reason": "The context does not provide specific numerical targets for emissions reduction or other ESG metrics, focusing instead on general decarbonization efforts and strategic planning."
+            },
+            {
+              "claim": "Specific numerical targets for emissions reduction, renewable energy adoption, or other ESG metrics are not clearly defined in the disclosed documents.",
+              "verdict": "supported",
+              "reason": "The context does not provide specific numerical targets for emissions reduction or renewable energy adoption, focusing on general decarbonization efforts."
+            },
+            {
+              "claim": "The documents lack clarity on how the TOP-10 program translates into specific ESG outcomes or whether there are measurable KPIs tied to the 2024 sustainability goals.",
+              "verdict": "supported",
+              "reason": "The context does not provide detailed information on how the TOP-10 program translates into specific ESG outcomes or measurable KPIs."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the information provided in the context, particularly regarding Volkswagen's commitment to decarbonization, the TOP-10 program, and the launch of new electric vehicle models. However, the context does not provide specific numerical targets for emissions reduction or other ESG metrics, which is correctly noted in the answer.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Volkswagen discloses a commitment to decarbonization as a core ESG priority in 2024, with specific targets including reducing carbon emissions and transitioning to electric vehicle platforms.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions decarbonization as a central pillar of Volkswagen's ESG strategy in the 2024 Sustainability Report and references the decarbonization index of 48.0.\"\n    },\n    {\n      \"claim\": \"The company emphasizes clear strategic goals through its TOP-10 program and plans to launch 30 new models, including electric vehicles, to support its sustainability objectives.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states that the TOP-10 program is the central management tool for implementing goals and mentions the launch of 30 new models, including electric vehicles, in 2024.\"\n    },\n    {\n      \"claim\": \"Volkswagen's 2024 Sustainability Report highlights decarbonization as a central pillar of its ESG strategy, with a decarbonization index of 48.0 in 2024.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context directly states the decarbonization index of 48.0 in the 2024 Sustainability Report.\"\n    },\n    {\n      \"claim\": \"The company aims to reduce its environmental impact through strategic initiatives, including the transition to electric vehicle platforms and the launch of 30 new models in 2024, with a focus on electrification.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions the launch of 30 new models, including electric vehicles, and the focus on electrification as part of Volkswagen's strategic initiatives.\"\n    },\n    {\n      \"claim\": \"The TOP-10 program serves as the central management tool for implementing these goals, emphasizing clear structures and measurable outcomes.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states that the TOP-10 program is the central management tool with expanded content and clear structures.\"\n    },\n    {\n      \"claim\": \"Additionally, Volkswagen reports total energy consumption of 19.0 in 2024, with minimal reliance on coal and natural gas, indicating efforts to reduce fossil fuel dependency.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context provides the total energy consumption of 19.0 and the specific values for coal (0.8) and natural gas (8.7) in 2024.\"\n    },\n    {\n      \"claim\": \"The provided context does not contain explicit ESG targets or commitments beyond general decarbonization efforts and strategic planning.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not provide specific numerical targets for emissions reduction or other ESG metrics, focusing instead on general decarbonization efforts and strategic planning.\"\n    },\n    {\n      \"claim\": \"Specific numerical targets for emissions reduction, renewable energy adoption, or other ESG metrics are not clearly defined in the disclosed documents.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not provide specific numerical targets for emissions reduction or renewable energy adoption, focusing on general decarbonization efforts.\"\n    },\n    {\n      \"claim\": \"The documents lack clarity on how the TOP-10 program translates into specific ESG outcomes or whether there are measurable KPIs tied to the 2024 sustainability goals.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not provide detailed information on how the TOP-10 program translates into specific ESG outcomes or measurable KPIs.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the information provided in the context, particularly regarding Volkswagen's commitment to decarbonization, the TOP-10 program, and the launch of new electric vehicle models. However, the context does not provide specific numerical targets for emissions reduction or other ESG metrics, which is correctly noted in the answer.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.7,
+          "reasoning": "The answer provides relevant information about Volkswagen's ESG commitments in 2024, including decarbonization efforts, the TOP-10 program, and electrification goals. However, it lacks specific, quantified ESG targets or commitments, focusing more on strategic direction and general sustainability initiatives. The limitations section acknowledges this gap, reducing the overall relevance.",
+          "raw": "```json\n{\"score\": 0.7, \"reasoning\": \"The answer provides relevant information about Volkswagen's ESG commitments in 2024, including decarbonization efforts, the TOP-10 program, and electrification goals. However, it lacks specific, quantified ESG targets or commitments, focusing more on strategic direction and general sustainability initiatives. The limitations section acknowledges this gap, reducing the overall relevance.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.75,
+          "highly_relevant": 1,
+          "relevant_count": 6,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2531",
+              "verdict": "not_relevant",
+              "reason": "Mentions CO1, 2 in 2024 but lacks context or relevance to ESG targets."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2090",
+              "verdict": "somewhat_relevant",
+              "reason": "Provides data on natural gas usage, which is part of decarbonization efforts but not a direct ESG target."
+            },
+            {
+              "chunk_id": "2023_sustainability_report_b39ced16_pdf_n0024",
+              "verdict": "somewhat_relevant",
+              "reason": "Lists ESG topics but does not specify 2024 targets or commitments."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2083",
+              "verdict": "not_relevant",
+              "reason": "Mentions operational control but no ESG context."
+            },
+            {
+              "chunk_id": "volkswagen_ag_2023_earnings_call_mar_13__n0012",
+              "verdict": "somewhat_relevant",
+              "reason": "Refers to the TOP-10 program but lacks specific ESG targets for 2024."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2080",
+              "verdict": "somewhat_relevant",
+              "reason": "Provides total energy consumption data, which is part of decarbonization but not a direct ESG target."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2086",
+              "verdict": "somewhat_relevant",
+              "reason": "Provides coal usage data, which is part of decarbonization but not a direct ESG target."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t1759",
+              "verdict": "highly_relevant",
+              "reason": "Directly mentions the decarbonization index, which is a key ESG target for 2024."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2531\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Mentions CO1, 2 in 2024 but lacks context or relevance to ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2090\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Provides data on natural gas usage, which is part of decarbonization efforts but not a direct ESG target.\"\n    },\n    {\n      \"chunk_id\": \"2023_sustainability_report_b39ced16_pdf_n0024\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Lists ESG topics but does not specify 2024 targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2083\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Mentions operational control but no ESG context.\"\n    },\n    {\n      \"chunk_id\": \"volkswagen_ag_2023_earnings_call_mar_13__n0012\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Refers to the TOP-10 program but lacks specific ESG targets for 2024.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2080\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Provides total energy consumption data, which is part of decarbonization but not a direct ESG target.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2086\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Provides coal usage data, which is part of decarbonization but not a direct ESG target.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t1759\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Directly mentions the decarbonization index, which is a key ESG target for 2024.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks provide some relevant information, particularly the decarbonization index, but lack explicit ESG targets or commitments beyond general decarbonization efforts. Most chunks are somewhat relevant or not directly addressing the question.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "No mention of ISO 14001 review, BOM, or water-related targets (45% reduction by 2025) in the retrieved chunks."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"No mention of ISO 14001 review, BOM, or water-related targets (45% reduction by 2025) in the retrieved chunks.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected ESG context related to Volkswagen's 2024 commitments, specifically the water-related target and ISO 14001 review.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "Volkswagen reports total energy consumption of 19.0 in 2024, with minimal reliance on coal and natural gas, indicating efforts to reduce fossil fuel dependency",
+              "type": "fabricated_number",
+              "reason": "While the context mentions 'Total energy consumption in 2024 is 19.0' and 'Coal and coal products in 2024 is 0.8' and 'Natural gas in 2024 is 8.7', the claim that this indicates 'minimal reliance on coal and natural gas' is subjective and not explicitly supported by the context."
+            },
+            {
+              "claim": "The company aims to reduce its environmental impact through strategic initiatives, including the transition to electric vehicle platforms and the launch of 30 new models in 2024, with a focus on electrification",
+              "type": "unsupported_causal",
+              "reason": "The context mentions the launch of 30 new models and a focus on electrification, but it does not explicitly link these to reducing environmental impact or provide evidence of causality."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"Volkswagen reports total energy consumption of 19.0 in 2024, with minimal reliance on coal and natural gas, indicating efforts to reduce fossil fuel dependency\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"While the context mentions 'Total energy consumption in 2024 is 19.0' and 'Coal and coal products in 2024 is 0.8' and 'Natural gas in 2024 is 8.7', the claim that this indicates 'minimal reliance on coal and natural gas' is subjective and not explicitly supported by the context.\"\n    },\n    {\n      \"claim\": \"The company aims to reduce its environmental impact through strategic initiatives, including the transition to electric vehicle platforms and the launch of 30 new models in 2024, with a focus on electrification\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context mentions the launch of 30 new models and a focus on electrification, but it does not explicitly link these to reducing environmental impact or provide evidence of causality.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains several claims that are not explicitly supported by the provided context, including subjective interpretations of data and unsupported causal relationships.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.5714,
+          "claims": [
+            {
+              "claim": "The company emphasizes clear strategic goals through its TOP-10 program and plans to launch 30 new models, including electric vehicles, to support its sustainability objectives.",
+              "severity": "moderate",
+              "reason": "While the context mentions the TOP-10 program and the launch of 30 new models, it does not explicitly link these to sustainability objectives or provide evidence that the models are part of a sustainability strategy."
+            },
+            {
+              "claim": "Volkswagen reports total energy consumption of 19.0 in 2024, with minimal reliance on coal and natural gas, indicating efforts to reduce fossil fuel dependency.",
+              "severity": "moderate",
+              "reason": "The context provides the figures for total energy consumption, coal, and natural gas, but does not explicitly state that these indicate efforts to reduce fossil fuel dependency."
+            },
+            {
+              "claim": "The TOP-10 program serves as the central management tool for implementing these goals, emphasizing clear structures and measurable outcomes.",
+              "severity": "moderate",
+              "reason": "The context mentions the TOP-10 program but does not provide evidence that it emphasizes clear structures and measurable outcomes or that it is specifically for implementing sustainability goals."
+            }
+          ],
+          "unsupported_count": 3,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"The company emphasizes clear strategic goals through its TOP-10 program and plans to launch 30 new models, including electric vehicles, to support its sustainability objectives.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"While the context mentions the TOP-10 program and the launch of 30 new models, it does not explicitly link these to sustainability objectives or provide evidence that the models are part of a sustainability strategy.\"\n    },\n    {\n      \"claim\": \"Volkswagen reports total energy consumption of 19.0 in 2024, with minimal reliance on coal and natural gas, indicating efforts to reduce fossil fuel dependency.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context provides the figures for total energy consumption, coal, and natural gas, but does not explicitly state that these indicate efforts to reduce fossil fuel dependency.\"\n    },\n    {\n      \"claim\": \"The TOP-10 program serves as the central management tool for implementing these goals, emphasizing clear structures and measurable outcomes.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions the TOP-10 program but does not provide evidence that it emphasizes clear structures and measurable outcomes or that it is specifically for implementing sustainability goals.\"\n    }\n  ],\n  \"supported_count\": 4,\n  \"unsupported_count\": 3,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, particularly regarding the linkage between strategic goals and sustainability objectives, as well as the interpretation of energy consumption data.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "Volkswagen",
+      "question": "What does Volkswagen disclose about employee health and safety in 2024?",
+      "topic": "environmental, health_safety",
+      "ground_truth": "Chapter 1.7 of our Social Charter states in case of Occupational Safety and Health Protection: Volkswagen meets at least the respective national standards for a safe and hygienic working environment and in this context will undertake appropriate measures to assure health and safety in the workplace so that healthy employment conditions are assured.",
+      "answer": "Block 1 (key takeaway): Volkswagen discloses that occupational health and safety is a key sustainability topic addressed through Group policies, ISO 45001 certification requirements, and systematic risk analysis. The company reports on training hours per employee and conducts regular audits to monitor compliance and effectiveness.\n\nBlock 2 (detailed answer): According to Volkswagen's 2024 Sustainability Report, the company addresses occupational health and safety in accordance with ESRS 1 standards [Volkswagen's 2024 Sustainability Report, p. 156]. The Group has established a policy ensuring senior managers allocate adequate resources for occupational health and safety initiatives, including financial, human, and material support [Volkswagen's 2024 Sustainability Report, p. 156]. Volkswagen AG's Group Occupational Health and Safety organizational unit handles standard-setting, information provision, communication, and monitoring [Volkswagen's 2024 Sustainability Report, p. 156]. The company requires ISO 45001 management system certification for all production sites with more than 1,000 employees, with completion targeted by 2026 [Volkswagen's 2024 Sustainability Report, p. 156]. In 2024, four Group audits were conducted based on ISO 45001 requirements and Group policies [Volkswagen's 2024 Sustainability Report, p. 156]. Additionally, the company conducted a systematic health & safety risk analysis using self-assessment questionnaires across Group companies [Volkswagen's 2024 Sustainability Report, p. 156]. Regarding training, the average number of training hours per employee according to ESRS requirements was 18.9 hours [Volkswagen's 2024 Sustainability Report, p. 156].\n\nBlock 3 (Evidence excerpts):\n\"Actions related to occupational health and safety A Group policy ensures that the senior managers of each company make adequate financial, human and material resources available to fulfill the tasks in the focus area of occupational health and safety\" [Volkswagen's 2024 Sustainability Report, p. 156]\n\"The Group has issued a Group-wide policy requiring the companies to introduce and obtain certification for an ISO 45001 management system at all production sites with more than 1,000 employees\" [Volkswagen's 2024 Sustainability Report, p. 156]\n\"Four (three) Group audits were conducted in 2024\" [Volkswagen's 2024 Sustainability Report, p. 156]\n\"As a result, it was possible to identify improvement potential and introduce measures to reduce sustainability-related risks\" [Volkswagen's 2024 Sustainability Report, p. 156]\n\"The average number of training hours per employee in accordance with the requirements of the ESRS was 18.9 hours\" [Volkswagen's 2024 Sustainability Report, p. 156]\n\n**Limitations**\nThe provided context does not contain specific data on employee injury rates, workplace accident statistics, or detailed health and safety performance metrics beyond the general framework and training hours. Information on actual incident reporting, fatalities, or serious injuries is absent. The disclosure focuses primarily on policy frameworks and procedural compliance rather than outcome-based health and safety performance indicators. While ISO 45001 certification is mentioned, there are no details on certification status or audit outcomes for individual facilities. The context lacks specific targets, baselines, or measurable outcomes for health and safety improvements.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_sustainability_report_91620cfe_pdf_t2083",
+        "2023_sustainability_report_b39ced16_pdf_t3006",
+        "volkswagen_ag_2023_earnings_call_mar_13__n0012",
+        "2024_sustainability_report_91620cfe_pdf_t2088",
+        "2024_sustainability_report_91620cfe_pdf_t2531",
+        "2024_sustainability_report_91620cfe_pdf_n0148",
+        "volkswagen_ag_2023_earnings_call_mar_13__n0002",
+        "2023_sustainability_report_b39ced16_pdf_t3007"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 54.05,
+        "best_chunk_id": "2023_sustainability_report_b39ced16_pdf_t3006",
+        "top_score": 0.702159196891988
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8,
+        "context_precision": 0.125,
+        "context_recall": 1.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.625
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "Volkswagen discloses that occupational health and safety is a key sustainability topic addressed through Group policies, ISO 45001 certification requirements, and systematic risk analysis.",
+              "verdict": "supported",
+              "reason": "The context explicitly mentions Group policies, ISO 45001 certification, and systematic risk analysis for occupational health and safety."
+            },
+            {
+              "claim": "The company reports on training hours per employee and conducts regular audits to monitor compliance and effectiveness.",
+              "verdict": "supported",
+              "reason": "The context states the average training hours per employee (18.9 hours) and mentions four Group audits conducted in 2024."
+            },
+            {
+              "claim": "According to Volkswagen's 2024 Sustainability Report, the company addresses occupational health and safety in accordance with ESRS 1 standards.",
+              "verdict": "supported",
+              "reason": "The context explicitly mentions that the section addresses occupational health and safety in accordance with ESRS 1 standards."
+            },
+            {
+              "claim": "The Group has established a policy ensuring senior managers allocate adequate resources for occupational health and safety initiatives, including financial, human, and material support.",
+              "verdict": "supported",
+              "reason": "The context states that a Group policy ensures senior managers allocate adequate resources for occupational health and safety."
+            },
+            {
+              "claim": "Volkswagen AG's Group Occupational Health and Safety organizational unit handles standard-setting, information provision, communication, and monitoring.",
+              "verdict": "supported",
+              "reason": "The context explicitly mentions the Group Occupational Health and Safety organizational unit's responsibilities."
+            },
+            {
+              "claim": "The company requires ISO 45001 management system certification for all production sites with more than 1,000 employees, with completion targeted by 2026.",
+              "verdict": "supported",
+              "reason": "The context states that the Group-wide policy requires ISO 45001 certification for production sites with more than 1,000 employees by 2026."
+            },
+            {
+              "claim": "In 2024, four Group audits were conducted based on ISO 45001 requirements and Group policies.",
+              "verdict": "supported",
+              "reason": "The context explicitly mentions that four Group audits were conducted in 2024 based on ISO 45001 requirements and Group policies."
+            },
+            {
+              "claim": "Additionally, the company conducted a systematic health & safety risk analysis using self-assessment questionnaires across Group companies.",
+              "verdict": "supported",
+              "reason": "The context states that a systematic health & safety risk analysis was conducted using self-assessment questionnaires."
+            },
+            {
+              "claim": "Regarding training, the average number of training hours per employee according to ESRS requirements was 18.9 hours.",
+              "verdict": "supported",
+              "reason": "The context explicitly states the average number of training hours per employee was 18.9 hours according to ESRS requirements."
+            },
+            {
+              "claim": "The provided context does not contain specific data on employee injury rates, workplace accident statistics, or detailed health and safety performance metrics beyond the general framework and training hours.",
+              "verdict": "supported",
+              "reason": "The context does not provide specific data on injury rates, accident statistics, or detailed performance metrics beyond the mentioned framework."
+            },
+            {
+              "claim": "Information on actual incident reporting, fatalities, or serious injuries is absent.",
+              "verdict": "supported",
+              "reason": "The context does not mention any data on incident reporting, fatalities, or serious injuries."
+            },
+            {
+              "claim": "While ISO 45001 certification is mentioned, there are no details on certification status or audit outcomes for individual facilities.",
+              "verdict": "supported",
+              "reason": "The context mentions ISO 45001 certification requirements but does not provide details on certification status or audit outcomes for individual facilities."
+            },
+            {
+              "claim": "The context lacks specific targets, baselines, or measurable outcomes for health and safety improvements.",
+              "verdict": "supported",
+              "reason": "The context does not provide specific targets, baselines, or measurable outcomes for health and safety improvements."
+            }
+          ],
+          "reasoning": "All claims in the answer are either directly supported by the provided context or are accurately noted as unsupported where the context lacks specific details. The answer faithfully reflects the information available in the context.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Volkswagen discloses that occupational health and safety is a key sustainability topic addressed through Group policies, ISO 45001 certification requirements, and systematic risk analysis.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly mentions Group policies, ISO 45001 certification, and systematic risk analysis for occupational health and safety.\"\n    },\n    {\n      \"claim\": \"The company reports on training hours per employee and conducts regular audits to monitor compliance and effectiveness.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states the average training hours per employee (18.9 hours) and mentions four Group audits conducted in 2024.\"\n    },\n    {\n      \"claim\": \"According to Volkswagen's 2024 Sustainability Report, the company addresses occupational health and safety in accordance with ESRS 1 standards.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly mentions that the section addresses occupational health and safety in accordance with ESRS 1 standards.\"\n    },\n    {\n      \"claim\": \"The Group has established a policy ensuring senior managers allocate adequate resources for occupational health and safety initiatives, including financial, human, and material support.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states that a Group policy ensures senior managers allocate adequate resources for occupational health and safety.\"\n    },\n    {\n      \"claim\": \"Volkswagen AG's Group Occupational Health and Safety organizational unit handles standard-setting, information provision, communication, and monitoring.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly mentions the Group Occupational Health and Safety organizational unit's responsibilities.\"\n    },\n    {\n      \"claim\": \"The company requires ISO 45001 management system certification for all production sites with more than 1,000 employees, with completion targeted by 2026.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states that the Group-wide policy requires ISO 45001 certification for production sites with more than 1,000 employees by 2026.\"\n    },\n    {\n      \"claim\": \"In 2024, four Group audits were conducted based on ISO 45001 requirements and Group policies.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly mentions that four Group audits were conducted in 2024 based on ISO 45001 requirements and Group policies.\"\n    },\n    {\n      \"claim\": \"Additionally, the company conducted a systematic health & safety risk analysis using self-assessment questionnaires across Group companies.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states that a systematic health & safety risk analysis was conducted using self-assessment questionnaires.\"\n    },\n    {\n      \"claim\": \"Regarding training, the average number of training hours per employee according to ESRS requirements was 18.9 hours.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states the average number of training hours per employee was 18.9 hours according to ESRS requirements.\"\n    },\n    {\n      \"claim\": \"The provided context does not contain specific data on employee injury rates, workplace accident statistics, or detailed health and safety performance metrics beyond the general framework and training hours.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not provide specific data on injury rates, accident statistics, or detailed performance metrics beyond the mentioned framework.\"\n    },\n    {\n      \"claim\": \"Information on actual incident reporting, fatalities, or serious injuries is absent.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not mention any data on incident reporting, fatalities, or serious injuries.\"\n    },\n    {\n      \"claim\": \"While ISO 45001 certification is mentioned, there are no details on certification status or audit outcomes for individual facilities.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions ISO 45001 certification requirements but does not provide details on certification status or audit outcomes for individual facilities.\"\n    },\n    {\n      \"claim\": \"The context lacks specific targets, baselines, or measurable outcomes for health and safety improvements.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not provide specific targets, baselines, or measurable outcomes for health and safety improvements.\"\n    }\n  ],\n  \"overall_reasoning\": \"All claims in the answer are either directly supported by the provided context or are accurately noted as unsupported where the context lacks specific details. The answer faithfully reflects the information available in the context.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.8,
+          "reasoning": "The answer provides a detailed and relevant response to the question about Volkswagen's 2024 disclosures on employee health and safety, including policies, ISO 45001 certification, audits, and training hours. However, it lacks specific data on injury rates, accident statistics, or detailed performance metrics, which would have made it fully comprehensive.",
+          "raw": "```json\n{\"score\": 0.8, \"reasoning\": \"The answer provides a detailed and relevant response to the question about Volkswagen's 2024 disclosures on employee health and safety, including policies, ISO 45001 certification, audits, and training hours. However, it lacks specific data on injury rates, accident statistics, or detailed performance metrics, which would have made it fully comprehensive.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.125,
+          "highly_relevant": 0,
+          "relevant_count": 1,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2083",
+              "verdict": "not_relevant",
+              "reason": "Discusses operational control in 2024, unrelated to employee health and safety."
+            },
+            {
+              "chunk_id": "2023_sustainability_report_b39ced16_pdf_t3006",
+              "verdict": "not_relevant",
+              "reason": "Provides employee participation numbers for 2023, unrelated to health and safety."
+            },
+            {
+              "chunk_id": "volkswagen_ag_2023_earnings_call_mar_13__n0012",
+              "verdict": "not_relevant",
+              "reason": "Discusses financial performance and TOP-10 program, unrelated to health and safety."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2088",
+              "verdict": "not_relevant",
+              "reason": "Discusses crude oil and petroleum products in 2024, unrelated to health and safety."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2531",
+              "verdict": "not_relevant",
+              "reason": "Discusses CO1, 2 in 2024, unrelated to health and safety."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_n0148",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions training hours per employee, which is related but not the core of the question."
+            },
+            {
+              "chunk_id": "volkswagen_ag_2023_earnings_call_mar_13__n0002",
+              "verdict": "not_relevant",
+              "reason": "Discusses earnings call introduction, unrelated to health and safety."
+            },
+            {
+              "chunk_id": "2023_sustainability_report_b39ced16_pdf_t3007",
+              "verdict": "not_relevant",
+              "reason": "Provides employee participation numbers for 2022, unrelated to health and safety."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2083\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses operational control in 2024, unrelated to employee health and safety.\"\n    },\n    {\n      \"chunk_id\": \"2023_sustainability_report_b39ced16_pdf_t3006\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Provides employee participation numbers for 2023, unrelated to health and safety.\"\n    },\n    {\n      \"chunk_id\": \"volkswagen_ag_2023_earnings_call_mar_13__n0012\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses financial performance and TOP-10 program, unrelated to health and safety.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2088\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses crude oil and petroleum products in 2024, unrelated to health and safety.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2531\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses CO1, 2 in 2024, unrelated to health and safety.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_n0148\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions training hours per employee, which is related but not the core of the question.\"\n    },\n    {\n      \"chunk_id\": \"volkswagen_ag_2023_earnings_call_mar_13__n0002\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses earnings call introduction, unrelated to health and safety.\"\n    },\n    {\n      \"chunk_id\": \"2023_sustainability_report_b39ced16_pdf_t3007\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Provides employee participation numbers for 2022, unrelated to health and safety.\"\n    }\n  ],\n  \"overall\": \"None of the retrieved chunks are highly relevant to the question about Volkswagen's 2024 employee health and safety disclosures. Only one chunk is somewhat relevant, mentioning training hours, but the core details from the answer are missing.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 1.0,
+          "fully_covered": 0,
+          "covered_count": 1,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "partially_covered",
+              "reason": "The retrieved chunks mention Volkswagen's commitment to occupational health and safety, including ISO 45001 certification and risk analysis, but do not explicitly state that they meet national standards or provide the exact details from Chapter 1.7 of the Social Charter."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"partially_covered\",\n      \"reason\": \"The retrieved chunks mention Volkswagen's commitment to occupational health and safety, including ISO 45001 certification and risk analysis, but do not explicitly state that they meet national standards or provide the exact details from Chapter 1.7 of the Social Charter.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks partially cover the expected ESG context by mentioning occupational health and safety measures but lack specific details about meeting national standards and the exact wording from the Social Charter.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "The company reports on training hours per employee and conducts regular audits to monitor compliance and effectiveness.",
+              "type": "unsupported_causal",
+              "reason": "The context does not explicitly state that the company reports on training hours per employee or that audits are conducted to monitor compliance and effectiveness. These claims are implied but not directly supported by the provided context."
+            },
+            {
+              "claim": "The company conducted a systematic health & safety risk analysis using self-assessment questionnaires across Group companies.",
+              "type": "unsupported_causal",
+              "reason": "The context mentions a risk analysis based on self-assessment questionnaires but does not explicitly state that it was conducted across all Group companies. The scope is not fully clarified."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"The company reports on training hours per employee and conducts regular audits to monitor compliance and effectiveness.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not explicitly state that the company reports on training hours per employee or that audits are conducted to monitor compliance and effectiveness. These claims are implied but not directly supported by the provided context.\"\n    },\n    {\n      \"claim\": \"The company conducted a systematic health & safety risk analysis using self-assessment questionnaires across Group companies.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context mentions a risk analysis based on self-assessment questionnaires but does not explicitly state that it was conducted across all Group companies. The scope is not fully clarified.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains claims that are not directly supported by the provided context, particularly regarding the scope and purpose of certain activities. The context focuses on policy frameworks and procedural compliance rather than detailed outcomes or specific reporting practices.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.625,
+          "claims": [
+            {
+              "claim": "The company reports on training hours per employee and conducts regular audits to monitor compliance and effectiveness.",
+              "severity": "moderate",
+              "reason": "While training hours (18.9) and audits (4) are mentioned, the context does not explicitly state that these are reported or used to monitor compliance and effectiveness."
+            },
+            {
+              "claim": "The company conducted a systematic health & safety risk analysis using self-assessment questionnaires across Group companies.",
+              "severity": "minor",
+              "reason": "The context mentions a risk analysis but does not specify that it was conducted across all Group companies."
+            },
+            {
+              "claim": "The company requires ISO 45001 management system certification for all production sites with more than 1,000 employees, with completion targeted by 2026.",
+              "severity": "minor",
+              "reason": "The context states the requirement and target, but there is no evidence of actual progress or certification status."
+            }
+          ],
+          "unsupported_count": 3,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"The company reports on training hours per employee and conducts regular audits to monitor compliance and effectiveness.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"While training hours (18.9) and audits (4) are mentioned, the context does not explicitly state that these are reported or used to monitor compliance and effectiveness.\"\n    },\n    {\n      \"claim\": \"The company conducted a systematic health & safety risk analysis using self-assessment questionnaires across Group companies.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context mentions a risk analysis but does not specify that it was conducted across all Group companies.\"\n    },\n    {\n      \"claim\": \"The company requires ISO 45001 management system certification for all production sites with more than 1,000 employees, with completion targeted by 2026.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context states the requirement and target, but there is no evidence of actual progress or certification status.\"\n    }\n  ],\n  \"supported_count\": 5,\n  \"unsupported_count\": 3,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, particularly regarding reporting practices, the scope of risk analysis, and the status of ISO 45001 certification. The context primarily supports policy frameworks and procedural compliance rather than outcome-based metrics.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "Volkswagen",
+      "question": "What emissions-related disclosure does Volkswagen report in 2024?",
+      "topic": "environmental, emissions, targets",
+      "ground_truth": "The Volkswagen Group also aims to reduce CO2e emissions in passenger cars and light commercial vehicles’ use phase (Scope 3 category 11) by 30% by 2030 (compared with 2018).",
+      "answer": "Block 1 (key takeaway): Volkswagen reports emissions-related disclosures including CO2 emissions data, energy consumption metrics, and operational controls in their 2024 sustainability report. The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024 [Volkswagen's 2024 Sustainability Report, p. 60].\n\nBlock 2 (detailed answer): Volkswagen's 2024 sustainability report provides detailed emissions-related disclosures across multiple categories. The company reports total energy consumption at 19.0 units in 2024 [Volkswagen's 2024 Sustainability Report, p. 60]. Specific fuel consumption data includes natural gas at 8.7 units, coal and coal products at 0.8 units, and crude oil and petroleum products at 1.1 units for the same period [Volkswagen's 2024 Sustainability Report, p. 60]. Additionally, Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management [Volkswagen's 2024 Sustainability Report, p. 60]. While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption data [Volkswagen's 2024 Sustainability Report, p. 80].\n\nBlock 3 (evidence excerpts): \n\"Total energy consumption in 2024 is 19.0\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"Natural gas in 2024 is 8.7\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"Coal and coal products in 2024 is 0.8\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"Crude oil and petroleum products in 2024 is 1.1\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\"with operational control in 2024 is 24.6\" [Volkswagen's 2024 Sustainability Report, p. 60]\n\n**Limitations**\nThe provided context lacks comprehensive emissions disclosure details beyond specific fuel consumption data. The report does not clearly define the methodology used for calculating emissions or provide scope 1 and scope 2 emission targets. There is no information about greenhouse gas emissions reduction targets, carbon footprint calculations, or alignment with international reporting standards like GRI or SASB. The CO1, 2 value of 0.0 suggests potential incomplete reporting or different measurement parameters that are not explained in the available documents. The context also does not include any emissions intensity metrics or historical trend comparisons beyond the single year of 2024 data.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_sustainability_report_91620cfe_pdf_t2531",
+        "2024_sustainability_report_91620cfe_pdf_t2872",
+        "2024_sustainability_report_91620cfe_pdf_t2080",
+        "2024_sustainability_report_91620cfe_pdf_t2090",
+        "2024_sustainability_report_91620cfe_pdf_t2086",
+        "2024_sustainability_report_91620cfe_pdf_t2088",
+        "2024_sustainability_report_91620cfe_pdf_t2083",
+        "2023_sustainability_report_b39ced16_pdf_t1166"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "partial",
+        "best_match_score": 74.73,
+        "best_chunk_id": "2024_sustainability_report_91620cfe_pdf_t2531",
+        "top_score": 0.7645967952813857
+      },
+      "ragas": {
+        "faithfulness": 0.6364,
+        "answer_relevancy": 0.7,
+        "context_precision": 0.75,
+        "context_recall": 0.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.4286
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 0.6364,
+          "verdicts": [
+            {
+              "claim": "Volkswagen reports emissions-related disclosures including CO2 emissions data, energy consumption metrics, and operational controls in their 2024 sustainability report.",
+              "verdict": "supported",
+              "reason": "The context includes references to CO2 emissions data (CO1, 2), energy consumption metrics (total energy consumption, natural gas, coal, crude oil), and operational controls."
+            },
+            {
+              "claim": "The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024 [Volkswagen's 2024 Sustainability Report, p. 60].",
+              "verdict": "supported",
+              "reason": "The context explicitly lists total energy consumption (19.0), natural gas (8.7), and coal (0.8) for 2024."
+            },
+            {
+              "claim": "Volkswagen's 2024 sustainability report provides detailed emissions-related disclosures across multiple categories.",
+              "verdict": "supported",
+              "reason": "The context includes multiple categories of emissions-related disclosures (energy consumption, fuel types, operational controls)."
+            },
+            {
+              "claim": "The company reports total energy consumption at 19.0 units in 2024 [Volkswagen's 2024 Sustainability Report, p. 60].",
+              "verdict": "supported",
+              "reason": "The context explicitly states 'Total energy consumption in 2024 is 19.0.'"
+            },
+            {
+              "claim": "Specific fuel consumption data includes natural gas at 8.7 units, coal and coal products at 0.8 units, and crude oil and petroleum products at 1.1 units for the same period [Volkswagen's 2024 Sustainability Report, p. 60].",
+              "verdict": "supported",
+              "reason": "The context explicitly lists these values for 2024."
+            },
+            {
+              "claim": "Additionally, Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management [Volkswagen's 2024 Sustainability Report, p. 60].",
+              "verdict": "supported",
+              "reason": "The context explicitly states 'with operational control in 2024 is 24.6.'"
+            },
+            {
+              "claim": "While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption data [Volkswagen's 2024 Sustainability Report, p. 80].",
+              "verdict": "supported",
+              "reason": "The context includes 'CO1, 2 in 2024 is 0.0,' which is distinct from the fuel consumption data."
+            },
+            {
+              "claim": "The report does not clearly define the methodology used for calculating emissions or provide scope 1 and scope 2 emission targets.",
+              "verdict": "unsupported",
+              "reason": "The context does not mention methodology or scope 1/2 targets."
+            },
+            {
+              "claim": "There is no information about greenhouse gas emissions reduction targets, carbon footprint calculations, or alignment with international reporting standards like GRI or SASB.",
+              "verdict": "unsupported",
+              "reason": "The context does not mention these details."
+            },
+            {
+              "claim": "The CO1, 2 value of 0.0 suggests potential incomplete reporting or different measurement parameters that are not explained in the available documents.",
+              "verdict": "unsupported",
+              "reason": "The context does not provide any explanation for the CO1, 2 value."
+            },
+            {
+              "claim": "The context also does not include any emissions intensity metrics or historical trend comparisons beyond the single year of 2024 data.",
+              "verdict": "unsupported",
+              "reason": "The context does not mention emissions intensity or historical trends."
+            }
+          ],
+          "reasoning": "The answer's factual claims about specific emissions-related disclosures (e.g., energy consumption, fuel types, operational controls) are supported by the context. However, claims about missing details (methodology, scope 1/2 targets, reduction targets, etc.) are unsupported because the context does not address these aspects.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"Volkswagen reports emissions-related disclosures including CO2 emissions data, energy consumption metrics, and operational controls in their 2024 sustainability report.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes references to CO2 emissions data (CO1, 2), energy consumption metrics (total energy consumption, natural gas, coal, crude oil), and operational controls.\"\n    },\n    {\n      \"claim\": \"The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024 [Volkswagen's 2024 Sustainability Report, p. 60].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly lists total energy consumption (19.0), natural gas (8.7), and coal (0.8) for 2024.\"\n    },\n    {\n      \"claim\": \"Volkswagen's 2024 sustainability report provides detailed emissions-related disclosures across multiple categories.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes multiple categories of emissions-related disclosures (energy consumption, fuel types, operational controls).\"\n    },\n    {\n      \"claim\": \"The company reports total energy consumption at 19.0 units in 2024 [Volkswagen's 2024 Sustainability Report, p. 60].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states 'Total energy consumption in 2024 is 19.0.'\"\n    },\n    {\n      \"claim\": \"Specific fuel consumption data includes natural gas at 8.7 units, coal and coal products at 0.8 units, and crude oil and petroleum products at 1.1 units for the same period [Volkswagen's 2024 Sustainability Report, p. 60].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly lists these values for 2024.\"\n    },\n    {\n      \"claim\": \"Additionally, Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management [Volkswagen's 2024 Sustainability Report, p. 60].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states 'with operational control in 2024 is 24.6.'\"\n    },\n    {\n      \"claim\": \"While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption data [Volkswagen's 2024 Sustainability Report, p. 80].\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes 'CO1, 2 in 2024 is 0.0,' which is distinct from the fuel consumption data.\"\n    },\n    {\n      \"claim\": \"The report does not clearly define the methodology used for calculating emissions or provide scope 1 and scope 2 emission targets.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not mention methodology or scope 1/2 targets.\"\n    },\n    {\n      \"claim\": \"There is no information about greenhouse gas emissions reduction targets, carbon footprint calculations, or alignment with international reporting standards like GRI or SASB.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not mention these details.\"\n    },\n    {\n      \"claim\": \"The CO1, 2 value of 0.0 suggests potential incomplete reporting or different measurement parameters that are not explained in the available documents.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not provide any explanation for the CO1, 2 value.\"\n    },\n    {\n      \"claim\": \"The context also does not include any emissions intensity metrics or historical trend comparisons beyond the single year of 2024 data.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not mention emissions intensity or historical trends.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer's factual claims about specific emissions-related disclosures (e.g., energy consumption, fuel types, operational controls) are supported by the context. However, claims about missing details (methodology, scope 1/2 targets, reduction targets, etc.) are unsupported because the context does not address these aspects.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.7,
+          "reasoning": "The answer provides specific emissions-related disclosures from Volkswagen's 2024 sustainability report, including energy consumption metrics and operational controls. However, it lacks clarity on CO2 emissions data, scope definitions, and alignment with reporting standards, which are key aspects of emissions-related disclosures. The mention of 'CO1, 2' is confusing and suggests incomplete or unclear reporting.",
+          "raw": "```json\n{\"score\": 0.7, \"reasoning\": \"The answer provides specific emissions-related disclosures from Volkswagen's 2024 sustainability report, including energy consumption metrics and operational controls. However, it lacks clarity on CO2 emissions data, scope definitions, and alignment with reporting standards, which are key aspects of emissions-related disclosures. The mention of 'CO1, 2' is confusing and suggests incomplete or unclear reporting.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.75,
+          "highly_relevant": 5,
+          "relevant_count": 6,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2531",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions CO1, 2 emissions but lacks clarity and context, making it less directly relevant."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2872",
+              "verdict": "not_relevant",
+              "reason": "Discusses wastewater discharge, unrelated to emissions disclosures."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2080",
+              "verdict": "highly_relevant",
+              "reason": "Directly provides total energy consumption data for 2024, a key emissions-related metric."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2090",
+              "verdict": "highly_relevant",
+              "reason": "Provides specific natural gas consumption data for 2024, directly related to emissions."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2086",
+              "verdict": "highly_relevant",
+              "reason": "Provides specific coal and coal products consumption data for 2024, directly related to emissions."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2088",
+              "verdict": "highly_relevant",
+              "reason": "Provides specific crude oil and petroleum products consumption data for 2024, directly related to emissions."
+            },
+            {
+              "chunk_id": "2024_sustainability_report_91620cfe_pdf_t2083",
+              "verdict": "highly_relevant",
+              "reason": "Provides operational control data for 2024, which is part of emissions monitoring and management."
+            },
+            {
+              "chunk_id": "2023_sustainability_report_b39ced16_pdf_t1166",
+              "verdict": "not_relevant",
+              "reason": "Discusses 2022 data, which is not relevant to the 2024 question."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2531\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions CO1, 2 emissions but lacks clarity and context, making it less directly relevant.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2872\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses wastewater discharge, unrelated to emissions disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2080\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Directly provides total energy consumption data for 2024, a key emissions-related metric.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2090\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Provides specific natural gas consumption data for 2024, directly related to emissions.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2086\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Provides specific coal and coal products consumption data for 2024, directly related to emissions.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2088\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Provides specific crude oil and petroleum products consumption data for 2024, directly related to emissions.\"\n    },\n    {\n      \"chunk_id\": \"2024_sustainability_report_91620cfe_pdf_t2083\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Provides operational control data for 2024, which is part of emissions monitoring and management.\"\n    },\n    {\n      \"chunk_id\": \"2023_sustainability_report_b39ced16_pdf_t1166\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses 2022 data, which is not relevant to the 2024 question.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks include several highly relevant pieces of information directly addressing Volkswagen's 2024 emissions-related disclosures, such as energy consumption and specific fuel usage. However, some chunks are either somewhat relevant (e.g., CO1, 2) or not relevant (e.g., wastewater discharge, 2022 data). The overall coverage is strong for the specific metrics mentioned but lacks broader context like methodology or targets.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "No information about SBTi certification or emissions reduction targets for 2024 is present in the retrieved chunks."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"No information about SBTi certification or emissions reduction targets for 2024 is present in the retrieved chunks.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected ESG context related to Volkswagen's emissions-related disclosures for 2024.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "operational controls at 24.6 units in 2024",
+              "type": "fabricated_number",
+              "reason": "The context does not define 'operational controls' as a metric, and the number 24.6 is not clearly linked to emissions-related disclosures."
+            },
+            {
+              "claim": "CO1, 2 in 2024 as 0.0",
+              "type": "fabricated_number",
+              "reason": "The context does not explain what 'CO1, 2' refers to, and the value 0.0 is not supported by any emissions-related data in the provided context."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"operational controls at 24.6 units in 2024\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not define 'operational controls' as a metric, and the number 24.6 is not clearly linked to emissions-related disclosures.\"\n    },\n    {\n      \"claim\": \"CO1, 2 in 2024 as 0.0\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not explain what 'CO1, 2' refers to, and the value 0.0 is not supported by any emissions-related data in the provided context.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains fabricated numbers and unsupported claims, particularly regarding 'operational controls' and 'CO1, 2' emissions data.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.4286,
+          "claims": [
+            {
+              "claim": "Volkswagen reports emissions-related disclosures including CO2 emissions data, energy consumption metrics, and operational controls in their 2024 sustainability report.",
+              "severity": "moderate",
+              "reason": "The context does not explicitly mention CO2 emissions data being reported; it only references 'CO1, 2' with a value of 0.0, which is unclear and not explained."
+            },
+            {
+              "claim": "The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024.",
+              "severity": "minor",
+              "reason": "While the context provides these metrics, it does not confirm they are explicitly labeled as 'disclosed' in the report."
+            },
+            {
+              "claim": "Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management.",
+              "severity": "major",
+              "reason": "The context does not explain what 'operational control' refers to or how it relates to emission monitoring/management."
+            },
+            {
+              "claim": "While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption data.",
+              "severity": "major",
+              "reason": "The context does not provide any explanation or context for 'CO1, 2' or its distinction from other emissions data."
+            }
+          ],
+          "unsupported_count": 4,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"Volkswagen reports emissions-related disclosures including CO2 emissions data, energy consumption metrics, and operational controls in their 2024 sustainability report.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not explicitly mention CO2 emissions data being reported; it only references 'CO1, 2' with a value of 0.0, which is unclear and not explained.\"\n    },\n    {\n      \"claim\": \"The company discloses specific metrics such as total energy consumption, natural gas usage, and coal consumption for 2024.\",\n      \"severity\": \"minor\",\n      \"reason\": \"While the context provides these metrics, it does not confirm they are explicitly labeled as 'disclosed' in the report.\"\n    },\n    {\n      \"claim\": \"Volkswagen reports operational controls at 24.6 units in 2024, indicating their scope of emission monitoring and management.\",\n      \"severity\": \"major\",\n      \"reason\": \"The context does not explain what 'operational control' refers to or how it relates to emission monitoring/management.\"\n    },\n    {\n      \"claim\": \"While the report mentions CO1, 2 in 2024 as 0.0, this appears to be a different emissions category than the primary fuel consumption data.\",\n      \"severity\": \"major\",\n      \"reason\": \"The context does not provide any explanation or context for 'CO1, 2' or its distinction from other emissions data.\"\n    }\n  ],\n  \"supported_count\": 3,\n  \"unsupported_count\": 4,\n  \"overall\": \"The answer contains several unsupported claims, particularly regarding the interpretation of 'CO1, 2' and the meaning of 'operational control.' The context lacks clarity on key emissions-related disclosures, leading to speculative conclusions.\"\n}\n```"
+        }
+      }
+    }
+  ]
+}

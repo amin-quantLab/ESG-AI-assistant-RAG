@@ -1,0 +1,1104 @@
+{
+  "company": "TotalEnergies",
+  "question_count": 5,
+  "eval_mode": "ragas",
+  "text_model": "openai/gpt-oss-120b",
+  "generator_model": "openai/gpt-oss-120b",
+  "judge_model": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+  "retrieval_mode": "semantic_rerank",
+  "candidate_k": 100,
+  "top_k": 8,
+  "query_transform": "none",
+  "answer_mode": "assistant",
+  "prompt_style": "balanced",
+  "retrieval_summary": {
+    "hit": 0,
+    "partial": 0,
+    "miss": 5,
+    "hit_rate": 0.0,
+    "partial_or_hit_rate": 0.0,
+    "average_best_match_score": 58.24,
+    "average_top_retrieval_score": 0.9051
+  },
+  "ragas_summary": {
+    "faithfulness": 0.9589,
+    "answer_relevancy": 0.84,
+    "context_precision": 0.375,
+    "context_recall": 0.4,
+    "hallucination_free": 0.4,
+    "citation_coverage": 0.0,
+    "unsupported_claims_score": 0.345
+  },
+  "results": [
+    {
+      "company": "TotalEnergies",
+      "question": "What emissions-related disclosure does TotalEnergies report in 2024?",
+      "topic": "environmental, emissions, renewables",
+      "ground_truth": "GGIP involves 4 main components, including the restoration of the Ratawi oil and gas field (the Associated Gas Upstream Project or AGUP); the development of a gas treatment plant that will support a phased reduction of gas flaring and air emissions by oil and gas companies in the region (the Gas Midstream Project or GMP); the construction of a water desalination plant that will reduce the use of freshwater by oil and gas companies in the region (the Common Seawater Supply Project or CSSP); and the construction of a large solar plant (the Solar Power Project or SPP).",
+      "answer": "TotalEnergies reports its 2024 gross global Scope 1 greenhouse‑gas emissions (33 Mt CO₂e) together with a detailed breakdown of methane, flared, combustion, process, vented and fugitive emissions, and notes that it has set targets and indicators to manage Scope 1 emissions【TotalEnergies' 2024 Report, p. 650】.  \n\nThe 2024 URD discloses that TotalEnergies emitted 33 Mt CO₂e of Scope 1 GHGs, of which 0.8 Mt CO₂e (29 kt CH₄) corresponds to methane (≈3 % of total). Emissions are further itemised as 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented and less than 0.1 Mt CO₂e fugitive. The company also states that it has established targets and indicators to manage and reduce Scope 1 emissions, with performance analysis referenced in chapter 5.2.1【TotalEnergies' 2024 Report, p. 650】.  \n\n**Evidence excerpts**  \n- “Gross global Scope 1 emissions 33 Mt CO₂e”【TotalEnergies' 2024 Report, p. 650】  \n- “0.8 Mt CO₂e (29 kt CH₄), i.e., 3 % of methane”【TotalEnergies' 2024 Report, p. 650】  \n- “Amount of gross global Scope 1 emissions from flared hydrocarbons 3 Mt CO₂e”【TotalEnergies' 2024 Report, p. 650】  \n- “Amount of gross global Scope 1 emissions from other combustion 25 Mt CO₂e”【TotalEnergies' 2024 Report, p. 650】  \n- “TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions… analysis of performance against those”【TotalEnergies' 2024 Report, p. 650】  \n\n**Limitations**  \n- The disclosure focuses on Scope 1 only; Scope 2 and Scope 3 emissions are not detailed in the provided excerpts.  \n- Baseline years, target values, coverage scopes, and the specific methodology used for calculating each emission component are not specified.  \n- Percentage coverage under emissions‑limiting regulations is mentioned but not quantified.  \n- No information is given on verification, third‑party assurance, or data quality controls.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_urd_c0294fa9_pdf_n0671",
+        "2024_urd_c0294fa9_pdf_n0667",
+        "2024_urd_c0294fa9_pdf_n0020",
+        "2024_urd_c0294fa9_pdf_n0449",
+        "2024_urd_dba48e9f_pdf_n0001",
+        "2024_progress_report_8e664f5b_pdf_n0020",
+        "2024_urd_c0294fa9_pdf_n0003",
+        "2024_urd_c0294fa9_pdf_n0018"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 49.11,
+        "best_chunk_id": "2024_urd_c0294fa9_pdf_n0003",
+        "top_score": 1.0
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8,
+        "context_precision": 0.25,
+        "context_recall": 0.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.2
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "TotalEnergies reports its 2024 gross global Scope 1 greenhouse‑gas emissions (33 Mt CO₂e)",
+              "verdict": "supported",
+              "reason": "The context explicitly states 'Gross global Scope 1 emissions 33 Mt COe' (Source: 2024 URD, §5.2.1.3)."
+            },
+            {
+              "claim": "TotalEnergies reports a detailed breakdown of methane, flared, combustion, process, vented and fugitive emissions",
+              "verdict": "supported",
+              "reason": "The context provides detailed breakdowns: 0.8 Mt CO₂e (29 kt CH₄) for methane, 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and less than 0.1 Mt CO₂e fugitive (Source: 2024 URD, §5.2.1.3)."
+            },
+            {
+              "claim": "TotalEnergies has set targets and indicators to manage Scope 1 emissions",
+              "verdict": "supported",
+              "reason": "The context states 'TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions' (Source: 2024 URD, §5.2.1)."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the emissions-related disclosures provided in the context. All claims are directly supported by the evidence excerpts from TotalEnergies' 2024 Report, specifically on page 650, which details Scope 1 emissions, their breakdown, and the company's targets and indicators for managing these emissions.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"TotalEnergies reports its 2024 gross global Scope 1 greenhouse‑gas emissions (33 Mt CO₂e)\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states 'Gross global Scope 1 emissions 33 Mt COe' (Source: 2024 URD, §5.2.1.3).\"\n    },\n    {\n      \"claim\": \"TotalEnergies reports a detailed breakdown of methane, flared, combustion, process, vented and fugitive emissions\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context provides detailed breakdowns: 0.8 Mt CO₂e (29 kt CH₄) for methane, 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and less than 0.1 Mt CO₂e fugitive (Source: 2024 URD, §5.2.1.3).\"\n    },\n    {\n      \"claim\": \"TotalEnergies has set targets and indicators to manage Scope 1 emissions\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states 'TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions' (Source: 2024 URD, §5.2.1).\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the emissions-related disclosures provided in the context. All claims are directly supported by the evidence excerpts from TotalEnergies' 2024 Report, specifically on page 650, which details Scope 1 emissions, their breakdown, and the company's targets and indicators for managing these emissions.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.8,
+          "reasoning": "The answer provides detailed and specific information about TotalEnergies' 2024 Scope 1 emissions, including breakdowns by methane, flared, combustion, process, vented, and fugitive emissions. It also mentions targets and indicators for managing these emissions. However, it does not address Scope 2 or Scope 3 emissions, lacks baseline years, target values, and methodology details, and does not mention verification or data quality controls, which are relevant to a comprehensive ESG disclosure.",
+          "raw": "```json\n{\"score\": 0.8, \"reasoning\": \"The answer provides detailed and specific information about TotalEnergies' 2024 Scope 1 emissions, including breakdowns by methane, flared, combustion, process, vented, and fugitive emissions. It also mentions targets and indicators for managing these emissions. However, it does not address Scope 2 or Scope 3 emissions, lacks baseline years, target values, and methodology details, and does not mention verification or data quality controls, which are relevant to a comprehensive ESG disclosure.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.25,
+          "highly_relevant": 1,
+          "relevant_count": 2,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0671",
+              "verdict": "highly_relevant",
+              "reason": "Contains detailed Scope 1 emissions data and breakdowns, directly answering the question."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0667",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses TCFD implementation, which is related to emissions disclosures but not specific to the 2024 data."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0020",
+              "verdict": "not_relevant",
+              "reason": "Focuses on awards and recognition, unrelated to emissions disclosures."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0449",
+              "verdict": "not_relevant",
+              "reason": "Discusses transition strategy, not specific emissions data."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0001",
+              "verdict": "not_relevant",
+              "reason": "Celebrates company anniversary, unrelated to emissions disclosures."
+            },
+            {
+              "chunk_id": "2024_progress_report_8e664f5b_pdf_n0020",
+              "verdict": "not_relevant",
+              "reason": "Discusses extra-financial ratings, unrelated to emissions disclosures."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0003",
+              "verdict": "not_relevant",
+              "reason": "Provides financial indicators, unrelated to emissions disclosures."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0018",
+              "verdict": "not_relevant",
+              "reason": "Discusses renewable electricity capacity, unrelated to emissions disclosures."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0671\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Contains detailed Scope 1 emissions data and breakdowns, directly answering the question.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0667\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses TCFD implementation, which is related to emissions disclosures but not specific to the 2024 data.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0020\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Focuses on awards and recognition, unrelated to emissions disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0449\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses transition strategy, not specific emissions data.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0001\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Celebrates company anniversary, unrelated to emissions disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2024_progress_report_8e664f5b_pdf_n0020\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses extra-financial ratings, unrelated to emissions disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0003\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Provides financial indicators, unrelated to emissions disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0018\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses renewable electricity capacity, unrelated to emissions disclosures.\"\n    }\n  ],\n  \"overall\": \"Only one chunk (n0671) is highly relevant, directly addressing the question about TotalEnergies' 2024 emissions-related disclosures. The other chunks are either somewhat relevant or not relevant.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "The retrieved chunks do not mention the Gas Growth Integrated Project (GGIP) or its components."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"The retrieved chunks do not mention the Gas Growth Integrated Project (GGIP) or its components.\"\n    }\n  ],\n  \"overall\": \"The expected key information about TotalEnergies' emissions-related disclosure in 2024, specifically the Gas Growth Integrated Project (GGIP), is not covered in the retrieved chunks. The chunks focus on general emissions disclosures, R&D investments, and other sustainability metrics but do not address the GGIP project details.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions, with performance analysis referenced in chapter 5.2.1",
+              "type": "unsupported_causal",
+              "reason": "The context does not provide specific details or evidence about the targets, indicators, or performance analysis referenced in chapter 5.2.1."
+            },
+            {
+              "claim": "The company also states that it has established targets and indicators to manage and reduce Scope 1 emissions, with performance analysis referenced in chapter 5.2.1",
+              "type": "unsupported_causal",
+              "reason": "The context does not provide specific details or evidence about the targets, indicators, or performance analysis referenced in chapter 5.2.1."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions, with performance analysis referenced in chapter 5.2.1\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not provide specific details or evidence about the targets, indicators, or performance analysis referenced in chapter 5.2.1.\"\n    },\n    {\n      \"claim\": \"The company also states that it has established targets and indicators to manage and reduce Scope 1 emissions, with performance analysis referenced in chapter 5.2.1\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not provide specific details or evidence about the targets, indicators, or performance analysis referenced in chapter 5.2.1.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains claims about targets, indicators, and performance analysis that are not supported by the provided context. Specific details about these elements are missing in the context.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.2,
+          "claims": [
+            {
+              "claim": "TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions, emissions reduction to steer its performance (refer to point 5.2.1 of chapter 5)",
+              "severity": "moderate",
+              "reason": "The context mentions targets and indicators but does not provide specific details or evidence of their effectiveness or performance."
+            },
+            {
+              "claim": "TotalEnergies has significantly reoriented its R&D in recent years. Compared to 28% in 2017, TotalEnergies has decided to devote 68% of the 2024 R&D budget to low-carbon energies (renewables, biomass, batteries, etc.) and to reducing the environmental footprint through CCUS and sustainable development programs.",
+              "severity": "moderate",
+              "reason": "The context does not provide specific evidence or data to support the claim of a significant reorientation of R&D or the exact percentages mentioned."
+            },
+            {
+              "claim": "TotalEnergies has publicly supported the TCFD and its recommendations and has implemented them since its 2017 annual report.",
+              "severity": "minor",
+              "reason": "The context states that TotalEnergies has supported the TCFD but does not provide detailed evidence of implementation since 2017."
+            },
+            {
+              "claim": "TotalEnergies has submitted this report to a consultative vote (say on climate) by its shareholders for four consecutive years since 2021: over these four years, the Shareholders’ Meeting has voted in favor of these resolutions by a very large majority.",
+              "severity": "minor",
+              "reason": "The context mentions the consultative vote but does not provide specific details or evidence of the voting results or the exact majority."
+            }
+          ],
+          "unsupported_count": 4,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions, emissions reduction to steer its performance (refer to point 5.2.1 of chapter 5)\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions targets and indicators but does not provide specific details or evidence of their effectiveness or performance.\"\n    },\n    {\n      \"claim\": \"TotalEnergies has significantly reoriented its R&D in recent years. Compared to 28% in 2017, TotalEnergies has decided to devote 68% of the 2024 R&D budget to low-carbon energies (renewables, biomass, batteries, etc.) and to reducing the environmental footprint through CCUS and sustainable development programs.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not provide specific evidence or data to support the claim of a significant reorientation of R&D or the exact percentages mentioned.\"\n    },\n    {\n      \"claim\": \"TotalEnergies has publicly supported the TCFD and its recommendations and has implemented them since its 2017 annual report.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context states that TotalEnergies has supported the TCFD but does not provide detailed evidence of implementation since 2017.\"\n    },\n    {\n      \"claim\": \"TotalEnergies has submitted this report to a consultative vote (say on climate) by its shareholders for four consecutive years since 2021: over these four years, the Shareholders’ Meeting has voted in favor of these resolutions by a very large majority.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context mentions the consultative vote but does not provide specific details or evidence of the voting results or the exact majority.\"\n    }\n  ],\n  \"supported_count\": 1,\n  \"unsupported_count\": 4,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, particularly regarding specific targets, R&D reorientation, TCFD implementation, and shareholder votes. The context provides some supporting evidence for emissions disclosures but lacks detailed support for other claims.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "TotalEnergies",
+      "question": "What ESG target, ambition, or commitment does TotalEnergies disclose in 2024?",
+      "topic": "human_rights, targets",
+      "ground_truth": "TotalEnergies’ Commitment to the Voluntary Principles on Security and Human Rights PART B Policies, Procedures and Related Activities PART C Country VPSHR Implementation: Iraq PART D Lessons Learned & Issues Introduction This report describes TotalEnergies’ (the “Company”) overall commitment and 2024 implementation of the Voluntary Principles on Security and Human Rights (“VPSHR” or “VPs”).",
+      "answer": "TotalEnergies’ 2024 disclosures include a carbon‑neutrality ambition for 2050, a 40 % reduction in net Scope 1 + 2 emissions by 2030, an 80 % cut in methane emissions versus 2020, and renewable‑electricity capacity targets of 35 GW by 2025 and 100 GW by 2030.  \n\nThe 2024 integrated report states the company’s “Ambition of carbon neutrality by 2050, together with society” and outlines five “Levers for a Sustainable Change” with local action plans to be achieved by 2025.  Its climate‑target section (p. 20) sets an enhanced objective to cut net Scope 1 + 2 emissions by 40 % and methane emissions by 80 % (vs 64 kt in 2020).  The renewable‑electricity roadmap (p. 19) reports a gross installed capacity of 26 GW in 2024 and targets 35 GW in 2025 and 100 GW in 2030.  \n\n**Evidence excerpts**  \n- “Ambition of carbon neutrality by 2050, together with society” [TotalEnergies' 2024 Report, p. 29]  \n- “cut net Scope 1+2 emissions … by 40 % … Methane‑80 % vs 64 kt in 2020” [TotalEnergies' 2024 Report, p. 20]  \n- “gross installed production capacity of 26 GW … intends … to reach 35 GW in 2025 and 100 GW in 2030” [TotalEnergies' 2024 Report, p. 19]  \n- “identified 5 ‘Levers for a Sustainable Change’ … objectives to be achieved … by 2025” [TotalEnergies' 2024 Report, p. 29]  \n\n**Limitations**  \n- The carbon‑neutrality statement is a high‑level ambition without a quantified baseline, scope (e.g., Scope 1‑3) or interim milestones.  \n- The 40 % Scope 1 + 2 reduction target does not specify the baseline year (implicitly 2015) or the exact metric (Mt CO₂e).  \n- Renewable‑electricity targets give capacity figures but lack detail on the mix of wind vs. solar or the methodology for counting capacity.  \n- Some KPI‑level targets (e.g., supplier climate commitments, employee engagement) are listed without quantitative thresholds or baselines.  \n- The disclosed information does not include progress metrics or verification status for the 2025‑2030 renewable capacity goals.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_urd_c0294fa9_pdf_n0034",
+        "2024_progress_report_8e664f5b_pdf_n0053",
+        "2024_urd_c0294fa9_pdf_n0020",
+        "2024_urd_c0294fa9_pdf_n0667",
+        "2024_urd_c0294fa9_pdf_n0671",
+        "2024_urd_c0294fa9_pdf_n0019",
+        "2024_urd_dba48e9f_pdf_n0001",
+        "2024_urd_c0294fa9_pdf_n0018"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 53.85,
+        "best_chunk_id": "2024_urd_dba48e9f_pdf_n0001",
+        "top_score": 0.9072557439696894
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9,
+        "context_precision": 0.375,
+        "context_recall": 0.0,
+        "hallucination_free": 0.25,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.5
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "TotalEnergies’ 2024 disclosures include a carbon‑neutrality ambition for 2050",
+              "verdict": "supported",
+              "reason": "The context explicitly states 'Ambition of carbon neutrality by 2050, together with society' (2024_urd_c0294fa9_pdf_n0034)."
+            },
+            {
+              "claim": "a 40 % reduction in net Scope 1 + 2 emissions by 2030",
+              "verdict": "supported",
+              "reason": "The context mentions 'cut net Scope 1+2 emissions … by 40%' (2024_urd_c0294fa9_pdf_n0020)."
+            },
+            {
+              "claim": "an 80 % cut in methane emissions versus 2020",
+              "verdict": "supported",
+              "reason": "The context states 'Methane-80% vs 64 kt in 2020' (2024_urd_c0294fa9_pdf_n0020)."
+            },
+            {
+              "claim": "renewable‑electricity capacity targets of 35 GW by 2025 and 100 GW by 2030",
+              "verdict": "supported",
+              "reason": "The context reports 'intends … to reach 35 GW in 2025 and 100 GW in 2030' (2024_urd_c0294fa9_pdf_n0019)."
+            },
+            {
+              "claim": "The 2024 integrated report states the company’s 'Ambition of carbon neutrality by 2050, together with society'",
+              "verdict": "supported",
+              "reason": "The context explicitly states this phrase (2024_urd_c0294fa9_pdf_n0034)."
+            },
+            {
+              "claim": "outlines five 'Levers for a Sustainable Change' with local action plans to be achieved by 2025",
+              "verdict": "supported",
+              "reason": "The context mentions 'identified 5 'Levers for a Sustainable Change' … objectives to be achieved … by 2025' (2024_urd_c0294fa9_pdf_n0034)."
+            },
+            {
+              "claim": "Its climate‑target section (p. 20) sets an enhanced objective to cut net Scope 1 + 2 emissions by 40 % and methane emissions by 80 % (vs 64 kt in 2020)",
+              "verdict": "supported",
+              "reason": "The context states these targets on page 20 (2024_urd_c0294fa9_pdf_n0020)."
+            },
+            {
+              "claim": "The renewable‑electricity roadmap (p. 19) reports a gross installed capacity of 26 GW in 2024 and targets 35 GW in 2025 and 100 GW in 2030",
+              "verdict": "supported",
+              "reason": "The context reports 'gross installed production capacity of 26 GW … intends … to reach 35 GW in 2025 and 100 GW in 2030' (2024_urd_c0294fa9_pdf_n0019)."
+            }
+          ],
+          "reasoning": "All claims in the answer are directly supported by the provided context. The context explicitly mentions the carbon neutrality ambition, the 40% reduction in Scope 1+2 emissions, the 80% cut in methane emissions, and the renewable electricity capacity targets. Additionally, the context supports the details about the 'Levers for a Sustainable Change' and the specific page references for the climate targets and renewable electricity roadmap.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"TotalEnergies’ 2024 disclosures include a carbon‑neutrality ambition for 2050\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states 'Ambition of carbon neutrality by 2050, together with society' (2024_urd_c0294fa9_pdf_n0034).\"\n    },\n    {\n      \"claim\": \"a 40 % reduction in net Scope 1 + 2 emissions by 2030\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions 'cut net Scope 1+2 emissions … by 40%' (2024_urd_c0294fa9_pdf_n0020).\"\n    },\n    {\n      \"claim\": \"an 80 % cut in methane emissions versus 2020\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states 'Methane-80% vs 64 kt in 2020' (2024_urd_c0294fa9_pdf_n0020).\"\n    },\n    {\n      \"claim\": \"renewable‑electricity capacity targets of 35 GW by 2025 and 100 GW by 2030\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context reports 'intends … to reach 35 GW in 2025 and 100 GW in 2030' (2024_urd_c0294fa9_pdf_n0019).\"\n    },\n    {\n      \"claim\": \"The 2024 integrated report states the company’s 'Ambition of carbon neutrality by 2050, together with society'\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states this phrase (2024_urd_c0294fa9_pdf_n0034).\"\n    },\n    {\n      \"claim\": \"outlines five 'Levers for a Sustainable Change' with local action plans to be achieved by 2025\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions 'identified 5 'Levers for a Sustainable Change' … objectives to be achieved … by 2025' (2024_urd_c0294fa9_pdf_n0034).\"\n    },\n    {\n      \"claim\": \"Its climate‑target section (p. 20) sets an enhanced objective to cut net Scope 1 + 2 emissions by 40 % and methane emissions by 80 % (vs 64 kt in 2020)\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states these targets on page 20 (2024_urd_c0294fa9_pdf_n0020).\"\n    },\n    {\n      \"claim\": \"The renewable‑electricity roadmap (p. 19) reports a gross installed capacity of 26 GW in 2024 and targets 35 GW in 2025 and 100 GW in 2030\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context reports 'gross installed production capacity of 26 GW … intends … to reach 35 GW in 2025 and 100 GW in 2030' (2024_urd_c0294fa9_pdf_n0019).\"\n    }\n  ],\n  \"overall_reasoning\": \"All claims in the answer are directly supported by the provided context. The context explicitly mentions the carbon neutrality ambition, the 40% reduction in Scope 1+2 emissions, the 80% cut in methane emissions, and the renewable electricity capacity targets. Additionally, the context supports the details about the 'Levers for a Sustainable Change' and the specific page references for the climate targets and renewable electricity roadmap.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.9,
+          "reasoning": "The answer fully addresses the question by listing TotalEnergies' ESG targets, ambitions, and commitments disclosed in 2024, including carbon neutrality by 2050, emission reduction goals, and renewable energy capacity targets. It also provides evidence excerpts and limitations, though some details (e.g., baselines, verification status) are missing, slightly reducing relevance.",
+          "raw": "```json\n{\"score\": 0.9, \"reasoning\": \"The answer fully addresses the question by listing TotalEnergies' ESG targets, ambitions, and commitments disclosed in 2024, including carbon neutrality by 2050, emission reduction goals, and renewable energy capacity targets. It also provides evidence excerpts and limitations, though some details (e.g., baselines, verification status) are missing, slightly reducing relevance.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.375,
+          "highly_relevant": 1,
+          "relevant_count": 3,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0034",
+              "verdict": "not_relevant",
+              "reason": "Discusses general principles like safety and respect, unrelated to ESG targets."
+            },
+            {
+              "chunk_id": "2024_progress_report_8e664f5b_pdf_n0053",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions KPIs and SDGs but lacks specific ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0020",
+              "verdict": "not_relevant",
+              "reason": "Focuses on awards and Climate Action 100+, not specific ESG targets."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0667",
+              "verdict": "not_relevant",
+              "reason": "Discusses TCFD implementation, not specific ESG targets."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0671",
+              "verdict": "not_relevant",
+              "reason": "Talks about innovation and products, unrelated to ESG targets."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0019",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions ITR transparency but not specific ESG targets."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0001",
+              "verdict": "not_relevant",
+              "reason": "Celebrates company anniversary, unrelated to ESG targets."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0018",
+              "verdict": "highly_relevant",
+              "reason": "Directly mentions renewable electricity capacity targets (26 GW in 2024, 35 GW by 2025, 100 GW by 2030)."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0034\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses general principles like safety and respect, unrelated to ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_progress_report_8e664f5b_pdf_n0053\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions KPIs and SDGs but lacks specific ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0020\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Focuses on awards and Climate Action 100+, not specific ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0667\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses TCFD implementation, not specific ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0671\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Talks about innovation and products, unrelated to ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0019\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions ITR transparency but not specific ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0001\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Celebrates company anniversary, unrelated to ESG targets.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0018\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Directly mentions renewable electricity capacity targets (26 GW in 2024, 35 GW by 2025, 100 GW by 2030).\"\n    }\n  ],\n  \"overall\": \"Only one chunk (2024_urd_c0294fa9_pdf_n0018) is highly relevant, addressing renewable electricity capacity targets. Other chunks are either somewhat relevant or not relevant to the question.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "No mention of Voluntary Principles on Security and Human Rights (VPSHR) in the retrieved chunks."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"No mention of Voluntary Principles on Security and Human Rights (VPSHR) in the retrieved chunks.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected ESG context related to TotalEnergies' commitment to the Voluntary Principles on Security and Human Rights (VPSHR).\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.25,
+          "hallucinated_claims": [
+            {
+              "claim": "The 2024 integrated report states the company’s “Ambition of carbon neutrality by 2050, together with society” and outlines five “Levers for a Sustainable Change” with local action plans to be achieved by 2025.",
+              "type": "fabricated_number",
+              "reason": "The context does not provide specific details about the 'five Levers for a Sustainable Change' or their local action plans to be achieved by 2025."
+            },
+            {
+              "claim": "The renewable-electricity roadmap (p. 19) reports a gross installed capacity of 26 GW in 2024 and targets 35 GW in 2025 and 100 GW in 2030.",
+              "type": "fabricated_number",
+              "reason": "The context mentions the 26 GW capacity in 2024 and targets of 35 GW in 2025 and 100 GW in 2030, but does not provide a specific page number (p. 19) or detailed roadmap."
+            },
+            {
+              "claim": "The 40 % Scope 1 + 2 reduction target does not specify the baseline year (implicitly 2015) or the exact metric (Mt CO₂e).",
+              "type": "unsupported_causal",
+              "reason": "The context does not explicitly state that the baseline year is implicitly 2015 or the exact metric (Mt CO₂e)."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"The 2024 integrated report states the company’s “Ambition of carbon neutrality by 2050, together with society” and outlines five “Levers for a Sustainable Change” with local action plans to be achieved by 2025.\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not provide specific details about the 'five Levers for a Sustainable Change' or their local action plans to be achieved by 2025.\"\n    },\n    {\n      \"claim\": \"The renewable-electricity roadmap (p. 19) reports a gross installed capacity of 26 GW in 2024 and targets 35 GW in 2025 and 100 GW in 2030.\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context mentions the 26 GW capacity in 2024 and targets of 35 GW in 2025 and 100 GW in 2030, but does not provide a specific page number (p. 19) or detailed roadmap.\"\n    },\n    {\n      \"claim\": \"The 40 % Scope 1 + 2 reduction target does not specify the baseline year (implicitly 2015) or the exact metric (Mt CO₂e).\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not explicitly state that the baseline year is implicitly 2015 or the exact metric (Mt CO₂e).\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, including fabricated numbers, unsupported causal claims, and lack of specific details.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.5,
+          "claims": [
+            {
+              "claim": "The 2024 integrated report states the company’s “Ambition of carbon neutrality by 2050, together with society” and outlines five “Levers for a Sustainable Change” with local action plans to be achieved by 2025.",
+              "severity": "moderate",
+              "reason": "The context mentions the ambition and levers but does not explicitly state that the local action plans are to be achieved by 2025."
+            },
+            {
+              "claim": "The renewable-electricity roadmap (p. 19) reports a gross installed capacity of 26 GW in 2024 and targets 35 GW in 2025 and 100 GW in 2030.",
+              "severity": "minor",
+              "reason": "The context mentions the targets but does not explicitly state the page number (p. 19) or the specific roadmap."
+            },
+            {
+              "claim": "The 40 % Scope 1 + 2 reduction target does not specify the baseline year (implicitly 2015) or the exact metric (Mt CO₂e).",
+              "severity": "moderate",
+              "reason": "The context does not explicitly state the baseline year or metric, making this claim speculative."
+            },
+            {
+              "claim": "The disclosed information does not include progress metrics or verification status for the 2025-2030 renewable capacity goals.",
+              "severity": "moderate",
+              "reason": "The context does not provide evidence of progress metrics or verification status for these goals."
+            }
+          ],
+          "unsupported_count": 4,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"The 2024 integrated report states the company’s “Ambition of carbon neutrality by 2050, together with society” and outlines five “Levers for a Sustainable Change” with local action plans to be achieved by 2025.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions the ambition and levers but does not explicitly state that the local action plans are to be achieved by 2025.\"\n    },\n    {\n      \"claim\": \"The renewable-electricity roadmap (p. 19) reports a gross installed capacity of 26 GW in 2024 and targets 35 GW in 2025 and 100 GW in 2030.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context mentions the targets but does not explicitly state the page number (p. 19) or the specific roadmap.\"\n    },\n    {\n      \"claim\": \"The 40 % Scope 1 + 2 reduction target does not specify the baseline year (implicitly 2015) or the exact metric (Mt CO₂e).\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not explicitly state the baseline year or metric, making this claim speculative.\"\n    },\n    {\n      \"claim\": \"The disclosed information does not include progress metrics or verification status for the 2025-2030 renewable capacity goals.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not provide evidence of progress metrics or verification status for these goals.\"\n    }\n  ],\n  \"supported_count\": 4,\n  \"unsupported_count\": 4,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, particularly regarding specific details and timelines. The context supports the general ESG targets and ambitions but lacks detailed evidence for some claims.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "TotalEnergies",
+      "question": "What does TotalEnergies disclose about diversity, inclusion, or gender representation in 2024?",
+      "topic": "social, diversity_inclusion, human_rights",
+      "ground_truth": "INVOLVEMENT IN SECURITY AND HUMAN RIGHTS EVENTS The Company participated to the Voluntary Principles Initiative’s (“VPI” or “VP Initiative”) 2024 Annual Plenary Meeting which took place in Washington, United- States of America, in May 2024 where Company Security had the opportunity to present its gender and vulnerable-group sensitive approach.",
+      "answer": "TotalEnergies reports a comprehensive diversity and inclusion framework, highlighting gender‑representation metrics and quantitative targets for senior leadership. It sets a 30 % target for women in senior executive, senior manager, Executive Committee and G70 roles by 2025, with 2023 baseline figures ranging from 25.1 % to 33.8 % and notes that women comprised 42.2 % of its overall workforce in 2024.  \n\nThe 2024 Report details TotalEnergies’ D&I policy, governance (a Diversity and Inclusion Council chaired by an Executive Committee member) and practical tools such as an internal “Eliminating Discrimination” guide and disability policy. Gender‑representation data are disclosed for 2023 (the most recent year reported): women held 28.3 % of senior‑executive positions and 25.1 % of senior‑manager roles, with a company‑wide target of 30 % by 2025; women made up 26.1 % of the Executive Committee (target 30 % by 2025) and 33.8 % of the G70 (target 30 %); 39.6 % of the high‑potential employee pool were women; 24.9 % of managers in technical or sales functions were women. Overall, women represented 42.2 % of employees on permanent contracts in 2024. The report also notes the addition of two women to the Executive Committee in 2023, reinforcing progress toward the 2025 targets.  \n\n- “30% of female senior executives (they accounted for 28.3% in 2023); … 30% of female senior managers (they accounted for 25.1% in 2023).” [TotalEnergies' 2024 Report, p. 342]  \n- “Women accounted for 39.6% of the pool of high‑potential employees… 24.9% of managers on permanent contracts in technical or sales positions were women.” [TotalEnergies' 2024 Report, p. 342]  \n- “30% of the members of the Executive Committee (women equals 26.1%); … 30% of the G70 (women represented 33.8% in 2023).” [TotalEnergies' 2024 Report, p. 342]  \n- “Women account for 42.2% of employees hired on permanent contracts… 102,887 employees by geographical area by gender.” [TotalEnergies' 2024 Report, p. 6]  \n- “Diversity and Inclusion Council, which is chaired by a member of the Company’s Executive Committee… policy excludes any discrimination … gender, sexual orientation or gender identity.” [TotalEnergies' 2024 Report, p. 621]  \n\n**Limitations**  \n- The disclosed gender‑representation figures are for 2023; the 2024 year‑specific data are not provided.  \n- No quantitative data are given for other diversity dimensions (e.g., ethnicity, disability, LGBTQ + identities) beyond narrative statements.  \n- Targets are only presented for senior leadership and the G70; there are no explicit targets for overall workforce gender balance or other employee categories.  \n- The excerpts do not include the full methodology or baseline definitions for the gender metrics, limiting verification of calculations.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_urd_dba48e9f_pdf_n0001",
+        "2024_urd_dba48e9f_pdf_n0347",
+        "2024_urd_dba48e9f_pdf_n0645",
+        "2024_urd_dba48e9f_pdf_n0346",
+        "2024_urd_c0294fa9_pdf_n0667",
+        "2024_urd_c0294fa9_pdf_n0002",
+        "2024_urd_c0294fa9_pdf_t8909",
+        "2024_urd_dba48e9f_pdf_n0653"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 65.22,
+        "best_chunk_id": "2024_urd_c0294fa9_pdf_t8909",
+        "top_score": 0.7075491357062405
+      },
+      "ragas": {
+        "faithfulness": 0.9375,
+        "answer_relevancy": 0.8,
+        "context_precision": 0.375,
+        "context_recall": 0.0,
+        "hallucination_free": 0.25,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.2
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 0.9375,
+          "verdicts": [
+            {
+              "claim": "TotalEnergies reports a comprehensive diversity and inclusion framework, highlighting gender-representation metrics and quantitative targets for senior leadership.",
+              "verdict": "supported",
+              "reason": "The context mentions TotalEnergies' diversity and inclusion framework, including gender-representation metrics and targets for senior leadership (e.g., Executive Committee, G70)."
+            },
+            {
+              "claim": "It sets a 30% target for women in senior executive, senior manager, Executive Committee and G70 roles by 2025, with 2023 baseline figures ranging from 25.1% to 33.8%.",
+              "verdict": "supported",
+              "reason": "The context explicitly states the 30% targets for women in senior executive (28.3% in 2023), senior manager (25.1% in 2023), Executive Committee (26.1% in 2023), and G70 (33.8% in 2023) roles by 2025."
+            },
+            {
+              "claim": "women comprised 42.2% of its overall workforce in 2024.",
+              "verdict": "supported",
+              "reason": "The context states that women accounted for 42.2% of employees hired on permanent contracts in 2024."
+            },
+            {
+              "claim": "The 2024 Report details TotalEnergies’ D&I policy, governance (a Diversity and Inclusion Council chaired by an Executive Committee member) and practical tools such as an internal “Eliminating Discrimination” guide and disability policy.",
+              "verdict": "supported",
+              "reason": "The context mentions the Diversity and Inclusion Council chaired by an Executive Committee member, the “Eliminating Discrimination” guide, and the disability policy."
+            },
+            {
+              "claim": "Gender-representation data are disclosed for 2023 (the most recent year reported): women held 28.3% of senior-executive positions and 25.1% of senior-manager roles, with a company-wide target of 30% by 2025; women made up 26.1% of the Executive Committee (target 30% by 2025) and 33.8% of the G70 (target 30%); 39.6% of the high-potential employee pool were women; 24.9% of managers in technical or sales functions were women.",
+              "verdict": "supported",
+              "reason": "The context provides all these specific gender-representation figures for 2023 and the corresponding targets."
+            },
+            {
+              "claim": "Overall, women represented 42.2% of employees on permanent contracts in 2024.",
+              "verdict": "supported",
+              "reason": "The context explicitly states this figure."
+            },
+            {
+              "claim": "The report also notes the addition of two women to the Executive Committee in 2023, reinforcing progress toward the 2025 targets.",
+              "verdict": "supported",
+              "reason": "The context mentions the addition of two women to the Executive Committee in 2023."
+            },
+            {
+              "claim": "“30% of female senior executives (they accounted for 28.3% in 2023); … 30% of female senior managers (they accounted for 25.1% in 2023).” [TotalEnergies' 2024 Report, p. 342]",
+              "verdict": "supported",
+              "reason": "The context includes this exact information on page 342."
+            },
+            {
+              "claim": "“Women accounted for 39.6% of the pool of high-potential employees… 24.9% of managers on permanent contracts in technical or sales positions were women.” [TotalEnergies' 2024 Report, p. 342]",
+              "verdict": "supported",
+              "reason": "The context includes this exact information on page 342."
+            },
+            {
+              "claim": "“30% of the members of the Executive Committee (women equals 26.1%); … 30% of the G70 (women represented 33.8% in 2023).” [TotalEnergies' 2024 Report, p. 342]",
+              "verdict": "supported",
+              "reason": "The context includes this exact information on page 342."
+            },
+            {
+              "claim": "“Women account for 42.2% of employees hired on permanent contracts… 102,887 employees by geographical area by gender.” [TotalEnergies' 2024 Report, p. 6]",
+              "verdict": "supported",
+              "reason": "The context includes this exact information on page 6."
+            },
+            {
+              "claim": "“Diversity and Inclusion Council, which is chaired by a member of the Company’s Executive Committee… policy excludes any discrimination … gender, sexual orientation or gender identity.” [TotalEnergies' 2024 Report, p. 621]",
+              "verdict": "supported",
+              "reason": "The context includes this exact information on page 621."
+            },
+            {
+              "claim": "The disclosed gender-representation figures are for 2023; the 2024 year-specific data are not provided.",
+              "verdict": "supported",
+              "reason": "The context provides gender-representation figures for 2023 but does not provide specific 2024 data, only the overall workforce percentage for 2024."
+            },
+            {
+              "claim": "No quantitative data are given for other diversity dimensions (e.g., ethnicity, disability, LGBTQ+ identities) beyond narrative statements.",
+              "verdict": "supported",
+              "reason": "The context mentions narrative statements about diversity dimensions like disability and LGBTQ+ but does not provide quantitative data."
+            },
+            {
+              "claim": "Targets are only presented for senior leadership and the G70; there are no explicit targets for overall workforce gender balance or other employee categories.",
+              "verdict": "supported",
+              "reason": "The context only mentions targets for senior leadership and the G70, with no explicit targets for overall workforce gender balance."
+            },
+            {
+              "claim": "The excerpts do not include the full methodology or baseline definitions for the gender metrics, limiting verification of calculations.",
+              "verdict": "unsupported",
+              "reason": "The context does not discuss the methodology or baseline definitions for the gender metrics, so this claim cannot be verified."
+            }
+          ],
+          "reasoning": "The answer is largely supported by the context, with all key claims about gender representation, targets, and diversity policies being directly stated. The only unsupported claim is about the lack of methodology or baseline definitions, as the context does not address this.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"TotalEnergies reports a comprehensive diversity and inclusion framework, highlighting gender-representation metrics and quantitative targets for senior leadership.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions TotalEnergies' diversity and inclusion framework, including gender-representation metrics and targets for senior leadership (e.g., Executive Committee, G70).\"\n    },\n    {\n      \"claim\": \"It sets a 30% target for women in senior executive, senior manager, Executive Committee and G70 roles by 2025, with 2023 baseline figures ranging from 25.1% to 33.8%.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states the 30% targets for women in senior executive (28.3% in 2023), senior manager (25.1% in 2023), Executive Committee (26.1% in 2023), and G70 (33.8% in 2023) roles by 2025.\"\n    },\n    {\n      \"claim\": \"women comprised 42.2% of its overall workforce in 2024.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states that women accounted for 42.2% of employees hired on permanent contracts in 2024.\"\n    },\n    {\n      \"claim\": \"The 2024 Report details TotalEnergies’ D&I policy, governance (a Diversity and Inclusion Council chaired by an Executive Committee member) and practical tools such as an internal “Eliminating Discrimination” guide and disability policy.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions the Diversity and Inclusion Council chaired by an Executive Committee member, the “Eliminating Discrimination” guide, and the disability policy.\"\n    },\n    {\n      \"claim\": \"Gender-representation data are disclosed for 2023 (the most recent year reported): women held 28.3% of senior-executive positions and 25.1% of senior-manager roles, with a company-wide target of 30% by 2025; women made up 26.1% of the Executive Committee (target 30% by 2025) and 33.8% of the G70 (target 30%); 39.6% of the high-potential employee pool were women; 24.9% of managers in technical or sales functions were women.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context provides all these specific gender-representation figures for 2023 and the corresponding targets.\"\n    },\n    {\n      \"claim\": \"Overall, women represented 42.2% of employees on permanent contracts in 2024.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states this figure.\"\n    },\n    {\n      \"claim\": \"The report also notes the addition of two women to the Executive Committee in 2023, reinforcing progress toward the 2025 targets.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions the addition of two women to the Executive Committee in 2023.\"\n    },\n    {\n      \"claim\": \"“30% of female senior executives (they accounted for 28.3% in 2023); … 30% of female senior managers (they accounted for 25.1% in 2023).” [TotalEnergies' 2024 Report, p. 342]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes this exact information on page 342.\"\n    },\n    {\n      \"claim\": \"“Women accounted for 39.6% of the pool of high-potential employees… 24.9% of managers on permanent contracts in technical or sales positions were women.” [TotalEnergies' 2024 Report, p. 342]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes this exact information on page 342.\"\n    },\n    {\n      \"claim\": \"“30% of the members of the Executive Committee (women equals 26.1%); … 30% of the G70 (women represented 33.8% in 2023).” [TotalEnergies' 2024 Report, p. 342]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes this exact information on page 342.\"\n    },\n    {\n      \"claim\": \"“Women account for 42.2% of employees hired on permanent contracts… 102,887 employees by geographical area by gender.” [TotalEnergies' 2024 Report, p. 6]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes this exact information on page 6.\"\n    },\n    {\n      \"claim\": \"“Diversity and Inclusion Council, which is chaired by a member of the Company’s Executive Committee… policy excludes any discrimination … gender, sexual orientation or gender identity.” [TotalEnergies' 2024 Report, p. 621]\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes this exact information on page 621.\"\n    },\n    {\n      \"claim\": \"The disclosed gender-representation figures are for 2023; the 2024 year-specific data are not provided.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context provides gender-representation figures for 2023 but does not provide specific 2024 data, only the overall workforce percentage for 2024.\"\n    },\n    {\n      \"claim\": \"No quantitative data are given for other diversity dimensions (e.g., ethnicity, disability, LGBTQ+ identities) beyond narrative statements.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context mentions narrative statements about diversity dimensions like disability and LGBTQ+ but does not provide quantitative data.\"\n    },\n    {\n      \"claim\": \"Targets are only presented for senior leadership and the G70; there are no explicit targets for overall workforce gender balance or other employee categories.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context only mentions targets for senior leadership and the G70, with no explicit targets for overall workforce gender balance.\"\n    },\n    {\n      \"claim\": \"The excerpts do not include the full methodology or baseline definitions for the gender metrics, limiting verification of calculations.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context does not discuss the methodology or baseline definitions for the gender metrics, so this claim cannot be verified.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer is largely supported by the context, with all key claims about gender representation, targets, and diversity policies being directly stated. The only unsupported claim is about the lack of methodology or baseline definitions, as the context does not address this.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.8,
+          "reasoning": "The answer provides detailed information on TotalEnergies' diversity, inclusion, and gender representation in 2024, including specific targets, current metrics, and governance structures. However, it notes that the 2024-specific data are not provided, and there are limitations regarding other diversity dimensions and full methodology details. The answer is mostly relevant but slightly incomplete due to these gaps.",
+          "raw": "```json\n{\"score\": 0.8, \"reasoning\": \"The answer provides detailed information on TotalEnergies' diversity, inclusion, and gender representation in 2024, including specific targets, current metrics, and governance structures. However, it notes that the 2024-specific data are not provided, and there are limitations regarding other diversity dimensions and full methodology details. The answer is mostly relevant but slightly incomplete due to these gaps.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.375,
+          "highly_relevant": 0,
+          "relevant_count": 3,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0001",
+              "verdict": "not_relevant",
+              "reason": "Celebrates 100 years, unrelated to diversity or gender representation."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0347",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions diversity and inclusion policy but lacks specific data."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0645",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses inclusive culture but no concrete gender representation details."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0346",
+              "verdict": "not_relevant",
+              "reason": "Focuses on employee engagement, not diversity or gender metrics."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0667",
+              "verdict": "not_relevant",
+              "reason": "Relates to climate change disclosures, unrelated to diversity."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0002",
+              "verdict": "not_relevant",
+              "reason": "General company overview, no diversity or gender data."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_t8909",
+              "verdict": "not_relevant",
+              "reason": "Discusses energy targets, unrelated to diversity."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0653",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions prosperity and employment but lacks specific diversity metrics."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0001\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Celebrates 100 years, unrelated to diversity or gender representation.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0347\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions diversity and inclusion policy but lacks specific data.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0645\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses inclusive culture but no concrete gender representation details.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0346\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Focuses on employee engagement, not diversity or gender metrics.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0667\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Relates to climate change disclosures, unrelated to diversity.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0002\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"General company overview, no diversity or gender data.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_t8909\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses energy targets, unrelated to diversity.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0653\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions prosperity and employment but lacks specific diversity metrics.\"\n    }\n  ],\n  \"overall\": \"None of the retrieved chunks are highly relevant to the question. Some chunks touch on diversity and inclusion policies but do not provide specific 2024 gender representation data or targets. The answer likely relies on chunks not included in the retrieved set.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 0.0,
+          "fully_covered": 0,
+          "covered_count": 0,
+          "total": 1,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "not_covered",
+              "reason": "No information about harassment or violence against stakeholders is present in the retrieved chunks."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"not_covered\",\n      \"reason\": \"No information about harassment or violence against stakeholders is present in the retrieved chunks.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not cover the expected information about harassment or violence against stakeholders. However, they provide detailed information on diversity, inclusion, and gender representation, which was not part of the expected key information.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.25,
+          "hallucinated_claims": [
+            {
+              "claim": "women comprised 42.2 % of its overall workforce in 2024",
+              "type": "fabricated_number",
+              "reason": "The context states that women accounted for 42.2% of employees hired on permanent contracts in 2024, not the overall workforce."
+            },
+            {
+              "claim": "The 2024 Report details TotalEnergies’ D&I policy, governance (a Diversity and Inclusion Council chaired by an Executive Committee member) and practical tools such as an internal “Eliminating Discrimination” guide and disability policy.",
+              "type": "unsupported_causal",
+              "reason": "The context mentions the Diversity and Inclusion Council and the “Eliminating Discrimination” guide, but it does not explicitly state that these are detailed in the 2024 Report."
+            },
+            {
+              "claim": "The report also notes the addition of two women to the Executive Committee in 2023, reinforcing progress toward the 2025 targets.",
+              "type": "unsupported_causal",
+              "reason": "The context mentions the addition of two women to the Executive Committee in 2023 but does not explicitly state that this reinforces progress toward the 2025 targets."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"women comprised 42.2 % of its overall workforce in 2024\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context states that women accounted for 42.2% of employees hired on permanent contracts in 2024, not the overall workforce.\"\n    },\n    {\n      \"claim\": \"The 2024 Report details TotalEnergies’ D&I policy, governance (a Diversity and Inclusion Council chaired by an Executive Committee member) and practical tools such as an internal “Eliminating Discrimination” guide and disability policy.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context mentions the Diversity and Inclusion Council and the “Eliminating Discrimination” guide, but it does not explicitly state that these are detailed in the 2024 Report.\"\n    },\n    {\n      \"claim\": \"The report also notes the addition of two women to the Executive Committee in 2023, reinforcing progress toward the 2025 targets.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context mentions the addition of two women to the Executive Committee in 2023 but does not explicitly state that this reinforces progress toward the 2025 targets.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, including fabricated numbers and unsupported causal statements.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.2,
+          "claims": [
+            {
+              "claim": "The 2024 Report details TotalEnergies’ D&I policy, governance (a Diversity and Inclusion Council chaired by an Executive Committee member) and practical tools such as an internal “Eliminating Discrimination” guide and disability policy.",
+              "severity": "moderate",
+              "reason": "The context mentions the Diversity and Inclusion Council and the 'Eliminating Discrimination' guide but does not explicitly state that the Council is chaired by an Executive Committee member in the 2024 Report."
+            },
+            {
+              "claim": "Women accounted for 39.6% of the pool of high-potential employees… 24.9% of managers on permanent contracts in technical or sales positions were women.",
+              "severity": "minor",
+              "reason": "The context provides these figures but does not explicitly state that they are from the 2024 Report, only that they are for 2023."
+            },
+            {
+              "claim": "Women account for 42.2% of employees hired on permanent contracts… 102,887 employees by geographical area by gender.",
+              "severity": "minor",
+              "reason": "The context states that women account for 42.2% of employees on permanent contracts in 2024, but the figure of 102,887 employees is from the 2024 URD, not necessarily tied to the 2024 Report."
+            },
+            {
+              "claim": "Diversity and Inclusion Council, which is chaired by a member of the Company’s Executive Committee… policy excludes any discrimination … gender, sexual orientation or gender identity.",
+              "severity": "moderate",
+              "reason": "The context mentions the Diversity and Inclusion Council and the policy against discrimination but does not explicitly state that the Council is chaired by an Executive Committee member in the 2024 Report."
+            }
+          ],
+          "unsupported_count": 4,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"The 2024 Report details TotalEnergies’ D&I policy, governance (a Diversity and Inclusion Council chaired by an Executive Committee member) and practical tools such as an internal “Eliminating Discrimination” guide and disability policy.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions the Diversity and Inclusion Council and the 'Eliminating Discrimination' guide but does not explicitly state that the Council is chaired by an Executive Committee member in the 2024 Report.\"\n    },\n    {\n      \"claim\": \"Women accounted for 39.6% of the pool of high-potential employees… 24.9% of managers on permanent contracts in technical or sales positions were women.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context provides these figures but does not explicitly state that they are from the 2024 Report, only that they are for 2023.\"\n    },\n    {\n      \"claim\": \"Women account for 42.2% of employees hired on permanent contracts… 102,887 employees by geographical area by gender.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context states that women account for 42.2% of employees on permanent contracts in 2024, but the figure of 102,887 employees is from the 2024 URD, not necessarily tied to the 2024 Report.\"\n    },\n    {\n      \"claim\": \"Diversity and Inclusion Council, which is chaired by a member of the Company’s Executive Committee… policy excludes any discrimination … gender, sexual orientation or gender identity.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions the Diversity and Inclusion Council and the policy against discrimination but does not explicitly state that the Council is chaired by an Executive Committee member in the 2024 Report.\"\n    }\n  ],\n  \"supported_count\": 1,\n  \"unsupported_count\": 4,\n  \"overall\": \"The answer contains several claims that are not fully supported by the context, particularly regarding the specific details of the 2024 Report and the exact roles or actions of the Diversity and Inclusion Council.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "TotalEnergies",
+      "question": "What emissions-related disclosure does TotalEnergies report?",
+      "topic": "environmental, emissions, climate",
+      "ground_truth": "Energy & Climate: Our Orderly Energy Transition > Our Energy Efficiency plan, p.32-33 CDP Climate Change 2023, C.41a Provide details of your absolute emissions target(s) and progress made against those targets, p.20- 44",
+      "answer": "TotalEnergies reports its gross global Scope 1 greenhouse‑gas emissions (33 Mt CO₂e) and provides a detailed breakdown of emissions sources—including flaring, combustion, process, vented and fugitive emissions—as well as air‑pollutant releases such as NOₓ (57 kt) and SO₂ (17 kt).  \n\nThe 2024 URD lists a Scope 1 total of 33 Mt CO₂e, of which 0.8 Mt CO₂e (29 kt CH₄) corresponds to methane (≈3 % of Scope 1). It further discloses source‑specific amounts: 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and <0.1 Mt CO₂e fugitive. Air‑quality metrics are also reported, with NOₓ emissions of 57 kt and SO₂ emissions of 17 kt.  \n\n- “Gross global Scope 1 emissions 33 Mt CO₂e” [TotalEnergies' 2024 Report, p. 650]  \n- “Scope 1, percentage 0.8 Mt CO₂e (29 kt CH₄), i.e., 3 % of methane” [TotalEnergies' 2024 Report, p. 650]  \n- “Amount of gross global Scope 1 emissions from flared hydrocarbons 3 Mt CO₂e” [TotalEnergies' 2024 Report, p. 650]  \n- “Air emissions of the following pollutants: NO 57 kt X (excluding N₂O)” [TotalEnergies' 2024 Report, p. 650]  \n- “Air emissions of the following pollutants: SO₂ 17 kt X” [TotalEnergies' 2024 Report, p. 650]  \n\n**Limitations**  \nThe disclosed information is limited to Scope 1 GHG emissions; Scope 2 and Scope 3 figures, baseline years, coverage scope, and detailed calculation methodologies are not provided in the extracted excerpts. No quantitative targets or performance trends for these emissions are included in the cited text.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_urd_c0294fa9_pdf_n0671",
+        "2024_urd_dba48e9f_pdf_n0025",
+        "2024_urd_c0294fa9_pdf_n0037",
+        "2024_urd_c0294fa9_pdf_n0667",
+        "2024_urd_dba48e9f_pdf_n0166",
+        "2024_urd_c0294fa9_pdf_t4971",
+        "2024_urd_dba48e9f_pdf_t13154",
+        "2024_urd_dba48e9f_pdf_n0272"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 61.66,
+        "best_chunk_id": "2024_urd_c0294fa9_pdf_n0671",
+        "top_score": 0.9565166731527642
+      },
+      "ragas": {
+        "faithfulness": 0.8571,
+        "answer_relevancy": 0.9,
+        "context_precision": 0.5,
+        "context_recall": 1.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.625
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 0.8571,
+          "verdicts": [
+            {
+              "claim": "TotalEnergies reports its gross global Scope 1 greenhouse‑gas emissions (33 Mt CO₂e)",
+              "verdict": "supported",
+              "reason": "The context explicitly states 'Gross global Scope 1 emissions 33 Mt COe Yes' (Source: 2024 URD, §5.2.1.3)."
+            },
+            {
+              "claim": "TotalEnergies provides a detailed breakdown of emissions sources—including flaring, combustion, process, vented and fugitive emissions—as well as air‑pollutant releases such as NOₓ (57 kt) and SO₂ (17 kt).",
+              "verdict": "supported",
+              "reason": "The context lists detailed breakdowns: 'Amount of gross global Scope 1 emissions from flared hydrocarbons 3 Mt COe', 'Amount of gross global Scope 1 emissions from other combustion 25 Mt COe', 'Amount of gross global Scope 1 emissions from process emissions 4 Mt COe', 'Amount of gross global Scope 1 emissions from other vented emissions 0.5 Mt COe', 'Amount of gross global Scope 1 emissions from fugitive emissions <0.1 Mt COe', and 'Air emissions of the following pollutants: NO 57 kt X (excluding N₂O)' and 'Air emissions of the following pollutants: SO₂ 17 kt X'."
+            },
+            {
+              "claim": "The 2024 URD lists a Scope 1 total of 33 Mt CO₂e, of which 0.8 Mt CO₂e (29 kt CH₄) corresponds to methane (≈3 % of Scope 1).",
+              "verdict": "supported",
+              "reason": "The context states 'Scope 1, percentage 0.8 Mt CO₂e (29 kt CH₄), i.e., 3% of methane' (Source: 2024 URD, §5.2.1.3)."
+            },
+            {
+              "claim": "It further discloses source‑specific amounts: 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and <0.1 Mt CO₂e fugitive.",
+              "verdict": "supported",
+              "reason": "The context lists these specific amounts: 'Amount of gross global Scope 1 emissions from flared hydrocarbons 3 Mt COe', 'Amount of gross global Scope 1 emissions from other combustion 25 Mt COe', 'Amount of gross global Scope 1 emissions from process emissions 4 Mt COe', 'Amount of gross global Scope 1 emissions from other vented emissions 0.5 Mt COe', and 'Amount of gross global Scope 1 emissions from fugitive emissions <0.1 Mt COe'."
+            },
+            {
+              "claim": "Air‑quality metrics are also reported, with NOₓ emissions of 57 kt and SO₂ emissions of 17 kt.",
+              "verdict": "supported",
+              "reason": "The context states 'Air emissions of the following pollutants: NO 57 kt X (excluding N₂O)' and 'Air emissions of the following pollutants: SO₂ 17 kt X'."
+            },
+            {
+              "claim": "The disclosed information is limited to Scope 1 GHG emissions; Scope 2 and Scope 3 figures, baseline years, coverage scope, and detailed calculation methodologies are not provided in the extracted excerpts.",
+              "verdict": "supported",
+              "reason": "The context does not mention Scope 2 or Scope 3 emissions, baseline years, coverage scope, or detailed calculation methodologies, supporting the claim that these are not provided."
+            },
+            {
+              "claim": "No quantitative targets or performance trends for these emissions are included in the cited text.",
+              "verdict": "unsupported",
+              "reason": "The context mentions 'TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions, emissions reduction to steer its performance' (Source: 2024 URD, §5.2.1), which contradicts the claim that no quantitative targets or performance trends are included."
+            }
+          ],
+          "reasoning": "The answer is largely supported by the context, with detailed emissions data and breakdowns matching the provided context. However, the claim about the absence of quantitative targets or performance trends is contradicted by the context, which mentions that TotalEnergies has set targets and introduced indicators to manage Scope 1 emissions.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"TotalEnergies reports its gross global Scope 1 greenhouse‑gas emissions (33 Mt CO₂e)\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states 'Gross global Scope 1 emissions 33 Mt COe Yes' (Source: 2024 URD, §5.2.1.3).\"\n    },\n    {\n      \"claim\": \"TotalEnergies provides a detailed breakdown of emissions sources—including flaring, combustion, process, vented and fugitive emissions—as well as air‑pollutant releases such as NOₓ (57 kt) and SO₂ (17 kt).\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context lists detailed breakdowns: 'Amount of gross global Scope 1 emissions from flared hydrocarbons 3 Mt COe', 'Amount of gross global Scope 1 emissions from other combustion 25 Mt COe', 'Amount of gross global Scope 1 emissions from process emissions 4 Mt COe', 'Amount of gross global Scope 1 emissions from other vented emissions 0.5 Mt COe', 'Amount of gross global Scope 1 emissions from fugitive emissions <0.1 Mt COe', and 'Air emissions of the following pollutants: NO 57 kt X (excluding N₂O)' and 'Air emissions of the following pollutants: SO₂ 17 kt X'.\"\n    },\n    {\n      \"claim\": \"The 2024 URD lists a Scope 1 total of 33 Mt CO₂e, of which 0.8 Mt CO₂e (29 kt CH₄) corresponds to methane (≈3 % of Scope 1).\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states 'Scope 1, percentage 0.8 Mt CO₂e (29 kt CH₄), i.e., 3% of methane' (Source: 2024 URD, §5.2.1.3).\"\n    },\n    {\n      \"claim\": \"It further discloses source‑specific amounts: 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and <0.1 Mt CO₂e fugitive.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context lists these specific amounts: 'Amount of gross global Scope 1 emissions from flared hydrocarbons 3 Mt COe', 'Amount of gross global Scope 1 emissions from other combustion 25 Mt COe', 'Amount of gross global Scope 1 emissions from process emissions 4 Mt COe', 'Amount of gross global Scope 1 emissions from other vented emissions 0.5 Mt COe', and 'Amount of gross global Scope 1 emissions from fugitive emissions <0.1 Mt COe'.\"\n    },\n    {\n      \"claim\": \"Air‑quality metrics are also reported, with NOₓ emissions of 57 kt and SO₂ emissions of 17 kt.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context states 'Air emissions of the following pollutants: NO 57 kt X (excluding N₂O)' and 'Air emissions of the following pollutants: SO₂ 17 kt X'.\"\n    },\n    {\n      \"claim\": \"The disclosed information is limited to Scope 1 GHG emissions; Scope 2 and Scope 3 figures, baseline years, coverage scope, and detailed calculation methodologies are not provided in the extracted excerpts.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not mention Scope 2 or Scope 3 emissions, baseline years, coverage scope, or detailed calculation methodologies, supporting the claim that these are not provided.\"\n    },\n    {\n      \"claim\": \"No quantitative targets or performance trends for these emissions are included in the cited text.\",\n      \"verdict\": \"unsupported\",\n      \"reason\": \"The context mentions 'TotalEnergies has set targets and introduced a number of indicators to manage Scope 1 emissions, emissions reduction to steer its performance' (Source: 2024 URD, §5.2.1), which contradicts the claim that no quantitative targets or performance trends are included.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer is largely supported by the context, with detailed emissions data and breakdowns matching the provided context. However, the claim about the absence of quantitative targets or performance trends is contradicted by the context, which mentions that TotalEnergies has set targets and introduced indicators to manage Scope 1 emissions.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.9,
+          "reasoning": "The answer provides a detailed breakdown of TotalEnergies' Scope 1 emissions, including specific sources and pollutants, which directly addresses the question about emissions-related disclosures. However, it does not cover Scope 2 or Scope 3 emissions, which are also relevant to the broader question of emissions disclosures.",
+          "raw": "```json\n{\"score\": 0.9, \"reasoning\": \"The answer provides a detailed breakdown of TotalEnergies' Scope 1 emissions, including specific sources and pollutants, which directly addresses the question about emissions-related disclosures. However, it does not cover Scope 2 or Scope 3 emissions, which are also relevant to the broader question of emissions disclosures.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.5,
+          "highly_relevant": 1,
+          "relevant_count": 4,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0671",
+              "verdict": "highly_relevant",
+              "reason": "Contains detailed Scope 1 emissions data, including breakdowns of sources and air pollutants."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0025",
+              "verdict": "not_relevant",
+              "reason": "Discusses human rights, unrelated to emissions disclosures."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0037",
+              "verdict": "not_relevant",
+              "reason": "Focuses on human rights, not emissions-related disclosures."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0667",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions TCFD implementation, which may include emissions but lacks specific data."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0166",
+              "verdict": "somewhat_relevant",
+              "reason": "Refers to climate targets and indicators, possibly related but not specific to emissions disclosures."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_t4971",
+              "verdict": "not_relevant",
+              "reason": "Mentions emissions in a table but lacks context or specific data."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_t13154",
+              "verdict": "not_relevant",
+              "reason": "Refers to reported metrics but does not specify emissions data."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0272",
+              "verdict": "somewhat_relevant",
+              "reason": "Discusses climate change and TCFD, which may include emissions but lacks specifics."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0671\",\n      \"verdict\": \"highly_relevant\",\n      \"reason\": \"Contains detailed Scope 1 emissions data, including breakdowns of sources and air pollutants.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0025\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses human rights, unrelated to emissions disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0037\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Focuses on human rights, not emissions-related disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0667\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions TCFD implementation, which may include emissions but lacks specific data.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0166\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Refers to climate targets and indicators, possibly related but not specific to emissions disclosures.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_t4971\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Mentions emissions in a table but lacks context or specific data.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_t13154\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Refers to reported metrics but does not specify emissions data.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0272\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Discusses climate change and TCFD, which may include emissions but lacks specifics.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks include one highly relevant chunk (page 650) that directly answers the question about TotalEnergies' emissions-related disclosures. Other chunks are either somewhat relevant or not relevant, providing limited additional context.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 1.0,
+          "fully_covered": 4,
+          "covered_count": 6,
+          "total": 6,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "partially_covered",
+              "reason": "Mentions energy efficiency and climate targets but lacks specific details on emissions-related disclosures."
+            },
+            {
+              "expected_id": 1,
+              "verdict": "covered",
+              "reason": "Includes detailed Scope 1 emissions data, targets, and strategies from the URD 2024."
+            },
+            {
+              "expected_id": 2,
+              "verdict": "covered",
+              "reason": "Explicitly mentions energy efficiency plans and climate targets in the Sustainability & Climate 2024 Progress Report."
+            },
+            {
+              "expected_id": 3,
+              "verdict": "covered",
+              "reason": "CDP Climate Change 2023 disclosures include absolute emissions targets and progress."
+            },
+            {
+              "expected_id": 4,
+              "verdict": "covered",
+              "reason": "CDP Climate Change 2023 disclosures cover strategy for regulatory compliance."
+            },
+            {
+              "expected_id": 5,
+              "verdict": "partially_covered",
+              "reason": "Mentions reductions in energy requirements but lacks specific emissions-related details."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"partially_covered\",\n      \"reason\": \"Mentions energy efficiency and climate targets but lacks specific details on emissions-related disclosures.\"\n    },\n    {\n      \"expected_id\": 1,\n      \"verdict\": \"covered\",\n      \"reason\": \"Includes detailed Scope 1 emissions data, targets, and strategies from the URD 2024.\"\n    },\n    {\n      \"expected_id\": 2,\n      \"verdict\": \"covered\",\n      \"reason\": \"Explicitly mentions energy efficiency plans and climate targets in the Sustainability & Climate 2024 Progress Report.\"\n    },\n    {\n      \"expected_id\": 3,\n      \"verdict\": \"covered\",\n      \"reason\": \"CDP Climate Change 2023 disclosures include absolute emissions targets and progress.\"\n    },\n    {\n      \"expected_id\": 4,\n      \"verdict\": \"covered\",\n      \"reason\": \"CDP Climate Change 2023 disclosures cover strategy for regulatory compliance.\"\n    },\n    {\n      \"expected_id\": 5,\n      \"verdict\": \"partially_covered\",\n      \"reason\": \"Mentions reductions in energy requirements but lacks specific emissions-related details.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks cover most of the expected ESG context, particularly emissions-related disclosures, but some details are partially covered or missing.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "The 2024 URD lists a Scope 1 total of 33 Mt CO₂e, of which 0.8 Mt CO₂e (29 kt CH₄) corresponds to methane (≈3 % of Scope 1). It further discloses source-specific amounts: 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and <0.1 Mt CO₂e fugitive.",
+              "type": "fabricated_number",
+              "reason": "The context does not explicitly state the breakdown of Scope 1 emissions into specific sources (e.g., flared hydrocarbons, combustion, process emissions, etc.). The numbers are present in the context but are not explicitly tied to the 2024 URD in the way the answer suggests."
+            },
+            {
+              "claim": "Air-quality metrics are also reported, with NOₓ emissions of 57 kt and SO₂ emissions of 17 kt.",
+              "type": "fabricated_number",
+              "reason": "The context mentions NOₓ and SO₂ emissions but does not provide the specific numbers (57 kt and 17 kt) in the cited excerpts. These numbers are not directly supported by the provided context."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"The 2024 URD lists a Scope 1 total of 33 Mt CO₂e, of which 0.8 Mt CO₂e (29 kt CH₄) corresponds to methane (≈3 % of Scope 1). It further discloses source-specific amounts: 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and <0.1 Mt CO₂e fugitive.\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context does not explicitly state the breakdown of Scope 1 emissions into specific sources (e.g., flared hydrocarbons, combustion, process emissions, etc.). The numbers are present in the context but are not explicitly tied to the 2024 URD in the way the answer suggests.\"\n    },\n    {\n      \"claim\": \"Air-quality metrics are also reported, with NOₓ emissions of 57 kt and SO₂ emissions of 17 kt.\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context mentions NOₓ and SO₂ emissions but does not provide the specific numbers (57 kt and 17 kt) in the cited excerpts. These numbers are not directly supported by the provided context.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains fabricated numbers for the breakdown of Scope 1 emissions and air-quality metrics, which are not explicitly supported by the provided context.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.625,
+          "claims": [
+            {
+              "claim": "The 2024 URD lists a Scope 1 total of 33 Mt CO₂e, of which 0.8 Mt CO₂e (29 kt CH₄) corresponds to methane (≈3 % of Scope 1).",
+              "severity": "moderate",
+              "reason": "The context does not explicitly state that 0.8 Mt CO₂e corresponds to 3% of Scope 1; it only states that 0.8 Mt CO₂e is 29 kt CH₄."
+            },
+            {
+              "claim": "It further discloses source-specific amounts: 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and <0.1 Mt CO₂e fugitive.",
+              "severity": "moderate",
+              "reason": "The context lists these amounts but does not explicitly state they are 'source-specific amounts' as a collective term."
+            },
+            {
+              "claim": "Air-quality metrics are also reported, with NOₓ emissions of 57 kt and SO₂ emissions of 17 kt.",
+              "severity": "minor",
+              "reason": "The context lists these emissions but does not explicitly state they are 'air-quality metrics' as a collective term."
+            }
+          ],
+          "unsupported_count": 3,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"The 2024 URD lists a Scope 1 total of 33 Mt CO₂e, of which 0.8 Mt CO₂e (29 kt CH₄) corresponds to methane (≈3 % of Scope 1).\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not explicitly state that 0.8 Mt CO₂e corresponds to 3% of Scope 1; it only states that 0.8 Mt CO₂e is 29 kt CH₄.\"\n    },\n    {\n      \"claim\": \"It further discloses source-specific amounts: 3 Mt CO₂e from flared hydrocarbons, 25 Mt CO₂e from combustion, 4 Mt CO₂e from process emissions, 0.5 Mt CO₂e vented, and <0.1 Mt CO₂e fugitive.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context lists these amounts but does not explicitly state they are 'source-specific amounts' as a collective term.\"\n    },\n    {\n      \"claim\": \"Air-quality metrics are also reported, with NOₓ emissions of 57 kt and SO₂ emissions of 17 kt.\",\n      \"severity\": \"minor\",\n      \"reason\": \"The context lists these emissions but does not explicitly state they are 'air-quality metrics' as a collective term.\"\n    }\n  ],\n  \"supported_count\": 5,\n  \"unsupported_count\": 3,\n  \"overall\": \"The answer contains several claims that are not explicitly supported by the context, particularly regarding the interpretation of methane emissions as a percentage of Scope 1 and the collective terms used for emissions disclosures.\"\n}\n```"
+        }
+      }
+    },
+    {
+      "company": "TotalEnergies",
+      "question": "What ESG target, ambition, or commitment does TotalEnergies disclose?",
+      "topic": "environmental, climate, biodiversity",
+      "ground_truth": "77-79, 81 Protecting Biodiversity Commitments and Actions, p.10, 11, 24, 28, 29, 30 Code of Conduct, External Resources, p.39-42 TotalEnergies website, Our sustainability approach > Support to Global Initiatives TotalEnergies website, Reporting standards TotalEnergies website, Challenges Identification TotalEnergies website, Main ESG ratings Membership of associations URD 2023, 5.9.1 Fostering the economic development of host regions > Anchoring our transition strategy with regional players and with a view of just transition, p.",
+      "answer": "TotalEnergies publicly commits to achieving net‑zero greenhouse‑gas emissions by 2050 and to become a major player in the global energy transition, aligning its business with the Paris Agreement and the UN Sustainable Development Goals.  \n\nThe company’s ESG ambition is articulated as “carbon neutrality by 2050, together with society” and is reinforced across several sections of its 2024 reporting suite. It states that TotalEnergies aims to be a “major player in the energy transition, on the road to Net Zero by 2050” and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy. While the report lists a set of 10 KPIs for the 2023‑2025 period, it does not disclose quantitative baseline values, scopes or methodologies for those metrics; the primary disclosed target is the 2050 net‑zero commitment. [TotalEnergies' 2024 Report, p. 29] [TotalEnergies' 2024 Report, p. 27] [TotalEnergies' 2024 Report, p. 288] [TotalEnergies' 2024 Report, p. 6]  \n\n**Evidence excerpts**  \n- “OUR AMBITION Ambition of carbon neutrality by 2050, together with society” [TotalEnergies' 2024 Report, p. 29]  \n- “OUR AMBITION … to be a major player in the energy transition, on the road to Net Zero by 2050, together with society” [TotalEnergies' 2024 Report, p. 27]  \n- “aim is to reach carbon neutrality (net zero emissions) by 2050 together with providing more energy …” [TotalEnergies' 2024 Report, p. 288]  \n- “OUR CLIMATE AMBITION: NET ZERO EMISSIONS BY 2050, together with society” [TotalEnergies' 2024 Report, p. 6]  \n- “zero by 2050, together with society … will require the mobilization of our 100,000 employees” [TotalEnergies' 2024 Progress Report, p. 71]  \n\n**Limitations**  \n- The documents do not provide specific numeric baselines, scopes (e.g., Scope 1/2/3), or detailed methodologies for the 2023‑2025 KPIs, limiting verification of progress against those interim targets.  \n- No quantitative emissions reduction pathways, interim milestones (e.g., 2030 targets), or sector‑specific targets are disclosed in the extracted excerpts.  \n- The ambition statements are qualitative; without accompanying data, the exact magnitude of the commitment cannot be fully assessed.",
+      "retrieved_count": 8,
+      "retrieved_chunk_ids": [
+        "2024_progress_report_8e664f5b_pdf_n0053",
+        "2024_urd_c0294fa9_pdf_n0034",
+        "2024_urd_dba48e9f_pdf_n0024",
+        "2024_urd_c0294fa9_pdf_n0019",
+        "2024_urd_dba48e9f_pdf_n0272",
+        "2024_urd_dba48e9f_pdf_n0331",
+        "2024_urd_dba48e9f_pdf_n0635",
+        "2024_urd_dba48e9f_pdf_n0004"
+      ],
+      "retrieval_diagnostics": [],
+      "retrieval": {
+        "status": "miss",
+        "best_match_score": 61.38,
+        "best_chunk_id": "2024_urd_dba48e9f_pdf_n0024",
+        "top_score": 0.9540569623871389
+      },
+      "ragas": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8,
+        "context_precision": 0.375,
+        "context_recall": 1.0,
+        "hallucination_free": 0.5,
+        "citation_coverage": 0.0,
+        "unsupported_claims_score": 0.2
+      },
+      "ragas_details": {
+        "faithfulness": {
+          "score": 1.0,
+          "verdicts": [
+            {
+              "claim": "TotalEnergies publicly commits to achieving net‑zero greenhouse‑gas emissions by 2050 and to become a major player in the global energy transition, aligning its business with the Paris Agreement and the UN Sustainable Development Goals.",
+              "verdict": "supported",
+              "reason": "The context explicitly states TotalEnergies' commitment to net-zero emissions by 2050 and its alignment with the Paris Agreement and UN SDGs."
+            },
+            {
+              "claim": "The company’s ESG ambition is articulated as “carbon neutrality by 2050, together with society” and is reinforced across several sections of its 2024 reporting suite.",
+              "verdict": "supported",
+              "reason": "The context includes multiple references to the ambition of carbon neutrality by 2050, together with society, across various sections of the 2024 reporting suite."
+            },
+            {
+              "claim": "It states that TotalEnergies aims to be a “major player in the energy transition, on the road to Net Zero by 2050” and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy.",
+              "verdict": "supported",
+              "reason": "The context explicitly mentions TotalEnergies' aim to be a major player in the energy transition and its purpose of providing reliable, affordable, and sustainable energy."
+            },
+            {
+              "claim": "While the report lists a set of 10 KPIs for the 2023‑2025 period, it does not disclose quantitative baseline values, scopes or methodologies for those metrics; the primary disclosed target is the 2050 net‑zero commitment.",
+              "verdict": "supported",
+              "reason": "The context lists 10 KPIs for the 2023-2025 period but does not provide specific numeric baselines, scopes, or methodologies for these KPIs, focusing primarily on the 2050 net-zero commitment."
+            },
+            {
+              "claim": "The documents do not provide specific numeric baselines, scopes (e.g., Scope 1/2/3), or detailed methodologies for the 2023‑2025 KPIs, limiting verification of progress against those interim targets.",
+              "verdict": "supported",
+              "reason": "The context confirms that the documents do not provide specific numeric baselines, scopes, or detailed methodologies for the 2023-2025 KPIs."
+            },
+            {
+              "claim": "No quantitative emissions reduction pathways, interim milestones (e.g., 2030 targets), or sector‑specific targets are disclosed in the extracted excerpts.",
+              "verdict": "supported",
+              "reason": "The context does not mention any quantitative emissions reduction pathways, interim milestones, or sector-specific targets beyond the 2050 net-zero commitment."
+            },
+            {
+              "claim": "The ambition statements are qualitative; without accompanying data, the exact magnitude of the commitment cannot be fully assessed.",
+              "verdict": "supported",
+              "reason": "The context includes qualitative ambition statements without providing detailed quantitative data to fully assess the magnitude of the commitment."
+            }
+          ],
+          "reasoning": "The answer accurately reflects the context provided. All claims are either directly supported by the context or are logical conclusions based on the information given. The context confirms TotalEnergies' commitment to net-zero emissions by 2050, its alignment with the Paris Agreement and UN SDGs, and the qualitative nature of its ambition statements without detailed quantitative data for interim targets.",
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"claim\": \"TotalEnergies publicly commits to achieving net‑zero greenhouse‑gas emissions by 2050 and to become a major player in the global energy transition, aligning its business with the Paris Agreement and the UN Sustainable Development Goals.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly states TotalEnergies' commitment to net-zero emissions by 2050 and its alignment with the Paris Agreement and UN SDGs.\"\n    },\n    {\n      \"claim\": \"The company’s ESG ambition is articulated as “carbon neutrality by 2050, together with society” and is reinforced across several sections of its 2024 reporting suite.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes multiple references to the ambition of carbon neutrality by 2050, together with society, across various sections of the 2024 reporting suite.\"\n    },\n    {\n      \"claim\": \"It states that TotalEnergies aims to be a “major player in the energy transition, on the road to Net Zero by 2050” and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context explicitly mentions TotalEnergies' aim to be a major player in the energy transition and its purpose of providing reliable, affordable, and sustainable energy.\"\n    },\n    {\n      \"claim\": \"While the report lists a set of 10 KPIs for the 2023‑2025 period, it does not disclose quantitative baseline values, scopes or methodologies for those metrics; the primary disclosed target is the 2050 net‑zero commitment.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context lists 10 KPIs for the 2023-2025 period but does not provide specific numeric baselines, scopes, or methodologies for these KPIs, focusing primarily on the 2050 net-zero commitment.\"\n    },\n    {\n      \"claim\": \"The documents do not provide specific numeric baselines, scopes (e.g., Scope 1/2/3), or detailed methodologies for the 2023‑2025 KPIs, limiting verification of progress against those interim targets.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context confirms that the documents do not provide specific numeric baselines, scopes, or detailed methodologies for the 2023-2025 KPIs.\"\n    },\n    {\n      \"claim\": \"No quantitative emissions reduction pathways, interim milestones (e.g., 2030 targets), or sector‑specific targets are disclosed in the extracted excerpts.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context does not mention any quantitative emissions reduction pathways, interim milestones, or sector-specific targets beyond the 2050 net-zero commitment.\"\n    },\n    {\n      \"claim\": \"The ambition statements are qualitative; without accompanying data, the exact magnitude of the commitment cannot be fully assessed.\",\n      \"verdict\": \"supported\",\n      \"reason\": \"The context includes qualitative ambition statements without providing detailed quantitative data to fully assess the magnitude of the commitment.\"\n    }\n  ],\n  \"overall_reasoning\": \"The answer accurately reflects the context provided. All claims are either directly supported by the context or are logical conclusions based on the information given. The context confirms TotalEnergies' commitment to net-zero emissions by 2050, its alignment with the Paris Agreement and UN SDGs, and the qualitative nature of its ambition statements without detailed quantitative data for interim targets.\"\n}\n```"
+        },
+        "answer_relevancy": {
+          "score": 0.8,
+          "reasoning": "The answer directly addresses the question by disclosing TotalEnergies' net-zero by 2050 commitment and its alignment with the Paris Agreement and UN SDGs. However, it lacks specific interim targets or detailed methodologies, which slightly reduces its completeness.",
+          "raw": "```json\n{\"score\": 0.8, \"reasoning\": \"The answer directly addresses the question by disclosing TotalEnergies' net-zero by 2050 commitment and its alignment with the Paris Agreement and UN SDGs. However, it lacks specific interim targets or detailed methodologies, which slightly reduces its completeness.\"}\n```"
+        },
+        "context_precision": {
+          "score": 0.375,
+          "highly_relevant": 0,
+          "relevant_count": 3,
+          "total": 8,
+          "verdicts": [
+            {
+              "chunk_id": "2024_progress_report_8e664f5b_pdf_n0053",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions KPIs for 2023-2025 but does not specify ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0034",
+              "verdict": "not_relevant",
+              "reason": "Discusses environmental principles but not specific ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0024",
+              "verdict": "somewhat_relevant",
+              "reason": "Refers to sustainability ambitions but lacks specific ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_urd_c0294fa9_pdf_n0019",
+              "verdict": "not_relevant",
+              "reason": "Discusses assessments and transparency but not ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0272",
+              "verdict": "somewhat_relevant",
+              "reason": "Mentions support for the Paris Agreement but not specific ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0331",
+              "verdict": "not_relevant",
+              "reason": "Discusses corporate culture and safety but not ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0635",
+              "verdict": "not_relevant",
+              "reason": "Discusses transparency but not ESG targets or commitments."
+            },
+            {
+              "chunk_id": "2024_urd_dba48e9f_pdf_n0004",
+              "verdict": "not_relevant",
+              "reason": "Describes the company's general mission but not specific ESG targets or commitments."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"chunk_id\": \"2024_progress_report_8e664f5b_pdf_n0053\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions KPIs for 2023-2025 but does not specify ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0034\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses environmental principles but not specific ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0024\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Refers to sustainability ambitions but lacks specific ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_c0294fa9_pdf_n0019\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses assessments and transparency but not ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0272\",\n      \"verdict\": \"somewhat_relevant\",\n      \"reason\": \"Mentions support for the Paris Agreement but not specific ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0331\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses corporate culture and safety but not ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0635\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Discusses transparency but not ESG targets or commitments.\"\n    },\n    {\n      \"chunk_id\": \"2024_urd_dba48e9f_pdf_n0004\",\n      \"verdict\": \"not_relevant\",\n      \"reason\": \"Describes the company's general mission but not specific ESG targets or commitments.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks do not contain highly relevant information directly addressing the question about TotalEnergies' ESG targets, ambitions, or commitments. The most relevant chunks are somewhat relevant but lack specific details on ESG targets or commitments.\"\n}\n```"
+        },
+        "context_recall": {
+          "score": 1.0,
+          "fully_covered": 6,
+          "covered_count": 6,
+          "total": 6,
+          "verdicts": [
+            {
+              "expected_id": 0,
+              "verdict": "covered",
+              "reason": "The retrieved chunks mention the Sustainable & Climate 2024 Progress Report and include details about TotalEnergies' climate and sustainability commitments, such as net-zero emissions by 2050 and actions for a just transition."
+            },
+            {
+              "expected_id": 1,
+              "verdict": "covered",
+              "reason": "The chunks discuss biodiversity plans and commitments, including the deployment of biodiversity plans and actions."
+            },
+            {
+              "expected_id": 2,
+              "verdict": "covered",
+              "reason": "The chunks mention the Code of Conduct and external resources, including TotalEnergies' support for global initiatives and reporting standards."
+            },
+            {
+              "expected_id": 3,
+              "verdict": "covered",
+              "reason": "The chunks include information about TotalEnergies' membership in associations and ESG ratings, such as the UN Global Compact and various ESG indices."
+            },
+            {
+              "expected_id": 4,
+              "verdict": "covered",
+              "reason": "The chunks discuss the URD 2023 and the company's transition strategy, including anchoring the strategy with regional players and just transition efforts."
+            },
+            {
+              "expected_id": 5,
+              "verdict": "covered",
+              "reason": "The chunks mention the URD 2023 and the company's sustainable development strategy, including professional associations and sustainability reviews."
+            }
+          ],
+          "raw": "```json\n{\n  \"verdicts\": [\n    {\n      \"expected_id\": 0,\n      \"verdict\": \"covered\",\n      \"reason\": \"The retrieved chunks mention the Sustainable & Climate 2024 Progress Report and include details about TotalEnergies' climate and sustainability commitments, such as net-zero emissions by 2050 and actions for a just transition.\"\n    },\n    {\n      \"expected_id\": 1,\n      \"verdict\": \"covered\",\n      \"reason\": \"The chunks discuss biodiversity plans and commitments, including the deployment of biodiversity plans and actions.\"\n    },\n    {\n      \"expected_id\": 2,\n      \"verdict\": \"covered\",\n      \"reason\": \"The chunks mention the Code of Conduct and external resources, including TotalEnergies' support for global initiatives and reporting standards.\"\n    },\n    {\n      \"expected_id\": 3,\n      \"verdict\": \"covered\",\n      \"reason\": \"The chunks include information about TotalEnergies' membership in associations and ESG ratings, such as the UN Global Compact and various ESG indices.\"\n    },\n    {\n      \"expected_id\": 4,\n      \"verdict\": \"covered\",\n      \"reason\": \"The chunks discuss the URD 2023 and the company's transition strategy, including anchoring the strategy with regional players and just transition efforts.\"\n    },\n    {\n      \"expected_id\": 5,\n      \"verdict\": \"covered\",\n      \"reason\": \"The chunks mention the URD 2023 and the company's sustainable development strategy, including professional associations and sustainability reviews.\"\n    }\n  ],\n  \"overall\": \"The retrieved chunks cover all the expected ESG context information, including climate commitments, biodiversity actions, reporting standards, memberships, and transition strategies.\"\n}\n```"
+        },
+        "hallucination": {
+          "score": 0.5,
+          "hallucinated_claims": [
+            {
+              "claim": "It states that TotalEnergies aims to be a 'major player in the energy transition, on the road to Net Zero by 2050' and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy.",
+              "type": "unsupported_causal",
+              "reason": "The context does not explicitly link the ambition to the broader purpose of providing reliable, affordable, and sustainable energy. The purpose is stated separately."
+            },
+            {
+              "claim": "While the report lists a set of 10 KPIs for the 2023-2025 period, it does not disclose quantitative baseline values, scopes or methodologies for those metrics; the primary disclosed target is the 2050 net-zero commitment.",
+              "type": "fabricated_number",
+              "reason": "The context mentions 10 KPIs but does not explicitly state that quantitative baseline values, scopes, or methodologies are missing for those metrics."
+            }
+          ],
+          "hallucination_free": false,
+          "raw": "```json\n{\n  \"hallucinated_claims\": [\n    {\n      \"claim\": \"It states that TotalEnergies aims to be a 'major player in the energy transition, on the road to Net Zero by 2050' and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy.\",\n      \"type\": \"unsupported_causal\",\n      \"reason\": \"The context does not explicitly link the ambition to the broader purpose of providing reliable, affordable, and sustainable energy. The purpose is stated separately.\"\n    },\n    {\n      \"claim\": \"While the report lists a set of 10 KPIs for the 2023-2025 period, it does not disclose quantitative baseline values, scopes or methodologies for those metrics; the primary disclosed target is the 2050 net-zero commitment.\",\n      \"type\": \"fabricated_number\",\n      \"reason\": \"The context mentions 10 KPIs but does not explicitly state that quantitative baseline values, scopes, or methodologies are missing for those metrics.\"\n    }\n  ],\n  \"hallucination_free\": false,\n  \"overall\": \"The answer contains claims that are not fully supported by the provided context, particularly regarding the linkage of ambitions to broader purposes and the specifics of KPI disclosures.\"\n}\n```"
+        },
+        "citation": {
+          "score": 0.0,
+          "cited_count": 0,
+          "valid_cited": 0,
+          "invalid_cited": 0,
+          "invalid_ids": []
+        },
+        "unsupported_claims": {
+          "score": 0.2,
+          "claims": [
+            {
+              "claim": "TotalEnergies aims to be a 'major player in the energy transition, on the road to Net Zero by 2050' and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy.",
+              "severity": "moderate",
+              "reason": "The context mentions the ambition but does not provide specific evidence or metrics linking it to the broader purpose of providing reliable, affordable, and sustainable energy."
+            },
+            {
+              "claim": "The company’s ESG ambition is articulated as 'carbon neutrality by 2050, together with society' and is reinforced across several sections of its 2024 reporting suite.",
+              "severity": "minor",
+              "reason": "While the ambition is mentioned, the context does not provide specific sections or detailed reinforcement of this ambition across the reporting suite."
+            },
+            {
+              "claim": "It states that TotalEnergies aims to be a 'major player in the energy transition, on the road to Net Zero by 2050' and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy.",
+              "severity": "moderate",
+              "reason": "The context does not explicitly link the ambition to the broader purpose of providing reliable, affordable, and sustainable energy."
+            },
+            {
+              "claim": "While the report lists a set of 10 KPIs for the 2023-2025 period, it does not disclose quantitative baseline values, scopes or methodologies for those metrics; the primary disclosed target is the 2050 net-zero commitment.",
+              "severity": "moderate",
+              "reason": "The context mentions the 10 KPIs but does not provide specific quantitative baseline values, scopes, or methodologies for those metrics."
+            }
+          ],
+          "unsupported_count": 4,
+          "raw": "```json\n{\n  \"unsupported\": [\n    {\n      \"claim\": \"TotalEnergies aims to be a 'major player in the energy transition, on the road to Net Zero by 2050' and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions the ambition but does not provide specific evidence or metrics linking it to the broader purpose of providing reliable, affordable, and sustainable energy.\"\n    },\n    {\n      \"claim\": \"The company’s ESG ambition is articulated as 'carbon neutrality by 2050, together with society' and is reinforced across several sections of its 2024 reporting suite.\",\n      \"severity\": \"minor\",\n      \"reason\": \"While the ambition is mentioned, the context does not provide specific sections or detailed reinforcement of this ambition across the reporting suite.\"\n    },\n    {\n      \"claim\": \"It states that TotalEnergies aims to be a 'major player in the energy transition, on the road to Net Zero by 2050' and links this ambition to its broader purpose of providing reliable, affordable and sustainable energy.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context does not explicitly link the ambition to the broader purpose of providing reliable, affordable, and sustainable energy.\"\n    },\n    {\n      \"claim\": \"While the report lists a set of 10 KPIs for the 2023-2025 period, it does not disclose quantitative baseline values, scopes or methodologies for those metrics; the primary disclosed target is the 2050 net-zero commitment.\",\n      \"severity\": \"moderate\",\n      \"reason\": \"The context mentions the 10 KPIs but does not provide specific quantitative baseline values, scopes, or methodologies for those metrics.\"\n    }\n  ],\n  \"supported_count\": 1,\n  \"unsupported_count\": 4,\n  \"overall\": \"The answer contains several claims that are not fully supported by the provided context, particularly regarding the linkage of ambitions to broader purposes and the lack of specific quantitative details for KPIs.\"\n}\n```"
+        }
+      }
+    }
+  ]
+}
