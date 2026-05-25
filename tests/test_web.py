@@ -230,3 +230,127 @@ def test_web_ask_uses_named_company_comparison_path(monkeypatch):
     assert calls["comparison_answer"]["companies"] == ["Engie", "LVMH"]
     assert "deterministic-esg-comparator" in body
     assert "Company Comparison" in body
+
+
+def test_web_ask_uses_named_company_comparison_path_for_acronym_plural_prompt(monkeypatch):
+    calls = {}
+
+    def fake_retrieve_company_ranking_chunks(**kwargs):
+        calls["retrieval"] = kwargs
+        return (
+            [
+                {
+                    "chunk_id": "chunk-0001",
+                    "company_label": "BNP Paribas",
+                    "source_file": "bnp.pdf",
+                    "page_start": 1,
+                    "page_end": 1,
+                    "score": 0.8,
+                    "text": "BNP evidence.",
+                },
+                {
+                    "chunk_id": "chunk-0002",
+                    "company_label": "Enel",
+                    "source_file": "enel.pdf",
+                    "page_start": 1,
+                    "page_end": 1,
+                    "score": 0.7,
+                    "text": "Enel evidence.",
+                },
+            ],
+            "embedding-model",
+            {"mode": "company_ranking"},
+        )
+
+    def fake_generate_company_comparison_answer(**kwargs):
+        calls["comparison_answer"] = kwargs
+        return "**Company Comparison**\n\n| Company | Evidence |\n|---|---|\n| BNP Paribas | Evidence |"
+
+    monkeypatch.setattr("app.web.retrieve_company_ranking_chunks", fake_retrieve_company_ranking_chunks)
+    monkeypatch.setattr("app.web.generate_company_comparison_answer", fake_generate_company_comparison_answer)
+
+    app = create_app(index_dir=Path("/tmp/nonexistent-index"))
+    body_bytes = urlencode(
+        {"question": "Compare the evolution of BNPs environmental commitments to those of ENEL"}
+    ).encode("utf-8")
+
+    def start_response(status, headers):
+        pass
+
+    body = b"".join(
+        app(
+            {
+                "PATH_INFO": "/ask",
+                "REQUEST_METHOD": "POST",
+                "wsgi.input": __import__("io").BytesIO(body_bytes),
+                "CONTENT_LENGTH": str(len(body_bytes)),
+            },
+            start_response,
+        )
+    ).decode("utf-8")
+
+    assert calls["retrieval"]["target_companies"] == ["BNP Paribas", "Enel"]
+    assert calls["comparison_answer"]["companies"] == ["BNP Paribas", "Enel"]
+    assert "deterministic-esg-comparator" in body
+
+
+def test_web_ask_uses_named_company_comparison_path_for_parallel_list_prompt(monkeypatch):
+    calls = {}
+
+    def fake_retrieve_company_ranking_chunks(**kwargs):
+        calls["retrieval"] = kwargs
+        return (
+            [
+                {
+                    "chunk_id": "chunk-0001",
+                    "company_label": "BNP Paribas",
+                    "source_file": "bnp.pdf",
+                    "page_start": 1,
+                    "page_end": 1,
+                    "score": 0.8,
+                    "text": "BNP environmental goals evidence.",
+                },
+                {
+                    "chunk_id": "chunk-0002",
+                    "company_label": "Enel",
+                    "source_file": "enel.pdf",
+                    "page_start": 1,
+                    "page_end": 1,
+                    "score": 0.7,
+                    "text": "Enel environmental goals evidence.",
+                },
+            ],
+            "embedding-model",
+            {"mode": "company_ranking"},
+        )
+
+    def fake_generate_company_comparison_answer(**kwargs):
+        calls["comparison_answer"] = kwargs
+        return "**Company Comparison**\n\n**Goals and Commitments**\n| Company | Evidence |\n|---|---|\n| BNP Paribas | Evidence |"
+
+    monkeypatch.setattr("app.web.retrieve_company_ranking_chunks", fake_retrieve_company_ranking_chunks)
+    monkeypatch.setattr("app.web.generate_company_comparison_answer", fake_generate_company_comparison_answer)
+
+    app = create_app(index_dir=Path("/tmp/nonexistent-index"))
+    body_bytes = urlencode(
+        {"question": "List BNP environmental goals. List ENEL environmental goals"}
+    ).encode("utf-8")
+
+    def start_response(status, headers):
+        pass
+
+    body = b"".join(
+        app(
+            {
+                "PATH_INFO": "/ask",
+                "REQUEST_METHOD": "POST",
+                "wsgi.input": __import__("io").BytesIO(body_bytes),
+                "CONTENT_LENGTH": str(len(body_bytes)),
+            },
+            start_response,
+        )
+    ).decode("utf-8")
+
+    assert calls["retrieval"]["target_companies"] == ["BNP Paribas", "Enel"]
+    assert calls["comparison_answer"]["companies"] == ["BNP Paribas", "Enel"]
+    assert "deterministic-esg-comparator" in body

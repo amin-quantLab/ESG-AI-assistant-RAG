@@ -5,6 +5,7 @@ from app.rag import (
     ChunkRecord,
     _normalize_retrieval_mode,
     _infer_question_source_paths,
+    _mentioned_company_labels,
     _search_vectors_for_indices,
     _starts_with_header,
     answer_question,
@@ -275,6 +276,15 @@ def test_is_company_ranking_question_detects_multi_company_rankings():
     assert is_company_ranking_question("Compare companies on ESG targets")
     assert not is_company_ranking_question("What are Danone's climate targets?")
     assert is_named_company_comparison_question("Compare Engie and LVMH in their ESG ambitions")
+    assert _mentioned_company_labels(
+        "Compare the evolution of BNPs environmental commitments to those of ENEL"
+    ) == ["BNP Paribas", "Enel"]
+    assert is_named_company_comparison_question(
+        "Compare the evolution of BNPs environmental commitments to those of ENEL"
+    )
+    assert is_named_company_comparison_question(
+        "List BNP environmental goals. List ENEL environmental goals"
+    )
     assert not is_named_company_comparison_question("Rank companies by ESG performance")
 
 

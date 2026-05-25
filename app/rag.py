@@ -69,6 +69,8 @@ SOURCE_IDENTIFIER_ALIASES = {
 SOURCE_COMPANY_ALIASES = {
     "airbus": "Airbus",
     "asml": "ASML",
+    "bnp": "BNP Paribas",
+    "bnpp": "BNP Paribas",
     "bnp_paribas": "BNP Paribas",
     "danone": "Danone",
     "enel": "Enel",
@@ -101,6 +103,10 @@ RANKING_QUERY_PATTERN = re.compile(
     re.IGNORECASE,
 )
 COMPARISON_QUERY_PATTERN = re.compile(r"\b(compare|comparison|versus|vs\.?|against)\b", re.IGNORECASE)
+MULTI_COMPANY_LIST_PATTERN = re.compile(
+    r"\b(list|show|summari[sz]e|outline|describe|identify|what\s+are|which\s+are)\b",
+    re.IGNORECASE,
+)
 COMPANY_DISPLAY_ALIASES = {
     "l oreal": "L'Oreal",
     "loreal": "L'Oreal",
@@ -572,10 +578,14 @@ def is_company_ranking_question(question: str) -> bool:
 
 
 def _mentioned_company_labels(question: str) -> list[str]:
-    normalized_question = re.sub(r"[^a-z0-9]+", "_", question.lower()).strip("_")
+    question_lower = question.lower().replace("’", "'")
+    normalized_question = re.sub(r"\b([a-z0-9]{2,})'s\b", r"\1", question_lower)
+    normalized_question = re.sub(r"[^a-z0-9]+", "_", normalized_question).strip("_")
     alias_map: dict[str, str] = {}
     for slug, label in SOURCE_COMPANY_ALIASES.items():
         alias_map[slug] = label
+        if len(slug) <= 5 and not slug.endswith("s"):
+            alias_map[f"{slug}s"] = label
         alias_map[re.sub(r"[^a-z0-9]+", "_", label.lower()).strip("_")] = label
 
     matches: list[tuple[int, str]] = []
@@ -592,14 +602,30 @@ def _mentioned_company_labels(question: str) -> list[str]:
 
 
 def is_named_company_comparison_question(question: str) -> bool:
-    return bool(COMPARISON_QUERY_PATTERN.search(question) and len(_mentioned_company_labels(question)) >= 2)
+    if len(_mentioned_company_labels(question)) < 2:
+        return False
+    if COMPARISON_QUERY_PATTERN.search(question):
+        return True
+
+    lower = question.lower()
+    if len(MULTI_COMPANY_LIST_PATTERN.findall(lower)) >= 2:
+        return True
+    if MULTI_COMPANY_LIST_PATTERN.search(lower) and any(separator in question for separator in (".", ";", "\n")):
+        return True
+    return False
 
 
 def _ranking_dimensions(question: str) -> list[tuple[str, str]]:
     lower = question.lower()
     dimensions: list[tuple[str, str]] = []
-    if "ambition" in lower:
-        dimensions.append(("targets", "ESG ambitions targets baseline target year scope coverage validation SBTi net zero reduction"))
+    if any(term in lower for term in ("ambition", "goal", "goals", "commitment", "commitments", "objective", "objectives")):
+        dimensions.append(
+            (
+                "targets",
+                "ESG ambitions goals commitments objectives targets baseline target year scope coverage validation "
+                "SBTi net zero reduction pledge roadmap policy biodiversity no deforestation no net loss",
+            )
+        )
     if "achievement" in lower:
         dimensions.append(("achievements", "ESG achievements realised performance recognitions awards disclosed results"))
     if "target" in lower:
@@ -622,8 +648,8 @@ def _ranking_dimensions(question: str) -> list[tuple[str, str]]:
 def _answer_ranking_dimensions(question: str) -> list[tuple[str, str]]:
     lower = question.lower()
     dimensions: list[tuple[str, str]] = []
-    if "ambition" in lower:
-        dimensions.append(("targets", "Ambitions and Targets"))
+    if any(term in lower for term in ("ambition", "goal", "goals", "commitment", "commitments", "objective", "objectives")):
+        dimensions.append(("targets", "Goals and Commitments"))
     if "achievement" in lower:
         dimensions.append(("achievements", "Achievements"))
     if "target" in lower:
